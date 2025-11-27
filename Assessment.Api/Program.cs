@@ -1,10 +1,13 @@
-using Assessment.API;
-using Assessment.Common;
+
+using Assessment.API.Configs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApiServices();
-builder.Services.AddCommonServices();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.ConfigExceptionsHandling();
 
 var app = builder.Build();
 

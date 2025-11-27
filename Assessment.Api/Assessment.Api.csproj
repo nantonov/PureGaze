@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Assessment.Common\Assessment.Common.csproj" />
+    <ProjectReference Include="..\Assessment.Infrastructure\Assessment.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
