@@ -13,10 +13,12 @@ var app = builder.Build();
 
 app.UseExceptionHandler();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(x =>
+    {
+        x.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0;
+    });
     app.UseSwaggerUI();
 }
 
