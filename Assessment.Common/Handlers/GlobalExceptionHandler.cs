@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 public class GlobalExceptionHandler : IExceptionHandler
@@ -7,8 +8,8 @@ public class GlobalExceptionHandler : IExceptionHandler
     {
         var problemDetails = new ProblemDetails
         {
-            Title = "An error occurred",
-            Status = StatusCodes.Status400BadRequest,
+            Title = "Internal Server Error",
+            Status = StatusCodes.Status500InternalServerError,
             Detail = exception.Message
         };
 

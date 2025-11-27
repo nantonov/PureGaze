@@ -7,7 +7,7 @@ public static class ApiServiceExtension
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddExceptionHandler<DivideByZeroExceptionHandler>();
 
         return services;
     }

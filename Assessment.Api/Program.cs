@@ -1,8 +1,10 @@
 using Assessment.API;
+using Assessment.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiServices();
+builder.Services.AddCommonServices();
 
 var app = builder.Build();
 
