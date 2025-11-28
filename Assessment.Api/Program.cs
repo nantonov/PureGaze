@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.ConfigExceptionsHandling();
+builder.ConfigPostgreConnection();
 
 var app = builder.Build();
 
