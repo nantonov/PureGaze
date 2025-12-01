@@ -1,10 +1,24 @@
+using Management.Api;
+using Management.Api.Configurations;
+
 var builder = WebApplication.CreateBuilder(args);
+
+IHostEnvironment env = builder.Environment;
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.HrmBuilder();
+builder.DatabasesBuilder();
+
 var app = builder.Build();
+
+app.CheckDatabase();
 
 if (app.Environment.IsDevelopment())
 {
