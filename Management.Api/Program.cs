@@ -1,4 +1,5 @@
-using Management.Api.Configuration;
+using Management.Api;
+using Management.Api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.ConfigHrmService();
+builder.HrmBuilder();
+builder.DatabasesBuilder();
 
 var app = builder.Build();
+
+app.CheckDatabase();
 
 if (app.Environment.IsDevelopment())
 {

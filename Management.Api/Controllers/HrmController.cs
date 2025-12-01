@@ -15,4 +15,12 @@ public class HrmController(IHrmService hrmService)
 
         return Ok(result);
     }
+    
+    [HttpGet("dictionaries")]
+    public async Task<IActionResult> GetDictionaries()
+    {
+        await hrmService.GetDictionariesAsync();
+
+        return Ok();
+    }
 }

@@ -18,8 +18,7 @@ public static class DatabaseConfig
 
         builder.Services.AddHealthChecks()
             .AddSqlServer(msSqlServerOptions.ConnectionString);
-            
-
+        
         return builder;
     }
 }

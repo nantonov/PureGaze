@@ -1,11 +1,11 @@
 ﻿using Management.Application.Abstractions.Services;
 using Management.Infrastructure.Integrations.Hrm;
 
-namespace Management.Api.Configuration;
+namespace Management.Api.Configurations;
 
 public static class HrmConfig
 {
-    public static WebApplicationBuilder ConfigHrmService(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder HrmBuilder(this WebApplicationBuilder builder)
     {
         builder.Services.Configure<HrmOptions>(builder.Configuration.GetSection(key: HrmOptions.SectionName));
 

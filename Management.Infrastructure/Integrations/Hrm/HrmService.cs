@@ -3,7 +3,8 @@ using Management.Application.Contracts.Integrations.Hrm;
 using Management.Infrastructure.Integrations.Hrm.Responses;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
-using System.Text.Json;
+using System.Text.Json; 
+using System.Web;
 
 namespace Management.Infrastructure.Integrations.Hrm;
 
@@ -48,6 +49,34 @@ public class HrmService(
         catch //(Exception e)
         {
             return null;
+        }
+    }
+
+    public async Task GetDictionariesAsync()
+    {
+        var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
+
+        try
+        {
+            var tokenResponse = await GetAccessTokenAsync();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
+
+            
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["defaultLanguageOnly"] = "true";
+            query["filter"] = "{\"name\":[\"professionalLevel\"]}";
+            
+            var response =
+                await client.GetAsync($"{_options.EmployeeApiUrl}/api/dictionaries/api/v2/dictionary-translations/filter?{query}");
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = JsonSerializer.Deserialize<GetEmployeesResponse>(content);
+            
+        }
+        catch //(Exception e)
+        {
+            
         }
     }
 
