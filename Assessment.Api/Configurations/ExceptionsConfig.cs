@@ -1,10 +1,10 @@
 using Assessment.Infrastructure.Handlers;
 
-namespace Assessment.API.Configs;
+namespace Assessment.API.Configurations;
 
 public static class ExceptionsConfig
 {
-    public static WebApplicationBuilder ConfigExceptionsHandling(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder ExceptionsBuilder(this WebApplicationBuilder builder)
     {
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();

@@ -1,13 +1,20 @@
 
-using Assessment.API.Configs;
+using Assessment.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
+
+IHostEnvironment env = builder.Environment;
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.ConfigExceptionsHandling();
+builder.ExceptionsBuilder();
+builder.DatabasesBuilder();
 
 var app = builder.Build();
 
