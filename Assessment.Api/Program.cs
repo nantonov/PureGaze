@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.ConfigExceptionsHandling();
-builder.ConfigPostgreConnection();
+builder.ConfigMsSqlServerConnection();
 
 var app = builder.Build();
 
