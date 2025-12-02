@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Assessment.Infrastructure.Handlers;
+namespace Assessment.Infrastructure.Exceptions.Handlers;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {
