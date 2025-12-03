@@ -11,6 +11,7 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
         builder.ToTable("Topics");
 
         builder.HasKey(o => o.Id);
+        builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
         builder.Property(o => o.Name)
             .IsRequired()
@@ -18,7 +19,6 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
 
         builder.Property(o => o.TemplateId)
             .IsRequired();
-
         builder.HasOne<Template>()
             .WithMany() 
             .HasForeignKey(o => o.TemplateId)

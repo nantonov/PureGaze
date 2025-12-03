@@ -11,6 +11,7 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
         builder.ToTable("Questions");
 
         builder.HasKey(o => o.Id);
+        builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
         builder.Property(o => o.Content)
             .IsRequired()
@@ -18,7 +19,6 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
 
         builder.Property(o => o.SubTopicId)
             .IsRequired();
-
         builder.HasOne<Subtopic>()
             .WithMany() 
             .HasForeignKey(o => o.SubTopicId)
