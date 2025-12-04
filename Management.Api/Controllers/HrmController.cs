@@ -11,7 +11,7 @@ public class HrmController(IHrmService hrmService)
     [HttpGet("employees")]
     public async Task<IActionResult> GetEmployeeById()
     {
-        var result = await hrmService.GetEmployeesAsync();
+        var result = hrmService.GetEmployeesAsync();
 
         return Ok(result);
     }
@@ -19,8 +19,8 @@ public class HrmController(IHrmService hrmService)
     [HttpGet("dictionaries")]
     public async Task<IActionResult> GetDictionaries()
     {
-        await hrmService.GetDictionariesAsync();
+        var result = await hrmService.GetDictionariesAsync();
 
-        return Ok();
+        return Ok(result);
     }
 }
