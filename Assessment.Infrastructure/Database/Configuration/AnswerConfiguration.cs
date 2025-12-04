@@ -23,8 +23,5 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
             .WithMany() 
             .HasForeignKey(o => o.QuestionId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Property(o => o.CreatedAt)
-            .IsRequired();  
     }
 }

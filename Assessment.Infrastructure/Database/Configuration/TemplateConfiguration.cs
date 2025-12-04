@@ -19,8 +19,5 @@ public class TemplateConfiguration : IEntityTypeConfiguration<Template>
             .WithMany() 
             .HasForeignKey(o => o.CodeId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Property(o => o.CreatedAt)
-            .IsRequired();  
     }
 }

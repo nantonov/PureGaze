@@ -23,8 +23,5 @@ public class SubtopicConfiguration : IEntityTypeConfiguration<Subtopic>
             .WithMany() 
             .HasForeignKey(o => o.TopicId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Property(o => o.CreatedAt)
-            .IsRequired();  
     }
 }

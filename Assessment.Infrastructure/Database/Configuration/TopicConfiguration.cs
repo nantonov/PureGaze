@@ -23,8 +23,5 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
             .WithMany() 
             .HasForeignKey(o => o.TemplateId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Property(o => o.CreatedAt)
-            .IsRequired();  
     }
 }

@@ -32,8 +32,5 @@ public class CodeConfiguration : IEntityTypeConfiguration<Code>
 
         builder.Property(o => o.DiffEx)
             .IsRequired();
-
-        builder.Property(o => o.CreatedAt)
-            .IsRequired();  
     }
 }

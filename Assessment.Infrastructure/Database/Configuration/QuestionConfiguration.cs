@@ -23,8 +23,5 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
             .WithMany() 
             .HasForeignKey(o => o.SubTopicId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Property(o => o.CreatedAt)
-            .IsRequired();  
     }
 }
