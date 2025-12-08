@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <ProjectReference Include="..\Common.DAL\Common.DAL.csproj" />
     <ProjectReference Include="..\Management.Application\Management.Application.csproj" />
     <ProjectReference Include="..\Management.Infrastructure\Management.Infrastructure.csproj" />
   </ItemGroup>

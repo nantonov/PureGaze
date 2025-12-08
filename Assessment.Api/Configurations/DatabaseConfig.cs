@@ -1,4 +1,4 @@
-using Assessment.Infrastructure.Database;
+using Common.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace Assessment.API.Configurations;
@@ -22,9 +22,6 @@ public static class DatabaseConfig
                         errorNumbersToAdd: null);
                 });
         });
-
-        builder.Services.AddHealthChecks()
-            .AddSqlServer(dbSection?.ConnectionString ?? "");
         
         return builder;
     }

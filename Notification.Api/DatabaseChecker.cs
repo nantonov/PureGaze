@@ -1,6 +1,6 @@
 ﻿using Common.DAL;
 
-namespace Management.Api;
+namespace Notification.Api;
 
 public static class DatabaseChecker
 {

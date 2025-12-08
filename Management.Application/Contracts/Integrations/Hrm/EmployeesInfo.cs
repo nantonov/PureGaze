@@ -42,5 +42,4 @@ public class EemployeeDto
     
     [JsonPropertyName("managerM4")]
     public int? M4Id { get; set; }
-    
 }

@@ -1,6 +1,12 @@
+using Notification.Api;
 using Notification.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
+IHostEnvironment env = builder.Environment;
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -9,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.DatabasesBuilder();
 
 var app = builder.Build();
+
+await app.CheckDatabase();
 
 if (app.Environment.IsDevelopment())
 {

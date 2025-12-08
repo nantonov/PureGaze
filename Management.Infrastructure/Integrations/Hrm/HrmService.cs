@@ -28,7 +28,7 @@ public class HrmService(
         {
             DismissalStatus = new DismissalStatus
             {
-                Equals = "ACTUAL"
+                Matchs = "ACTUAL"
             },
             JobTitleId = new JobTitleId
             {

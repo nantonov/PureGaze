@@ -1,22 +1,27 @@
-using Notification.Infrastructure;
-using Notification.Infrastructure.Database;
+using Common.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace Notification.API.Configurations;
+
 public static class DatabaseConfig
 {
     public static WebApplicationBuilder DatabasesBuilder(this WebApplicationBuilder builder)
     {
-        var appDbOptions = builder.Configuration.GetSection(AppDbOptions.SectionName)
-            .Get<AppDbOptions>() ?? throw new InvalidOperationException("DatabaseOptions configuration section is missing.");
-
-        builder.Services.AddDbContext<AppDbContext>(options =>
+        var dbSection = 
+            builder.Configuration.GetSection(AppDbOptions.SectionName)
+                .Get<AppDbOptions>();
+        
+        builder.Services.AddDbContextFactory<AppDbContext>(options =>
         {
-            options.UseSqlServer(appDbOptions?.ConnectionString);
+            options.UseSqlServer(dbSection?.ConnectionString,
+                sqlServerOptionsAction: sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: dbSection?.MaxRetryCount ?? 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(dbSection?.MaxRetryDelaySecond ?? 5),
+                        errorNumbersToAdd: null);
+                });
         });
-
-        builder.Services.AddHealthChecks()
-            .AddSqlServer(appDbOptions.ConnectionString);
         
         return builder;
     }

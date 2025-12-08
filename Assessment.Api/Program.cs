@@ -1,4 +1,5 @@
 
+using Assessment.Api;
 using Assessment.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ builder.ExceptionsBuilder();
 builder.DatabasesBuilder();
 
 var app = builder.Build();
+
+await app.CheckDatabase();
 
 app.UseExceptionHandler();
 

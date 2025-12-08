@@ -1,4 +1,4 @@
-﻿namespace Notification.Infrastructure.Database;
+﻿namespace Common.DAL;
 
 public class AppDbOptions
 {

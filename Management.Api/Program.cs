@@ -18,7 +18,7 @@ builder.DatabasesBuilder();
 
 var app = builder.Build();
 
-app.CheckDatabase();
+await app.CheckDatabase();
 
 if (app.Environment.IsDevelopment())
 {
