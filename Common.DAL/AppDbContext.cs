@@ -25,4 +25,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<SkillLevel> SkillLevels { get; set; }
     
     public DbSet<YesNoOtherOption> YesNoOtherOptions { get; set; }
+
+    public DbSet<Notification> Notifications { get; set; }
 }
