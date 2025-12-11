@@ -1,6 +1,6 @@
-namespace Assessment.Domain.Entities;
+namespace Common.Domain.Entities;
 
-public class Code : BaseEntity
+public class Code : BaseDictionaryEntity
 {
     public Guid GradeId { get; set; }
     public Guid ToGradeId { get; set; }
