@@ -1,6 +1,6 @@
 namespace Common.Domain.Enums;
 
-public enum NotificationPriority
+public enum EmailPriority
 {
     Low = 1,
     Normal = 2,

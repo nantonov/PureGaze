@@ -26,5 +26,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     
     public DbSet<YesNoOtherOption> YesNoOtherOptions { get; set; }
 
-    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Email> Emails { get; set; }
 }
