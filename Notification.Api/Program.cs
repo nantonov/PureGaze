@@ -1,5 +1,7 @@
 using Notification.Api;
 using Notification.API.Configurations;
+using Notification.Application;
+using Notification.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 IHostEnvironment env = builder.Environment;
@@ -11,6 +13,9 @@ builder.Configuration
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 
 builder.DatabasesBuilder();
 

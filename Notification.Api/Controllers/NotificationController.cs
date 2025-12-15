@@ -1,0 +1,24 @@
+using Microsoft.AspNetCore.Mvc;
+using Notification.Application.DTOs;
+using Notification.Application.Services;
+
+namespace Notification.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class NotificationController : ControllerBase
+{
+    private readonly NotificationService _notificationService;
+
+    public NotificationController(NotificationService notificationService)
+    {
+        _notificationService = notificationService;
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationDto dto, CancellationToken cancellationToken)
+    {
+        await _notificationService.CreateNotificationAsync(dto, cancellationToken);
+        return Ok();
+    }
+}
