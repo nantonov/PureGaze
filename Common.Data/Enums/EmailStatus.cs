@@ -1,4 +1,4 @@
-namespace Common.Domain.Enums;
+﻿namespace Common.Data.Enums;
 
 public enum EmailStatus
 {
