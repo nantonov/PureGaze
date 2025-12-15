@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Common.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251215110937_NotificationsAdded")]
+    [Migration("20251215155619_NotificationsAdded")]
     partial class NotificationsAdded
     {
         /// <inheritdoc />
