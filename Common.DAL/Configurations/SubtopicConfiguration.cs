@@ -13,10 +13,6 @@ public class SubtopicConfiguration : IEntityTypeConfiguration<Subtopic>
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
-        builder.Property(o => o.Name)
-            .IsRequired()
-            .HasMaxLength(128);
-
         builder.Property(o => o.TopicId)
             .IsRequired();
         builder.HasOne<Topic>()

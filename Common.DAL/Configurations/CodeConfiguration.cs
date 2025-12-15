@@ -19,10 +19,6 @@ public class CodeConfiguration : IEntityTypeConfiguration<Code>
         builder.Property(o => o.ToGradeId)
             .IsRequired();
 
-        builder.Property(o => o.Display)
-            .IsRequired()
-            .HasMaxLength(128);
-
         builder.Property(o => o.LevelVision)
             .IsRequired()
             .HasMaxLength(512);

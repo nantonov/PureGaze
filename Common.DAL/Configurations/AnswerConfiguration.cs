@@ -13,10 +13,6 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
-        builder.Property(o => o.Content)
-            .IsRequired()
-            .HasMaxLength(4096);
-
         builder.Property(o => o.QuestionId)
             .IsRequired();
         builder.HasOne<Question>()

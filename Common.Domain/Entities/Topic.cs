@@ -1,7 +1,7 @@
 namespace Common.Domain.Entities;
 
-public class Topic : BaseDictionaryEntity
+public class Topic : BaseEntity<int>
 {
-    public string Name { get; set; } = null!;
+    public ICollection<TopicTranslate> TopicTranslates { get; set; } = null!;
     public Guid TemplateId { get; set; }
 }

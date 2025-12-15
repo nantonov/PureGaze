@@ -13,10 +13,6 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
-        builder.Property(o => o.Name)
-            .IsRequired()
-            .HasMaxLength(128);
-
         builder.Property(o => o.TemplateId)
             .IsRequired();
         builder.HasOne<Template>()

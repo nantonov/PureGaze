@@ -1,7 +1,7 @@
 namespace Common.Domain.Entities;
 
-public class Subtopic : BaseDictionaryEntity
+public class Subtopic : BaseEntity<int>
 {
-    public string Name { get; set; } = null!;
+    public ICollection<SubtopicTranslate> SubtopicTranslates { get; set; } = null!;
     public Guid TopicId { get; set; }
 }

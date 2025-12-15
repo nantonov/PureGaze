@@ -13,10 +13,6 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
-        builder.Property(o => o.Content)
-            .IsRequired()
-            .HasMaxLength(512);
-
         builder.Property(o => o.SubTopicId)
             .IsRequired();
         builder.HasOne<Subtopic>()
