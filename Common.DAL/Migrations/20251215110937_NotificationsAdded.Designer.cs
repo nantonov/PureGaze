@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Common.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251211122608_NotificationsAdded")]
+    [Migration("20251215110937_NotificationsAdded")]
     partial class NotificationsAdded
     {
         /// <inheritdoc />
@@ -31,23 +31,15 @@ namespace Common.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Bcc")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cc")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ErrorMessage")
                         .HasMaxLength(500)
@@ -62,6 +54,11 @@ namespace Common.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("RetryCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<DateTime?>("SentAt")
                         .HasColumnType("datetime2");
@@ -88,7 +85,7 @@ namespace Common.DAL.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ErrorMessage", "Priority");
+                    b.HasIndex("Status", "Priority");
 
                     b.ToTable("Emails", (string)null);
                 });
@@ -352,17 +349,6 @@ namespace Common.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("YesNoOtherOptions", (string)null);
-                });
-
-            modelBuilder.Entity("Common.Domain.Entities.Email", b =>
-                {
-                    b.HasOne("Common.Domain.Entities.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Common.Domain.Entities.Employee", b =>

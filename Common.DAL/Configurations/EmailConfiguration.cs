@@ -15,16 +15,11 @@ public class EmailConfiguration : IEntityTypeConfiguration<Email>
         builder.Property(x => x.Body).IsRequired();
         builder.Property(x => x.To).HasMaxLength(200).IsRequired();
         builder.Property(x => x.From).HasMaxLength(200).IsRequired();
-        builder.Property(x => x.Cc).HasMaxLength(500);
-        builder.Property(x => x.Bcc).HasMaxLength(500);
         
         builder.Property(x => x.ErrorMessage).HasMaxLength(500);
-
-        builder.HasOne(x => x.Employee)
-            .WithMany()
-            .HasForeignKey(x => x.EmployeeId)
-            .OnDelete(DeleteBehavior.Cascade);
-
+        
+        builder.Property(x => x.RetryCount).HasDefaultValue(0).IsRequired();
+        
         builder.Property(x => x.Priority)
             .HasConversion<string>()
             .HasMaxLength(20);
@@ -33,8 +28,7 @@ public class EmailConfiguration : IEntityTypeConfiguration<Email>
             .HasConversion<string>()
             .HasMaxLength(20);
         
-        //retries (error message is not null) will be made based on priority  
-        builder.HasIndex(x => new { x.ErrorMessage, x.Priority });
+        builder.HasIndex(x => new { x.Status, x.Priority });
         builder.HasIndex(x => x.EmployeeId);
     }
 }
