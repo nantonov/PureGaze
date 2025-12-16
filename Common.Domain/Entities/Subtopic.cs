@@ -3,5 +3,5 @@ namespace Common.Domain.Entities;
 public class Subtopic : BaseEntity<int>
 {
     public ICollection<SubtopicTranslate> SubtopicTranslates { get; set; } = null!;
-    public Guid TopicId { get; set; }
+    public int TopicId { get; set; }
 }
