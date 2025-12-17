@@ -1,6 +1,7 @@
 using Notification.Api;
 using Notification.API.Configurations;
 using Notification.Application;
+using Notification.Application.Configurations;
 using Notification.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,9 @@ builder.Configuration
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.Configure<RetryPolicyOptions>(builder.Configuration.GetSection("RetryPolicy"));
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();

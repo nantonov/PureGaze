@@ -1,10 +1,11 @@
 using Common.Domain.Entities;
 using Common.Domain.Enums;
+using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 
 namespace Notification.Application.Strategies;
 
-public class HighPriorityNotificationStrategy : INotificationStrategy
+public class HighPriorityNotificationStrategy(ILogger<HighPriorityNotificationStrategy> logger) : INotificationStrategy
 {
     public async Task ProcessAsync(Email email, IEmailRepository repository, IEmailSender sender, CancellationToken cancellationToken = default)
     {
@@ -15,7 +16,7 @@ public class HighPriorityNotificationStrategy : INotificationStrategy
         }
         catch
         {
-            // Logging can be added here if needed, but user requested minimal logs.
+            logger.LogWarning("Failed to send high priority email");
         }
 
         if (sent)
@@ -26,7 +27,7 @@ public class HighPriorityNotificationStrategy : INotificationStrategy
         }
         else
         {
-            email.Status = EmailStatus.Failed; // Or InQueue? User said "save to db with RetryCount = 1". Status naming implies failure of first attempt.
+            email.Status = EmailStatus.Failed; 
             email.RetryCount = 1;
             await repository.AddAsync(email, cancellationToken);
         }

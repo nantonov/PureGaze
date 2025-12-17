@@ -6,22 +6,12 @@ using Notification.Application.Strategies;
 
 namespace Notification.Application.Services;
 
-public class NotificationService
+public class NotificationService(
+    IEmailRepository emailRepository,
+    IEmailSender emailSender,
+    INotificationStrategy standardPriorityStrategy,
+    INotificationStrategy highPriorityStrategy)
 {
-    private readonly IEmailRepository _emailRepository;
-    private readonly IEmailSender _emailSender;
-    
-    private readonly INotificationStrategy _highPriorityStrategy;
-    private readonly INotificationStrategy _standardPriorityStrategy;
-
-    public NotificationService(IEmailRepository emailRepository, IEmailSender emailSender, INotificationStrategy standardPriorityStrategy, INotificationStrategy highPriorityStrategy)
-    {
-        _emailRepository = emailRepository;
-        _emailSender = emailSender;
-        _standardPriorityStrategy = standardPriorityStrategy;
-        _highPriorityStrategy = highPriorityStrategy;
-    }
-
     public async Task CreateNotificationAsync(CreateNotificationDto dto, CancellationToken cancellationToken = default)
     {
         var email = new Email
@@ -31,31 +21,27 @@ public class NotificationService
             Subject = dto.Subject,
             Body = dto.Body,
             To = dto.To,
-            From = "system@example.com", // Default sender
+            From = "system@example.com",
             RetryCount = 0,
-            Status = EmailStatus.InQueue // Default, will be updated by strategy
+            Status = EmailStatus.InQueue
         };
 
-        // Priority Logic
         var timeToDeadline = dto.Deadline - DateTime.UtcNow;
-        if (timeToDeadline <= TimeSpan.FromHours(3))
+        
+        email.Priority = timeToDeadline switch
         {
-            email.Priority = EmailPriority.High;
-        }
-        else if (timeToDeadline <= TimeSpan.FromHours(24))
-        {
-            email.Priority = EmailPriority.Normal;
-        }
-        else
-        {
-            email.Priority = EmailPriority.Low;
-        }
+            _ when timeToDeadline <= TimeSpan.FromHours(3) 
+                => EmailPriority.High,
+            _ when timeToDeadline <= TimeSpan.FromHours(24)
+                => EmailPriority.Normal,
+            _ 
+                => EmailPriority.Low
+        };
 
-        // Strategy Selection
-        INotificationStrategy strategy = email.Priority == EmailPriority.High 
-            ? _highPriorityStrategy 
-            : _standardPriorityStrategy;
+        var strategy = email.Priority == EmailPriority.High 
+            ? highPriorityStrategy 
+            : standardPriorityStrategy;
 
-        await strategy.ProcessAsync(email, _emailRepository, _emailSender, cancellationToken);
+        await strategy.ProcessAsync(email, emailRepository, emailSender, cancellationToken);
     }
 }

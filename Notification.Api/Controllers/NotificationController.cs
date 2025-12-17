@@ -6,19 +6,12 @@ namespace Notification.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class NotificationController : ControllerBase
+public class NotificationController(NotificationService notificationService) : ControllerBase
 {
-    private readonly NotificationService _notificationService;
-
-    public NotificationController(NotificationService notificationService)
-    {
-        _notificationService = notificationService;
-    }
-
     [HttpPost("create")]
     public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationDto dto, CancellationToken cancellationToken)
     {
-        await _notificationService.CreateNotificationAsync(dto, cancellationToken);
+        await notificationService.CreateNotificationAsync(dto, cancellationToken);
         return Ok();
     }
 }
