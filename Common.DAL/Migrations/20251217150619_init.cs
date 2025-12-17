@@ -31,6 +31,28 @@ namespace Common.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Emails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    To = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    From = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    RetryCount = table.Column<int>(type: "int", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ErrorMessage = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Emails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -398,6 +420,11 @@ namespace Common.DAL.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Emails_Status_Priority",
+                table: "Emails",
+                columns: new[] { "Status", "Priority" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_HeadId",
                 table: "Employees",
                 column: "HeadId");
@@ -462,6 +489,9 @@ namespace Common.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "CodeTranslates");
+
+            migrationBuilder.DropTable(
+                name: "Emails");
 
             migrationBuilder.DropTable(
                 name: "Employees");

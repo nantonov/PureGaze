@@ -1,10 +1,9 @@
-using Common.Domain.Enums;
+using Common.Data.Enums;
 
 namespace Common.Domain.Entities;
 
 public class Email : BaseEntity<Guid>
 {
-    public Guid EmployeeId { get; set; }
     public string Subject { get; set; } = string.Empty;
     public string Body { get; set; } = string.Empty;
     
