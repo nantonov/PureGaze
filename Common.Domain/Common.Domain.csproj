@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <Folder Include="Entities\" />
+      <ProjectReference Include="..\Common.Data\Common.Data.csproj" />
     </ItemGroup>
 
 </Project>
