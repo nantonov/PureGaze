@@ -1,5 +1,6 @@
 using Common.Domain.Entities;
 using Common.Domain.Enums;
+using Microsoft.Extensions.DependencyInjection;
 using Notification.Application.DTOs;
 using Notification.Application.Interfaces;
 using Notification.Application.Strategies;
@@ -9,8 +10,8 @@ namespace Notification.Application.Services;
 public class NotificationService(
     IEmailRepository emailRepository,
     IEmailSender emailSender,
-    INotificationStrategy standardPriorityStrategy,
-    INotificationStrategy highPriorityStrategy)
+    [FromKeyedServices("standard")] INotificationStrategy standardPriorityStrategy,
+    [FromKeyedServices("high")] INotificationStrategy highPriorityStrategy)
 {
     public async Task CreateNotificationAsync(CreateNotificationDto dto, CancellationToken cancellationToken = default)
     {
