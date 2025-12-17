@@ -2,6 +2,6 @@ namespace Common.Domain.Entities;
 
 public class Topic : BaseEntity<int>
 {
-    public ICollection<TopicTranslate> TopicTranslates { get; set; } = null!;
     public int TemplateId { get; set; }
+    public virtual ICollection<TopicTranslate> TopicTranslates { get; set; } = [];
 }

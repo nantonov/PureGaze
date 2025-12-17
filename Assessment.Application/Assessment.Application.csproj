@@ -5,10 +5,5 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Assessment.Domain\Assessment.Domain.csproj" />
-  </ItemGroup>
-
-
+    
 </Project>

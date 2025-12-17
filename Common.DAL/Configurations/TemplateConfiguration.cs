@@ -11,13 +11,15 @@ public class TemplateConfiguration : IEntityTypeConfiguration<Template>
         builder.ToTable("Templates");
 
         builder.HasKey(o => o.Id);
+        
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
         builder.Property(o => o.CodeId)
             .IsRequired();
+        
         builder.HasOne<Code>()
-            .WithMany() 
-            .HasForeignKey(o => o.CodeId)
+            .WithOne() 
+            .HasForeignKey<Template>(o => o.CodeId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

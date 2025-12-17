@@ -11,6 +11,7 @@ public class CodeConfiguration : IEntityTypeConfiguration<Code>
         builder.ToTable("Codes");
 
         builder.HasKey(o => o.Id);
+        
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
         builder.Property(o => o.GradeId)
@@ -19,9 +20,9 @@ public class CodeConfiguration : IEntityTypeConfiguration<Code>
         builder.Property(o => o.ToGradeId)
             .IsRequired();
 
-        builder.Property(o => o.LevelVision)
+        builder.Property(o => o.Display)
             .IsRequired()
-            .HasMaxLength(512);
+            .HasMaxLength(128);
 
         builder.Property(o => o.TotalEx)
             .IsRequired();

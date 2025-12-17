@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Common.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251216093010_AddAssessmentEntities")]
-    partial class AddAssessmentEntities
+    [Migration("20251217142649_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,13 +81,13 @@ namespace Common.DAL.Migrations
                     b.Property<int>("DiffEx")
                         .HasColumnType("int");
 
+                    b.Property<string>("Display")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<Guid>("GradeId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("LevelVision")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
 
                     b.Property<Guid>("ToGradeId")
                         .HasColumnType("uniqueidentifier");
@@ -111,10 +111,10 @@ namespace Common.DAL.Migrations
                     b.Property<int>("Language")
                         .HasColumnType("int");
 
-                    b.Property<string>("Display")
+                    b.Property<string>("LevelVision")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.HasKey("CodeId", "Language");
 
@@ -453,7 +453,8 @@ namespace Common.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CodeId");
+                    b.HasIndex("CodeId")
+                        .IsUnique();
 
                     b.ToTable("Templates", (string)null);
                 });
@@ -650,8 +651,8 @@ namespace Common.DAL.Migrations
             modelBuilder.Entity("Common.Domain.Entities.Template", b =>
                 {
                     b.HasOne("Common.Domain.Entities.Code", null)
-                        .WithMany()
-                        .HasForeignKey("CodeId")
+                        .WithOne()
+                        .HasForeignKey("Common.Domain.Entities.Template", "CodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -659,7 +660,7 @@ namespace Common.DAL.Migrations
             modelBuilder.Entity("Common.Domain.Entities.Topic", b =>
                 {
                     b.HasOne("Common.Domain.Entities.Template", null)
-                        .WithMany()
+                        .WithMany("Topics")
                         .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -692,6 +693,11 @@ namespace Common.DAL.Migrations
             modelBuilder.Entity("Common.Domain.Entities.Subtopic", b =>
                 {
                     b.Navigation("SubtopicTranslates");
+                });
+
+            modelBuilder.Entity("Common.Domain.Entities.Template", b =>
+                {
+                    b.Navigation("Topics");
                 });
 
             modelBuilder.Entity("Common.Domain.Entities.Topic", b =>

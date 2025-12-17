@@ -9,6 +9,7 @@ public class TopicTranslateConfiguration : IEntityTypeConfiguration<TopicTransla
     public void Configure(EntityTypeBuilder<TopicTranslate> builder)
     {
         builder.ToTable("TopicTranslates");
+        
         builder.HasKey(o => new { o.TopicId, o.Language });
 
         builder.Property(o => o.Name)

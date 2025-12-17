@@ -9,11 +9,12 @@ public class CodeTranslateConfiguration : IEntityTypeConfiguration<CodeTranslate
     public void Configure(EntityTypeBuilder<CodeTranslate> builder)
     {
         builder.ToTable("CodeTranslates");
+        
         builder.HasKey(o => new { o.CodeId, o.Language });
 
-        builder.Property(o => o.Display)
+        builder.Property(o => o.LevelVision)
             .IsRequired()
-            .HasMaxLength(128);
+            .HasMaxLength(512);
 
         builder.Property(o => o.Language)
             .IsRequired();
