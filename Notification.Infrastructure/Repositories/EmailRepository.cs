@@ -1,6 +1,6 @@
 using Common.DAL;
+using Common.Data.Enums;
 using Common.Domain.Entities;
-using Common.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Notification.Application.Interfaces;
 
@@ -27,12 +27,13 @@ public class EmailRepository : IEmailRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<Email>> GetFailedEmailsAsync(int maxRetryCount, EmailPriority priority, CancellationToken cancellationToken = default)
+    public async Task<List<Email>> GetPendingEmailsAsync(int maxRetryCount, EmailPriority priority, CancellationToken cancellationToken = default)
     {
         return await _context.Emails
             .Where(e => e.Priority == priority 
-                        && e.Status == EmailStatus.Failed 
+                        && (e.Status == EmailStatus.InQueue || e.Status == EmailStatus.Failed) 
                         && e.RetryCount < maxRetryCount)
+            .OrderBy(e => e.CreatedAt)
             .ToListAsync(cancellationToken);
     }
 }

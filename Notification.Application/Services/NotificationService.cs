@@ -1,24 +1,17 @@
+using Common.Data.Enums;
 using Common.Domain.Entities;
-using Common.Domain.Enums;
-using Microsoft.Extensions.DependencyInjection;
 using Notification.Application.DTOs;
 using Notification.Application.Interfaces;
-using Notification.Application.Strategies;
 
 namespace Notification.Application.Services;
 
-public class NotificationService(
-    IEmailRepository emailRepository,
-    IEmailSender emailSender,
-    [FromKeyedServices("standard")] INotificationStrategy standardPriorityStrategy,
-    [FromKeyedServices("high")] INotificationStrategy highPriorityStrategy)
+public class NotificationService(IEmailRepository emailRepository)
 {
     public async Task CreateNotificationAsync(CreateNotificationDto dto, CancellationToken cancellationToken = default)
     {
         var email = new Email
         {
             Id = Guid.NewGuid(),
-            EmployeeId = dto.EmployeeId,
             Subject = dto.Subject,
             Body = dto.Body,
             To = dto.To,
@@ -39,10 +32,6 @@ public class NotificationService(
                 => EmailPriority.Low
         };
 
-        var strategy = email.Priority == EmailPriority.High 
-            ? highPriorityStrategy 
-            : standardPriorityStrategy;
-
-        await strategy.ProcessAsync(email, emailRepository, emailSender, cancellationToken);
+        await emailRepository.AddAsync(email, cancellationToken);
     }
 }

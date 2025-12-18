@@ -1,9 +1,9 @@
+using Common.Data.Enums;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Notification.Application.Configurations;
 using Notification.Application.Interfaces;
-using Common.Domain.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace Notification.Infrastructure.Workers;
@@ -47,10 +47,13 @@ public abstract class BaseEmailWorker(
             _ => 3
         };
 
-        var emails = await emailRepository.GetFailedEmailsAsync(maxRetryCount, priority, cancellationToken);
+        var emails = await emailRepository.GetPendingEmailsAsync(maxRetryCount, priority, cancellationToken);
 
         foreach (var email in emails)
         {
+            email.Status = EmailStatus.Sending;
+            await emailRepository.UpdateAsync(email, cancellationToken);
+
             var success = await emailSender.SendAsync(email, cancellationToken);
             if (success)
             {
@@ -64,6 +67,10 @@ public abstract class BaseEmailWorker(
                 if (email.RetryCount >= maxRetryCount)
                 {
                     email.Status = EmailStatus.ExceededRetryCount;
+                }
+                else
+                {
+                    email.Status = EmailStatus.Failed;
                 }
             }
             await emailRepository.UpdateAsync(email, cancellationToken);

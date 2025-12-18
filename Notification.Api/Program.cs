@@ -26,6 +26,7 @@ builder.DatabasesBuilder();
 var app = builder.Build();
 
 await app.CheckDatabase();
+await app.SeedDataAsync();
 
 if (app.Environment.IsDevelopment())
 {
