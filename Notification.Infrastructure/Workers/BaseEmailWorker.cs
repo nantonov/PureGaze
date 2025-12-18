@@ -3,8 +3,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Notification.Application.Configurations;
-using Notification.Application.Interfaces;
 using Microsoft.Extensions.Logging;
+using Notification.Application.Contracts;
 
 namespace Notification.Infrastructure.Workers;
 

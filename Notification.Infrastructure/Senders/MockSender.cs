@@ -1,6 +1,6 @@
 using Common.Domain.Entities;
 using Microsoft.Extensions.Logging;
-using Notification.Application.Interfaces;
+using Notification.Application.Contracts;
 
 namespace Notification.Infrastructure.Senders;
 

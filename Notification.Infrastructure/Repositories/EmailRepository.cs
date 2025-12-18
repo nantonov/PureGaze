@@ -2,7 +2,7 @@ using Common.DAL;
 using Common.Data.Enums;
 using Common.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Notification.Application.Interfaces;
+using Notification.Application.Contracts;
 
 namespace Notification.Infrastructure.Repositories;
 
@@ -19,6 +19,22 @@ public class EmailRepository(AppDbContext context) : IEmailRepository
         context.Emails.Update(email);
         await context.SaveChangesAsync(cancellationToken);
     }
+    
+    public async Task<List<Email>> GetFailedEmailsAsync(
+        EmailPriority? priority = null,
+        CancellationToken cancellationToken = default)
+    {
+        var query = context.Emails
+            .Where(e => e.Status == EmailStatus.ExceededRetryCount);
+
+        if (priority.HasValue)
+        {
+            query = query.Where(e => e.Priority == priority.Value);
+        }
+
+        return await query.ToListAsync(cancellationToken);
+    }
+
 
     public async Task<List<Email>> GetPendingEmailsAsync(int maxRetryCount, EmailPriority priority, CancellationToken cancellationToken = default)
     {

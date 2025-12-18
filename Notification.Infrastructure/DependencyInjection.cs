@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using Notification.Application.Interfaces;
+using Notification.Application.Contracts;
 using Notification.Infrastructure.Repositories;
 using Notification.Infrastructure.Senders;
 using Notification.Infrastructure.Workers;
@@ -13,9 +13,9 @@ public static class DependencyInjection
         services.AddScoped<IEmailRepository, EmailRepository>();
         services.AddScoped<IEmailSender, MockSender>();
         
-        services.AddHostedService<HighPriorityWorker>();
-        services.AddHostedService<MediumPriorityWorker>();
-        services.AddHostedService<LowPriorityWorker>();
+        //services.AddHostedService<HighPriorityWorker>();
+        //services.AddHostedService<MediumPriorityWorker>();
+        //services.AddHostedService<LowPriorityWorker>();
         
         return services;
     }
