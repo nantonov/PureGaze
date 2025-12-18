@@ -29,6 +29,7 @@ public abstract class BaseEmailWorker(
                 logger.LogWarning("Failed to process emails");
             }
 
+            logger.LogError("End processing");
             await Task.Delay(delay, stoppingToken);
         }
     }
@@ -48,6 +49,8 @@ public abstract class BaseEmailWorker(
         };
 
         var emails = await emailRepository.GetPendingEmailsAsync(maxRetryCount, priority, cancellationToken);
+        
+        logger.LogInformation("Processing {Count} emails with {Priority} priority", emails.Count,  priority );
 
         foreach (var email in emails)
         {
@@ -74,6 +77,10 @@ public abstract class BaseEmailWorker(
                 }
             }
             await emailRepository.UpdateAsync(email, cancellationToken);
+            
+            logger.LogInformation("Email {Id} processed", email.Id);
         }
+        
+        logger.LogInformation("End processing emails with {Priority} priority", priority);
     }
 }
