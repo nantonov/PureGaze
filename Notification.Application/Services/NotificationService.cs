@@ -38,5 +38,5 @@ public class NotificationService(IEmailRepository emailRepository) : INotificati
 
     public Task<List<Email>> GetFailedEmailsAsync(EmailPriority? priority = null,
         CancellationToken cancellationToken = default) =>
-        emailRepository.GetFailedEmailsAsync(priority, cancellationToken);
+        emailRepository.GetFailedEmailsReadOnlyAsync(priority, cancellationToken);
 }

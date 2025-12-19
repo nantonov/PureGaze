@@ -8,21 +8,17 @@ namespace Notification.Infrastructure.Repositories;
 
 public class EmailRepository(AppDbContext context) : IEmailRepository
 {
-    public async Task AddAsync(Email email, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Email email, CancellationToken ct = default)
     {
-        await context.Emails.AddAsync(email, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
-    }
-
-    public async Task UpdateAsync(Email email, CancellationToken cancellationToken = default)
-    {
-        context.Emails.Update(email);
-        await context.SaveChangesAsync(cancellationToken);
+        await context.Emails.AddAsync(email, ct);
     }
     
-    public async Task<List<Email>> GetFailedEmailsAsync(
+    public async Task SaveChangesAsync(CancellationToken ct = default)
+        => await context.SaveChangesAsync(ct);
+    
+    public async Task<List<Email>> GetFailedEmailsReadOnlyAsync(
         EmailPriority? priority = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken ct = default)
     {
         var query = context.Emails
             .Where(e => e.Status == EmailStatus.ExceededRetryCount);
@@ -32,19 +28,16 @@ public class EmailRepository(AppDbContext context) : IEmailRepository
             query = query.Where(e => e.Priority == priority.Value);
         }
 
-        return await query.ToListAsync(cancellationToken);
+        return await query.AsNoTracking().ToListAsync(ct);
     }
 
-
-    public async Task<List<Email>> GetPendingEmailsAsync(int maxRetryCount, EmailPriority priority, CancellationToken cancellationToken = default)
+    public async Task<List<Email>> GetPendingEmailsAsync(int maxRetryCount, EmailPriority priority, CancellationToken ct = default)
     {
-        var a = await context.Emails
+        return await context.Emails
             .Where(e => e.Priority == priority 
                         && (e.Status == EmailStatus.InQueue || e.Status == EmailStatus.Failed) 
                         && e.RetryCount < maxRetryCount)
             .OrderBy(e => e.CreatedAt)
-            .ToListAsync(cancellationToken);
-
-        return a;
+            .ToListAsync(ct);
     }
 }

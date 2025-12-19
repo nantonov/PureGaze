@@ -1,4 +1,4 @@
-namespace Notification.Application.Configurations;
+namespace Notification.Infrastructure.Workers;
 
 public class RetryPolicyOptions
 {

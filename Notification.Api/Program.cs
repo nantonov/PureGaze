@@ -1,8 +1,6 @@
 using Notification.Api;
 using Notification.API.Configurations;
-using Notification.Application;
-using Notification.Application.Configurations;
-using Notification.Infrastructure;
+using Notification.Infrastructure.Workers;
 
 var builder = WebApplication.CreateBuilder(args);
 IHostEnvironment env = builder.Environment;
@@ -19,14 +17,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<RetryPolicyOptions>(builder.Configuration.GetSection("RetryPolicy"));
 
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddEmailWorkers();
 
 builder.DatabasesBuilder();
 
 var app = builder.Build();
 
 await app.CheckDatabase();
-await app.SeedDataAsync();
 
 if (app.Environment.IsDevelopment())
 {

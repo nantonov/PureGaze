@@ -6,7 +6,7 @@ using Notification.Application.Services;
 namespace Notification.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class NotificationController(NotificationService notificationService) : ControllerBase
 {
     [HttpPost("create")]
