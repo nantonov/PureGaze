@@ -13,14 +13,19 @@ public class AssessmentRequestConfiguration : IEntityTypeConfiguration<Assessmen
         
         builder.Property(o => o.Id).ValueGeneratedOnAdd();
 
-        builder.HasOne(o => o.Candidate)
+        builder.HasOne(o => o.Employee)
             .WithMany()
-            .HasForeignKey(o => o.CandidateId)
+            .HasForeignKey(o => o.EmployeeId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(o => o.M1)
+            .WithMany()
+            .HasForeignKey(o => o.M1Id)
             .OnDelete(DeleteBehavior.NoAction);
 
-        builder.HasOne(o => o.AssignedM1)
+        builder.HasOne(o => o.M3)
             .WithMany()
-            .HasForeignKey(o => o.AssignedM1Id)
+            .HasForeignKey(o => o.M3Id)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(o => o.RejectionReason)
