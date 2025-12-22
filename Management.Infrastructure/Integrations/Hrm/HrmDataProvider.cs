@@ -18,7 +18,7 @@ public class HrmDataProvider(
 {
     private readonly HrmOptions _options = options.Value;
 
-    public async IAsyncEnumerable<IReadOnlyList<EemployeeDto>> GetEmployeesAsync([EnumeratorCancellation] CancellationToken ct)
+    public async IAsyncEnumerable<IReadOnlyList<EmployeeDto>> GetEmployeesAsync([EnumeratorCancellation] CancellationToken ct)
     {
         var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
         

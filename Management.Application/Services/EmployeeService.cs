@@ -2,6 +2,7 @@
 using Management.Application.Abstractions.Database;
 using Management.Application.Abstractions.Providers;
 using Management.Application.Abstractions.Services;
+using Management.Application.Contracts.Integrations.Hrm;
 
 namespace Management.Application.Services;
 
@@ -22,19 +23,11 @@ public class EmployeeService(
 
             foreach (var hrmEmployee in hrmEmployees)
             {
-                if (existingEmployees.TryGetValue(hrmEmployee.Id, out var existing))
-                {
-                    existing.UpdatedAt =  DateTime.UtcNow;
-                    
-                }
+                if (existingEmployees.TryGetValue(hrmEmployee.Id, out var existing)) 
+                    existing.UpdatedAt = DateTime.UtcNow;
                 else
-                {
-                    employeeRepository.AddAsync( 
-                        new Employee
-                        {
-                            
-                        }, ct);
-                }
+                    await employeeRepository
+                        .AddAsync(EmployeeDto.ToEntity(hrmEmployee), ct);
             }
 
             await employeeRepository.SaveChangesAsync(ct);

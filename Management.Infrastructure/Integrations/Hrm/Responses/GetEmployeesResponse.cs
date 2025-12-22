@@ -53,8 +53,8 @@ public class HrmEemployee
     [JsonPropertyName("managerM4")]
     public HrmManager? M4 { get; set; }
     
-    public static EemployeeDto ToDto(HrmEemployee employee)
-        => new EemployeeDto
+    public static EmployeeDto ToDto(HrmEemployee employee)
+        => new()
         {
             Id = employee.Id,
             FirstNameEn = employee.FirstNameEn,
