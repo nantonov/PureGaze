@@ -1,11 +1,13 @@
 using Common.DAL;
 using Microsoft.EntityFrameworkCore;
+using Notification.Application.Abstractions.Infrastructure;
+using Notification.Infrastructure.Repositories;
 
 namespace Notification.API.Configurations;
 
 public static class DatabaseConfig
 {
-    public static WebApplicationBuilder DatabasesBuilder(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder СonfigureDatabases(this WebApplicationBuilder builder)
     {
         var dbSection = 
             builder.Configuration.GetSection(AppDbOptions.SectionName)
@@ -22,6 +24,8 @@ public static class DatabaseConfig
                         errorNumbersToAdd: null);
                 });
         });
+        
+        builder.Services.AddScoped<IEmailRepository, EmailRepository>();
         
         return builder;
     }

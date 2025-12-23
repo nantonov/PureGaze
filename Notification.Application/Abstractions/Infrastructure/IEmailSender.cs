@@ -1,6 +1,6 @@
-using Common.Domain.Entities;
+﻿using Common.Domain.Entities;
 
-namespace Notification.Application.Contracts;
+namespace Notification.Application.Abstractions.Infrastructure;
 
 public interface IEmailSender
 {

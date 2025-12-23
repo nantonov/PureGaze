@@ -13,14 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.Configure<RetryPolicyOptions>(builder.Configuration.GetSection("RetryPolicy"));
-
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddEmailWorkers();
-
-builder.DatabasesBuilder();
+builder.СonfigureApplication();
+builder.СonfigureEmailWorkers();
+builder.СonfigureDatabases();
 
 var app = builder.Build();
 

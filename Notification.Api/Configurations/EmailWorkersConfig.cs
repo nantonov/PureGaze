@@ -1,52 +1,33 @@
-using Common.Data.Enums;
 using Microsoft.Extensions.Options;
+using Notification.Application.Abstractions.Infrastructure;
+using Notification.Infrastructure.Providers;
 using Notification.Infrastructure.Workers;
 
 namespace Notification.API.Configurations;
 
 public static class EmailWorkersConfig
 {
-    public static IServiceCollection AddEmailWorkers(this IServiceCollection services)
+    public static WebApplicationBuilder СonfigureEmailWorkers(this WebApplicationBuilder builder)
     {
-        services.AddSingleton<IHostedService>(sp => 
+        builder.Services.Configure<RetryPolicyOptions>(
+            builder.Configuration.GetSection(RetryPolicyOptions.SectionName));
+        
+        builder.Services.AddHostedService(conf =>
         {
-            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-            var logger = loggerFactory.CreateLogger($"{nameof(EmailWorker)}.High");
+            var scopeFactory = 
+                conf.GetRequiredService<IServiceScopeFactory>();
             
-            return new EmailWorker(
-                sp.GetRequiredService<IServiceScopeFactory>(),
-                sp.GetRequiredService<IOptions<RetryPolicyOptions>>(),
-                logger,
-                EmailPriority.High,
-                TimeSpan.FromMinutes(5));
+            var logger = 
+                conf.GetRequiredService<ILoggerFactory>()
+                    .CreateLogger<EmailWorker>();
+
+            var options = conf.GetRequiredService<IOptions<RetryPolicyOptions>>();
+            
+            return new EmailWorker(scopeFactory, options, logger);
         });
 
-        services.AddSingleton<IHostedService>(sp => 
-        {
-            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-            var logger = loggerFactory.CreateLogger($"{nameof(EmailWorker)}.Normal");
-            
-            return new EmailWorker(
-                sp.GetRequiredService<IServiceScopeFactory>(),
-                sp.GetRequiredService<IOptions<RetryPolicyOptions>>(),
-                logger,
-                EmailPriority.Normal,
-                TimeSpan.FromMinutes(10));
-        });
-
-        services.AddSingleton<IHostedService>(sp => 
-        {
-            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-            var logger = loggerFactory.CreateLogger($"{nameof(EmailWorker)}.Low");
-            
-            return new EmailWorker(
-                sp.GetRequiredService<IServiceScopeFactory>(),
-                sp.GetRequiredService<IOptions<RetryPolicyOptions>>(),
-                logger,
-                EmailPriority.Low,
-                TimeSpan.FromMinutes(20));
-        });
-
-        return services;
+        builder.Services.AddScoped<IEmailSender, EmailSender>();
+        
+        return builder;
     }
 }

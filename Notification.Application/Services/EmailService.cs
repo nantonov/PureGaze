@@ -1,14 +1,15 @@
 using Common.Data.Enums;
 using Common.Domain.Entities;
-using Notification.Application.Contracts;
-using Notification.Application.DTOs;
-using Notification.Application.Services.Interfaces;
+using Notification.Application.Abstractions.Infrastructure;
+using Notification.Application.Abstractions.Services;
+using Notification.Application.Contracts.Application;
 
 namespace Notification.Application.Services;
 
-public class NotificationService(IEmailRepository emailRepository) : INotificationService
+public class EmailService(IEmailRepository emailRepository) 
+    : IEmailService
 {
-    public async Task CreateNotificationAsync(CreateNotificationDto dto, CancellationToken cancellationToken = default)
+    public async Task CreateEmailAsync(CreateEmailRequest dto, CancellationToken cancellationToken = default)
     {
         var email = new Email
         {
@@ -34,9 +35,9 @@ public class NotificationService(IEmailRepository emailRepository) : INotificati
         };
 
         await emailRepository.AddAsync(email, cancellationToken);
+        await emailRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<List<Email>> GetFailedEmailsAsync(EmailPriority? priority = null,
-        CancellationToken cancellationToken = default) =>
-        emailRepository.GetFailedEmailsReadOnlyAsync(priority, cancellationToken);
+    public Task<List<Email>> GetFailedEmailsAsync(CancellationToken cancellationToken = default) 
+        => emailRepository.GetFailedEmailsReadOnlyAsync(cancellationToken);
 }

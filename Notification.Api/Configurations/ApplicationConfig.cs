@@ -1,13 +1,14 @@
+using Notification.Application.Abstractions.Services;
 using Notification.Application.Services;
-using Notification.Application.Services.Interfaces;
 
 namespace Notification.API.Configurations;
 
 public static class ApplicationConfig
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static WebApplicationBuilder СonfigureApplication(this WebApplicationBuilder builder)
     {
-        services.AddScoped<INotificationService, NotificationService>();
-        return services;
+        builder.Services.AddScoped<IEmailService, EmailService>();
+
+        return builder;
     }
 }
