@@ -255,6 +255,49 @@ namespace Common.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AssessmentRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    M1Id = table.Column<int>(type: "int", nullable: true),
+                    M3Id = table.Column<int>(type: "int", nullable: true),
+                    CodeId = table.Column<int>(type: "int", nullable: false),
+                    RequestedToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    RejectionReason = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssessmentRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AssessmentRequests_Codes_CodeId",
+                        column: x => x.CodeId,
+                        principalTable: "Codes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssessmentRequests_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssessmentRequests_Employees_M1Id",
+                        column: x => x.M1Id,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AssessmentRequests_Employees_M3Id",
+                        column: x => x.M3Id,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Topics",
                 columns: table => new
                 {
@@ -420,6 +463,31 @@ namespace Common.DAL.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AssessmentRequests_CodeId",
+                table: "AssessmentRequests",
+                column: "CodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssessmentRequests_EmployeeId",
+                table: "AssessmentRequests",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssessmentRequests_M1Id",
+                table: "AssessmentRequests",
+                column: "M1Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssessmentRequests_M3Id",
+                table: "AssessmentRequests",
+                column: "M3Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssessmentRequests_Status",
+                table: "AssessmentRequests",
+                column: "Status");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Emails_Status_Priority",
                 table: "Emails",
                 columns: new[] { "Status", "Priority" });
@@ -488,13 +556,13 @@ namespace Common.DAL.Migrations
                 name: "AnswerTranslates");
 
             migrationBuilder.DropTable(
+                name: "AssessmentRequests");
+
+            migrationBuilder.DropTable(
                 name: "CodeTranslates");
 
             migrationBuilder.DropTable(
                 name: "Emails");
-
-            migrationBuilder.DropTable(
-                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "ManagerialLevels");
@@ -525,6 +593,9 @@ namespace Common.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Answers");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Questions");

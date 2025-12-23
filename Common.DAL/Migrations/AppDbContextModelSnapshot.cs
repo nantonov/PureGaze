@@ -64,6 +64,57 @@ namespace Common.DAL.Migrations
                     b.ToTable("AnswerTranslates", (string)null);
                 });
 
+            modelBuilder.Entity("Common.Domain.Entities.AssessmentRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CodeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("M1Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("M3Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RejectionReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("RequestedToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CodeId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("M1Id");
+
+                    b.HasIndex("M3Id");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("AssessmentRequests", (string)null);
+                });
+
             modelBuilder.Entity("Common.Domain.Entities.Code", b =>
                 {
                     b.Property<int>("Id")
@@ -600,6 +651,39 @@ namespace Common.DAL.Migrations
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Common.Domain.Entities.AssessmentRequest", b =>
+                {
+                    b.HasOne("Common.Domain.Entities.Code", "Code")
+                        .WithMany()
+                        .HasForeignKey("CodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Common.Domain.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Common.Domain.Entities.Employee", "M1")
+                        .WithMany()
+                        .HasForeignKey("M1Id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Common.Domain.Entities.Employee", "M3")
+                        .WithMany()
+                        .HasForeignKey("M3Id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Code");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("M1");
+
+                    b.Navigation("M3");
                 });
 
             modelBuilder.Entity("Common.Domain.Entities.CodeTranslate", b =>
