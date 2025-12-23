@@ -20,6 +20,7 @@
     <Folder Include="Controllers\" />
     <ProjectReference Include="..\Common.DAL\Common.DAL.csproj" />
     <ProjectReference Include="..\Notification.Application\Notification.Application.csproj" />
+    <ProjectReference Include="..\Notification.Infrastructure\Notification.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
