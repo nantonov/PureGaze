@@ -13,8 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.HrmBuilder();
-builder.DatabasesBuilder();
+builder.ConfigureHrmProvider();
+builder.ConfigureDatabases();
+builder.ConfigureService();
 
 var app = builder.Build();
 

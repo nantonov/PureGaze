@@ -3,24 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Management.Api.Controllers;
 
-[Route("hrm")]
+[Route("hrmdata")]
 [ApiController]
-public class HrmController(IHrmService hrmService)
+public class HrmDataController(IEmployeeService employeeService)
     : ControllerBase
 {
     [HttpGet("employees")]
-    public async Task<IActionResult> GetEmployeeById()
+    public async Task<IActionResult> GetEmployeeById(CancellationToken ct)
     {
-        var result = hrmService.GetEmployeesAsync();
-
+        var result = await employeeService.UploadEmployeesAsync(ct);
+        
         return Ok(result);
     }
     
     [HttpGet("dictionaries")]
     public async Task<IActionResult> GetDictionaries()
     {
-        var result = await hrmService.GetDictionariesAsync();
-
-        return Ok(result);
+        return Ok();
     }
 }

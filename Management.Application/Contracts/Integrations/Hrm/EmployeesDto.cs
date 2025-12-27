@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using Common.Domain.Entities;
 
 namespace Management.Application.Contracts.Integrations.Hrm;
 
-public class EemployeeDto
+public class EmployeeDto
 {
     [JsonPropertyName("id")]
     public int Id { get; set; }
@@ -42,4 +43,16 @@ public class EemployeeDto
     
     [JsonPropertyName("managerM4")]
     public int? M4Id { get; set; }
+    
+    [JsonPropertyName("hireDate")]
+    public DateTime HireDate { get; set; }
+    
+    [JsonPropertyName("terminationDate")]
+    public DateTime? TerminationDate { get; set; }
+    
+    [JsonPropertyName("lifecycleStatus")]
+    public string? LifecycleStatus { get; set; }
+    
+    [JsonPropertyName("hash")]
+    public ulong Hash { get; set; }
 }

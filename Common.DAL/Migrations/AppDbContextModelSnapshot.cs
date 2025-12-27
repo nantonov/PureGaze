@@ -239,12 +239,21 @@ namespace Common.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<decimal>("Hash")
+                        .HasColumnType("decimal(20,0)");
+
                     b.Property<int?>("HeadId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastNameEn")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LifecycleStatus")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("M1Id")
                         .HasColumnType("int");
@@ -261,14 +270,17 @@ namespace Common.DAL.Migrations
                     b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ManagerialLevelValueId")
+                    b.Property<Guid?>("ManagerialLevelId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ProfessionalLevelValueId")
+                    b.Property<Guid?>("ProfessionalLevelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("RMId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("TerminationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
