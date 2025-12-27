@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Management.Application.Contracts.Integrations.Hrm;
+using Management.Infrastructure.Helpers;
 
 namespace Management.Infrastructure.Integrations.Hrm.Responses;
 
@@ -52,9 +53,19 @@ public class HrmEemployee
     
     [JsonPropertyName("managerM4")]
     public HrmManager? M4 { get; set; }
+
+    [JsonPropertyName("hireDate")]
+    public DateTime HireDate { get; set; }
+    
+    [JsonPropertyName("terminationDate")]
+    public DateTime? TerminationDate { get; set; }
+
+    [JsonPropertyName("lifecycleStatus")]
+    public string? LifecycleStatus { get; set; }
     
     public static EmployeeDto ToDto(HrmEemployee employee)
-        => new()
+    {
+        var dto = new  EmployeeDto
         {
             Id = employee.Id,
             FirstNameEn = employee.FirstNameEn,
@@ -69,11 +80,19 @@ public class HrmEemployee
             M2Id = employee.M2?.Id,
             M3Id = employee.M3?.Id,
             M4Id = employee.M4?.Id,
+            HireDate = employee.HireDate,
+            TerminationDate = employee.TerminationDate,
+            LifecycleStatus = employee.LifecycleStatus,
         };
+
+        dto.Hash = HashCalculationHelper.CalculateHash(dto);
+        
+        return dto;
+    }
 }
 
 public class HrmManager
 {
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 }

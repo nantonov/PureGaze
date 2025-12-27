@@ -23,21 +23,19 @@ public class HrmDataProvider(
         var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
         
         var tokenResponse = await GetAccessTokenAsync(ct);
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
+        
+        client.DefaultRequestHeaders.Authorization = 
+            new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
 
         var request = new GetEmployeesRequest
         {
-            DismissalStatus = new DismissalStatus
-            {
-                Matchs = "ACTUAL"
-            },
             JobTitleId = new JobTitleId
             {
                 In = new List<string>
                 {
-                    "f2812a29-5397-47ae-9bf4-ac2555dd7244",
-                    "b750f28e-e921-4562-8643-e911161c795b",
-                    "4fe5915d-58c0-4c4b-bec8-011ec7bee430"
+                    Constants.JobTitles.DotNetDeveloperId,
+                    Constants.JobTitles.DotNetMAUIDeveloperId,
+                    Constants.JobTitles.HeadOfDotNetId
                 }
             }
         };
@@ -49,7 +47,8 @@ public class HrmDataProvider(
         while (true)
         {
             var response = 
-                await client.PostAsync($"{_options.EmployeeApiUrl}/api/employee-management/api/v2/employees/search?page={pageNumber}&size={_options.PageSize}", stringContent, ct);
+                await client.PostAsync(
+                    $"{_options.EmployeeApiUrl}/api/employee-management/api/v2/employees/search?page={pageNumber}&size={_options.PageSize}", stringContent, ct);
 
             var content = await response.Content.ReadAsStringAsync(ct);
 
@@ -69,64 +68,51 @@ public class HrmDataProvider(
     {
         var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
 
-        try
-        {
-            var tokenResponse = await GetAccessTokenAsync(ct);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
+        var tokenResponse = await GetAccessTokenAsync(ct);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
 
             
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["defaultLanguageOnly"] = "true";
-            query["filter"] = "{\"name\":[\"skillLevel\",\"processConfirmationStatus\",\"yesNoOtherOptions\",\"meetingRequestStatus\",\"professionalLevel\",\"managerialLevel\"]}";
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["defaultLanguageOnly"] = "true";
+        query["filter"] = "{\"name\":[\"skillLevel\",\"processConfirmationStatus\",\"yesNoOtherOptions\",\"meetingRequestStatus\",\"professionalLevel\",\"managerialLevel\"]}";
             
-            var response =
-                await client.GetAsync($"{_options.EmployeeApiUrl}/api/dictionaries/api/v2/dictionary-translations/filter?{query}", ct);
+        var response =
+            await client.GetAsync($"{_options.EmployeeApiUrl}/api/dictionaries/api/v2/dictionary-translations/filter?{query}", ct);
 
-            var content = await response.Content.ReadAsStringAsync(ct);
+        var content = await response.Content.ReadAsStringAsync(ct);
 
-            var result = JsonSerializer.Deserialize<GetDictionariesResponse>(content);
+        var result = JsonSerializer.Deserialize<GetDictionariesResponse>(content);
 
-            return new DictionariesDto
-            { 
-                ManagerialLevels = [.. result?.ManagerialLevels.Select(BaseDictionary.ToDto)!],
-                ProfessionalLevels = [.. result?.ProfessionalLevels.Select(BaseDictionary.ToDto)!],
-                MeetingRequestStatuses = [.. result?.MeetingRequestStatuses.Select(BaseDictionary.ToDto)!],
-                SkillLevels = [.. result?.SkillLevels.Select(BaseDictionary.ToDto)!],
-                YesNoOtherOptions = [.. result?.YesNoOtherOptions.Select(BaseDictionary.ToDto)!],
-                ProcessConfirmationStatuses = [.. result?.ProcessConfirmationStatuses.Select(BaseDictionary.ToDto)!]
-            };
-        }
-        catch
-        {
-            throw;
-        }
+        return new DictionariesDto
+        { 
+            ManagerialLevels = [.. result?.ManagerialLevels.Select(BaseDictionary.ToDto)!],
+            ProfessionalLevels = [.. result?.ProfessionalLevels.Select(BaseDictionary.ToDto)!],
+            MeetingRequestStatuses = [.. result?.MeetingRequestStatuses.Select(BaseDictionary.ToDto)!],
+            SkillLevels = [.. result?.SkillLevels.Select(BaseDictionary.ToDto)!],
+            YesNoOtherOptions = [.. result?.YesNoOtherOptions.Select(BaseDictionary.ToDto)!],
+            ProcessConfirmationStatuses = [.. result?.ProcessConfirmationStatuses.Select(BaseDictionary.ToDto)!]
+        };
     }
 
     private async Task<GetAccessTokenResponse?> GetAccessTokenAsync(CancellationToken ct)
     {
         var client = httpClientFactory.CreateClient(HrmOptions.KeycloakClientName);
+        
+        var form = new FormUrlEncodedContent(
+            new Dictionary<string, string>
+            {
+                { "grant_type",  "password" },
+                { "client_id",  _options?.ClientId ?? ""},
+                { "username",  _options?.Username ?? "" },
+                { "password",  _options?.Password ?? "" }
+            });
 
-        try
-        {
-            var form = new FormUrlEncodedContent(
-                new Dictionary<string, string>
-                {
-                    { "grant_type",  "password" },
-                    { "client_id",  _options?.ClientId ?? ""},
-                    { "username",  _options?.Username ?? "" },
-                    { "password",  _options?.Password ?? "" }
-                });
+        var response =
+            await client.PostAsync(
+                $"{_options?.KeycloakUrl}/auth/realms/innowise-group/protocol/openid-connect/token", form, ct);
 
-            var response =
-                await client.PostAsync($"{_options?.KeycloakUrl}/auth/realms/innowise-group/protocol/openid-connect/token", form, ct);
+        var content = await response.Content.ReadAsStringAsync(ct);
 
-            var content = await response.Content.ReadAsStringAsync(ct);
-
-            return JsonSerializer.Deserialize<GetAccessTokenResponse>(content);
-        }
-        catch
-        {
-            throw;
-        }
+        return JsonSerializer.Deserialize<GetAccessTokenResponse>(content);
     }
 }

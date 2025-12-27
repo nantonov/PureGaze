@@ -59,8 +59,8 @@ namespace Common.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false),
                     FirstNameEn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LastNameEn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ProfessionalLevelValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ManagerialLevelValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProfessionalLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ManagerialLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ManagerId = table.Column<int>(type: "int", nullable: true),
                     HeadId = table.Column<int>(type: "int", nullable: true),
@@ -69,6 +69,10 @@ namespace Common.DAL.Migrations
                     M2Id = table.Column<int>(type: "int", nullable: true),
                     M3Id = table.Column<int>(type: "int", nullable: true),
                     M4Id = table.Column<int>(type: "int", nullable: true),
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TerminationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LifecycleStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hash = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -547,6 +551,28 @@ namespace Common.DAL.Migrations
                 name: "IX_Topics_TemplateId",
                 table: "Topics",
                 column: "TemplateId");
+            
+            migrationBuilder.Sql(@"
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_HeadId
+                        
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M1Id
+                        
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M2Id
+
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M3Id
+                  
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M4Id  
+
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_ManagerId
+                        
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_RMId");
         }
 
         /// <inheritdoc />
@@ -611,6 +637,15 @@ namespace Common.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Codes");
+            
+            migrationBuilder.Sql(@"
+                        ALTER TABLE Employees DROP CONSTRAINT FK_Employees_Employees_HeadId; 
+                        ALTER TABLE Employees DROP CONSTRAINT FK_Employees_Employees_M1Id; 
+                        ALTER TABLE Employees DROP CONSTRAINT FK_Employees_Employees_M2Id; 
+                        ALTER TABLE Employees DROP CONSTRAINT FK_Employees_Employees_M3Id; 
+                        ALTER TABLE Employees DROP CONSTRAINT FK_Employees_Employees_M4Id; 
+                        ALTER TABLE Employees DROP CONSTRAINT FK_Employees_Employees_ManagerId; 
+                        ALTER TABLE Employees DROP CONSTRAINT FK_Employees_Employees_RMId; ");
         }
     }
 }

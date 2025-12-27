@@ -1,6 +1,8 @@
-﻿namespace Management.Application.Abstractions.Services;
+﻿using Management.Application.Contracts.Application;
+
+namespace Management.Application.Abstractions.Services;
 
 public interface IEmployeeService
 {
-    Task UploadEmployeesAsync(CancellationToken ct);
+    Task<UploadEmployeesDto> UploadEmployeesAsync(CancellationToken ct);
 }

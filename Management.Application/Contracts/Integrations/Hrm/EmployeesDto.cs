@@ -43,20 +43,16 @@ public class EmployeeDto
     
     [JsonPropertyName("managerM4")]
     public int? M4Id { get; set; }
-
-    public static Employee ToEntity(EmployeeDto dto) 
-        => new() 
-        { 
-            Id = dto.Id, 
-            FirstNameEn = dto.FirstNameEn,
-            LastNameEn = dto.LastNameEn,
-            ProfessionalLevelValueId =  dto.ProfessionalLevelId,
-            ManagerialLevelValueId = dto.ManagerialLevelId,
-            Email = dto.Email,
-            ManagerId = dto.ManagerId,
-            M1Id = dto.M1Id,
-            M2Id = dto.M2Id,
-            M3Id = dto.M3Id,
-            M4Id = dto.M4Id
-        };
+    
+    [JsonPropertyName("hireDate")]
+    public DateTime HireDate { get; set; }
+    
+    [JsonPropertyName("terminationDate")]
+    public DateTime? TerminationDate { get; set; }
+    
+    [JsonPropertyName("lifecycleStatus")]
+    public string? LifecycleStatus { get; set; }
+    
+    [JsonPropertyName("hash")]
+    public ulong Hash { get; set; }
 }

@@ -2,7 +2,8 @@
 using Management.Application.Abstractions.Database;
 using Management.Application.Abstractions.Providers;
 using Management.Application.Abstractions.Services;
-using Management.Application.Contracts.Integrations.Hrm;
+using Management.Application.Contracts.Application;
+using Management.Application.Extensions;
 
 namespace Management.Application.Services;
 
@@ -11,35 +12,35 @@ public class EmployeeService(
     IEmployeeRepository employeeRepository)
     : IEmployeeService
 {
-    public async Task UploadEmployeesAsync(CancellationToken ct)
+    public async Task<UploadEmployeesDto> UploadEmployeesAsync(CancellationToken ct)
     {
-        var result = new UploadEmployeesResult();
+        var result = new UploadEmployeesDto();
         
         await foreach (var hrmEmployees in hrmDataProvider.GetEmployeesAsync(ct))
         {
-            var hrmIds = hrmEmployees.Select(x => x.Id).ToArray();
+            IList<int> hrmIds = [.. hrmEmployees.Select(x => x.Id)];
             
-            var existingEmployees = await employeeRepository.GetEmployeesByIdsAsync(hrmIds, ct);
-
+            IDictionary<int, Employee> existingEmployees = 
+                await employeeRepository.GetEmployeesByIdsAsync(hrmIds, ct);
+            
             foreach (var hrmEmployee in hrmEmployees)
             {
-                if (existingEmployees.TryGetValue(hrmEmployee.Id, out var existing)) 
-                    existing.UpdatedAt = DateTime.UtcNow;
-                else
-                    await employeeRepository
-                        .AddAsync(EmployeeDto.ToEntity(hrmEmployee), ct);
+                if (!existingEmployees.TryGetValue(hrmEmployee.Id, out var existing))
+                {
+                    await employeeRepository.AddAsync(hrmEmployee.ToEntity(), ct);
+                    result.Created += 1;
+                }
+                else if (existing.Hash != hrmEmployee.Hash)
+                {
+                    existing.Update(hrmEmployee);
+                    result.Updated += 1;
+                }
             }
-
+            
+            result.Total += hrmEmployees.Count;
             await employeeRepository.SaveChangesAsync(ct);
         }
-    }
-}
 
-public class UploadEmployeesResult
-{
-    public int Created { get; set; }
-    
-    public int Updated { get; set; }
-    
-    public int Total { get; set; }
+        return result;
+    }
 }

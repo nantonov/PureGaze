@@ -11,18 +11,14 @@ public class HrmDataController(IEmployeeService employeeService)
     [HttpGet("employees")]
     public async Task<IActionResult> GetEmployeeById(CancellationToken ct)
     {
-        await employeeService.UploadEmployeesAsync(ct);
+        var result = await employeeService.UploadEmployeesAsync(ct);
         
-        return Ok();
+        return Ok(result);
     }
     
     [HttpGet("dictionaries")]
     public async Task<IActionResult> GetDictionaries()
     {
-        // var result = await hrmService.GetDictionariesAsync();
-        //
-        // return Ok(result);
-        
         return Ok();
     }
 }

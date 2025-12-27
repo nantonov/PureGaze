@@ -4,8 +4,8 @@ public class Employee : BaseEntity<int>
 {
     public string? FirstNameEn { get; set; }
     public string? LastNameEn { get; set; }
-    public Guid? ProfessionalLevelValueId { get; set; }
-    public Guid? ManagerialLevelValueId { get; set; }
+    public Guid? ProfessionalLevelId { get; set; }
+    public Guid? ManagerialLevelId { get; set; }
     public string? Email { get; set; }
     
     public int? ManagerId { get; set; }
@@ -28,4 +28,12 @@ public class Employee : BaseEntity<int>
     
     public int? M4Id { get; set; }
     public virtual Employee? M4 { get; set; }
+
+    public DateTime HireDate { get; set; }
+    
+    public DateTime? TerminationDate { get; set; }
+    
+    public string? LifecycleStatus { get; set; }
+    
+    public ulong Hash { get; set; }
 }
