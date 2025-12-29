@@ -9,6 +9,9 @@ public static class EmailWorkersConfig
 {
     public static WebApplicationBuilder СonfigureEmailWorkers(this WebApplicationBuilder builder)
     {
+        builder.Services.Configure<SmtpOptions>(
+            builder.Configuration.GetSection(SmtpOptions.SectionName));
+
         builder.Services.Configure<RetryPolicyOptions>(
             builder.Configuration.GetSection(RetryPolicyOptions.SectionName));
         
