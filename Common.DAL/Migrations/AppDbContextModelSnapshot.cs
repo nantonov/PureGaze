@@ -182,17 +182,10 @@ namespace Common.DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ErrorMessage")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<string>("From")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
 
                     b.Property<int>("RetryCount")
                         .HasColumnType("int");
@@ -218,7 +211,7 @@ namespace Common.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Status", "Priority");
+                    b.HasIndex("Status");
 
                     b.ToTable("Emails", (string)null);
                 });

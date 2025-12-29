@@ -14,7 +14,7 @@ public sealed class EmailWorker(
     : BackgroundWorker(options.Value.DelayInSeconds)
 {
     protected override async Task DoWorkAsync(CancellationToken ct)
-    { 
+    {
         using var scope = scopeFactory.CreateScope();
         var repository = scope.ServiceProvider.GetRequiredService<IEmailRepository>();
         var sender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
@@ -32,11 +32,22 @@ public sealed class EmailWorker(
                 
                 email.Status = EmailStatus.Sent;
                 email.SentAt = DateTime.UtcNow;
-                email.ErrorMessage = null;
             }
             catch (Exception ex)
             {
-                MarkFailure(email, ex);
+                var maxRetryCount = options.Value.MaxRetryCount;
+                
+                email.RetryCount++;
+                email.Status = email.RetryCount >= maxRetryCount
+                    ? EmailStatus.ExceededRetryCount
+                    : EmailStatus.Failed;
+    
+                logger.LogError(
+                    ex,
+                    "Failed to send email {Id}. Retry {Retry}/{MaxRetry}",
+                    email.Id,
+                    email.RetryCount,
+                    maxRetryCount);
             }
         }
         
@@ -56,24 +67,5 @@ public sealed class EmailWorker(
         await repository.SaveChangesAsync(ct);
     
         return emails;
-    }
-    
-    private void MarkFailure(Email email, Exception ex)
-    {
-        var maxRetryCount = options.Value.MaxRetryCount;
-        
-        email.RetryCount++;
-        email.ErrorMessage = ex.Message;
-    
-        email.Status = email.RetryCount >= maxRetryCount
-            ? EmailStatus.ExceededRetryCount
-            : EmailStatus.Failed;
-    
-        logger.LogError(
-            ex,
-            "Failed to send email {Id}. Retry {Retry}/{MaxRetry}",
-            email.Id,
-            email.RetryCount,
-            maxRetryCount);
     }
 } 

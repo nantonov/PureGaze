@@ -40,10 +40,8 @@ namespace Common.DAL.Migrations
                     To = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     From = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     RetryCount = table.Column<int>(type: "int", nullable: false),
-                    Priority = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     SentAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ErrorMessage = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -444,9 +442,9 @@ namespace Common.DAL.Migrations
                 column: "Status");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Emails_Status_Priority",
+                name: "IX_Emails_Status",
                 table: "Emails",
-                columns: new[] { "Status", "Priority" });
+                column: "Status");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_HeadId",

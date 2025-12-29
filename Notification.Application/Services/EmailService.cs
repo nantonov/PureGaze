@@ -21,19 +21,7 @@ public class EmailService(IEmailRepository emailRepository)
             RetryCount = 0,
             Status = EmailStatus.InQueue
         };
-
-        var timeToDeadline = dto.Deadline - DateTime.UtcNow;
         
-        email.Priority = timeToDeadline switch
-        {
-            _ when timeToDeadline <= TimeSpan.FromHours(3) 
-                => EmailPriority.High,
-            _ when timeToDeadline <= TimeSpan.FromHours(24)
-                => EmailPriority.Normal,
-            _ 
-                => EmailPriority.Low
-        };
-
         await emailRepository.AddAsync(email, cancellationToken);
         await emailRepository.SaveChangesAsync(cancellationToken);
     }

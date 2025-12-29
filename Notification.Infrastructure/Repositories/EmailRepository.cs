@@ -23,8 +23,7 @@ public class EmailRepository(AppDbContext context) : IEmailRepository
     public async Task<List<Email>> GetPendingEmailsAsync(CancellationToken ct = default) 
         => await context.Emails
             .Where(e => e.Status == EmailStatus.InQueue || e.Status == EmailStatus.Failed)
-            .OrderByDescending(e => e.Priority)
-            .ThenBy(e => e.CreatedAt)
+            .OrderBy(e => e.CreatedAt)
             .Take(10)
             .ToListAsync(ct);
 }

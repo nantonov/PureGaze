@@ -27,9 +27,6 @@ public class EmailConfiguration : IEntityTypeConfiguration<Email>
             .HasMaxLength(200)
             .IsRequired();
         
-        builder.Property(x => x.ErrorMessage)
-            .HasMaxLength(500);
-        
-        builder.HasIndex(x => new { x.Status, x.Priority });
+        builder.HasIndex(x => new { x.Status });
     }
 }
