@@ -2,17 +2,11 @@
 
 public class DictionariesDto
 {
-    public IList<BaseDictionaryDto> SkillLevels { get; set; } = [];
-    
-    public IList<BaseDictionaryDto>? ProcessConfirmationStatuses { get; set; } = [];
-    
-    public IList<BaseDictionaryDto> YesNoOtherOptions { get; set; } = [];
-    
-    public IList<BaseDictionaryDto> MeetingRequestStatuses { get; set; } = [];
+    public IList<BaseDictionaryDto> ManagerialLevels { get; set; } = [];
     
     public IList<BaseDictionaryDto> ProfessionalLevels { get; set; } = [];
     
-    public IList<BaseDictionaryDto> ManagerialLevels { get; set; } = [];
+    public IList<BaseDictionaryDto> ProcessConfirmationStatuses { get; set; } = [];
 }
 
 public class BaseDictionaryDto
@@ -22,4 +16,5 @@ public class BaseDictionaryDto
     public string Translation { get; set; } = string.Empty;
     public Guid ValueId { get; set; }
     public string Value { get; set; } = string.Empty;
+    public int? OrderValue { get; set; }
 }

@@ -6,7 +6,7 @@ namespace Management.Application.Extensions;
 public static class EmployeeExtensions
 {
     public static Employee ToEntity(this EmployeeDto dto) 
-        => new Employee
+        => new()
         { 
             Id = dto.Id,
             UpdatedAt =  DateTime.UtcNow,

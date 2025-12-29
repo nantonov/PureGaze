@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Common.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251226141711_init")]
+    [Migration("20251229114917_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -318,6 +318,9 @@ namespace Common.DAL.Migrations
                     b.Property<Guid>("LanguageId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("OrderValue")
+                        .HasColumnType("int");
+
                     b.Property<string>("Translation")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -339,38 +342,6 @@ namespace Common.DAL.Migrations
                     b.ToTable("ManagerialLevels", (string)null);
                 });
 
-            modelBuilder.Entity("Common.Domain.Entities.MeetingRequestStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Translation")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("ValueId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MeetingRequestStatuses", (string)null);
-                });
-
             modelBuilder.Entity("Common.Domain.Entities.ProcessConfirmationStatus", b =>
                 {
                     b.Property<Guid>("Id")
@@ -381,6 +352,9 @@ namespace Common.DAL.Migrations
 
                     b.Property<Guid>("LanguageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("OrderValue")
+                        .HasColumnType("int");
 
                     b.Property<string>("Translation")
                         .IsRequired()
@@ -413,6 +387,9 @@ namespace Common.DAL.Migrations
 
                     b.Property<Guid>("LanguageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("OrderValue")
+                        .HasColumnType("int");
 
                     b.Property<string>("Translation")
                         .IsRequired()
@@ -475,38 +452,6 @@ namespace Common.DAL.Migrations
                     b.HasKey("QuestionId", "Language");
 
                     b.ToTable("QuestionTranslates", (string)null);
-                });
-
-            modelBuilder.Entity("Common.Domain.Entities.SkillLevel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Translation")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("ValueId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SkillLevels", (string)null);
                 });
 
             modelBuilder.Entity("Common.Domain.Entities.Subtopic", b =>
@@ -616,38 +561,6 @@ namespace Common.DAL.Migrations
                     b.HasKey("TopicId", "Language");
 
                     b.ToTable("TopicTranslates", (string)null);
-                });
-
-            modelBuilder.Entity("Common.Domain.Entities.YesNoOtherOption", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Translation")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("ValueId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("YesNoOtherOptions", (string)null);
                 });
 
             modelBuilder.Entity("Common.Domain.Entities.Answer", b =>

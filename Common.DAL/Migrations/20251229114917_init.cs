@@ -126,28 +126,12 @@ namespace Common.DAL.Migrations
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    OrderValue = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ManagerialLevels", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MeetingRequestStatuses",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MeetingRequestStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,7 +144,8 @@ namespace Common.DAL.Migrations
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    OrderValue = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -177,45 +162,12 @@ namespace Common.DAL.Migrations
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    OrderValue = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProfessionalLevels", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SkillLevels",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SkillLevels", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "YesNoOtherOptions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_YesNoOtherOptions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -594,9 +546,6 @@ namespace Common.DAL.Migrations
                 name: "ManagerialLevels");
 
             migrationBuilder.DropTable(
-                name: "MeetingRequestStatuses");
-
-            migrationBuilder.DropTable(
                 name: "ProcessConfirmationStatuses");
 
             migrationBuilder.DropTable(
@@ -606,16 +555,10 @@ namespace Common.DAL.Migrations
                 name: "QuestionTranslates");
 
             migrationBuilder.DropTable(
-                name: "SkillLevels");
-
-            migrationBuilder.DropTable(
                 name: "SubtopicTranslates");
 
             migrationBuilder.DropTable(
                 name: "TopicTranslates");
-
-            migrationBuilder.DropTable(
-                name: "YesNoOtherOptions");
 
             migrationBuilder.DropTable(
                 name: "Answers");

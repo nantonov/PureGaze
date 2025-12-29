@@ -7,7 +7,7 @@ public static class ServiceConfig
 {
     public static WebApplicationBuilder ConfigureService(this WebApplicationBuilder builder)
     {
-        builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+        builder.Services.AddScoped<IHrmService, HrmService>();
         
         return builder;
     }

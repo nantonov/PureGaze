@@ -16,15 +16,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     
     public DbSet<ManagerialLevel> ManagerialLevels { get; set; }
     
-    public DbSet<MeetingRequestStatus> MeetingRequestStatuses { get; set; }
-    
     public DbSet<ProcessConfirmationStatus> ProcessConfirmationStatuses { get; set; }
     
     public DbSet<ProfessionalLevel> ProfessionalLevels { get; set; }
-    
-    public DbSet<SkillLevel> SkillLevels { get; set; }
-    
-    public DbSet<YesNoOtherOption> YesNoOtherOptions { get; set; }
 
     public DbSet<Email> Emails { get; set; }
 

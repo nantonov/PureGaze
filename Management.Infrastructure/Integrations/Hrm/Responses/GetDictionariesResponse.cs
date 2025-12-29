@@ -10,15 +10,6 @@ public class GetDictionariesResponse
     
     [JsonPropertyName("professionalLevel")]
     public IList<BaseDictionary> ProfessionalLevels { get; set; } = [];
-    
-    [JsonPropertyName("meetingRequestStatus")]
-    public IList<BaseDictionary> MeetingRequestStatuses { get; set; } = [];
-    
-    [JsonPropertyName("skillLevel")]
-    public IList<BaseDictionary> SkillLevels { get; set; } = [];
-    
-    [JsonPropertyName("yesNoOtherOptions")]
-    public IList<BaseDictionary> YesNoOtherOptions { get; set; } = [];
 
     [JsonPropertyName("processConfirmationStatus")]
     public IList<BaseDictionary> ProcessConfirmationStatuses { get; set; } = [];
@@ -41,14 +32,18 @@ public class BaseDictionary
     [JsonPropertyName("value")]
     public string Value { get; set; } = string.Empty;
 
+    [JsonPropertyName("orderValue")]
+    public int? OrderValue { get; set; }
+    
     public static BaseDictionaryDto ToDto(BaseDictionary dictionary) 
-        => new BaseDictionaryDto
+        => new()
         {
             Id = dictionary.Id,
             LanguageId = dictionary.LanguageId,
             Translation = dictionary.Translation,
             ValueId = dictionary.ValueId,
-            Value = dictionary.Value
+            Value = dictionary.Value,
+            OrderValue =  dictionary.OrderValue
         };
     
 }

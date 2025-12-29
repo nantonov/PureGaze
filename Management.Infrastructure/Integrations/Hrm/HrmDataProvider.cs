@@ -63,18 +63,25 @@ public class HrmDataProvider(
             pageNumber++;   
         }
     }
-
+    
     public async Task<DictionariesDto?> GetDictionariesAsync(CancellationToken ct)
     {
         var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
 
         var tokenResponse = await GetAccessTokenAsync(ct);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
-
-            
+        
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["defaultLanguageOnly"] = "true";
-        query["filter"] = "{\"name\":[\"skillLevel\",\"processConfirmationStatus\",\"yesNoOtherOptions\",\"meetingRequestStatus\",\"professionalLevel\",\"managerialLevel\"]}";
+        query["filter"] = JsonSerializer.Serialize(new
+        {
+            name = new []
+            {
+                Constants.DictionaryTitles.ManagerialLevel,
+                Constants.DictionaryTitles.ProfessionalLevel,
+                Constants.DictionaryTitles.ProcessConfirmationStatuses,
+            }
+        });
             
         var response =
             await client.GetAsync($"{_options.EmployeeApiUrl}/api/dictionaries/api/v2/dictionary-translations/filter?{query}", ct);
@@ -87,9 +94,6 @@ public class HrmDataProvider(
         { 
             ManagerialLevels = [.. result?.ManagerialLevels.Select(BaseDictionary.ToDto)!],
             ProfessionalLevels = [.. result?.ProfessionalLevels.Select(BaseDictionary.ToDto)!],
-            MeetingRequestStatuses = [.. result?.MeetingRequestStatuses.Select(BaseDictionary.ToDto)!],
-            SkillLevels = [.. result?.SkillLevels.Select(BaseDictionary.ToDto)!],
-            YesNoOtherOptions = [.. result?.YesNoOtherOptions.Select(BaseDictionary.ToDto)!],
             ProcessConfirmationStatuses = [.. result?.ProcessConfirmationStatuses.Select(BaseDictionary.ToDto)!]
         };
     }

@@ -5,20 +5,22 @@ namespace Management.Api.Controllers;
 
 [Route("hrmdata")]
 [ApiController]
-public class HrmDataController(IEmployeeService employeeService)
+public class HrmDataController(IHrmService hrmService)
     : ControllerBase
 {
     [HttpGet("employees")]
     public async Task<IActionResult> GetEmployeeById(CancellationToken ct)
     {
-        var result = await employeeService.UploadEmployeesAsync(ct);
+        await hrmService.UploadEmployeesAsync(ct);
         
-        return Ok(result);
+        return Ok();
     }
     
     [HttpGet("dictionaries")]
-    public async Task<IActionResult> GetDictionaries()
-    {
+    public async Task<IActionResult> GetDictionaries(CancellationToken ct)
+    { 
+        await hrmService.UploadDictionariesAsync(ct);
+        
         return Ok();
     }
 }

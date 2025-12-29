@@ -1,6 +1,4 @@
 ﻿using Common.DAL;
-using Management.Application.Abstractions.Database;
-using Management.Infrastructure.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Management.Api.Configurations;
@@ -24,8 +22,6 @@ public static class DatabaseConfig
                         errorNumbersToAdd: null);
                 });
         });
-        
-        builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         
         return builder;
     }
