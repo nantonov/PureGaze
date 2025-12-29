@@ -1,13 +1,12 @@
-using Common.Data.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Notification.Application.Abstractions.Services;
 using Notification.Application.Contracts.Application;
-using Notification.Application.Services;
 
 namespace Notification.Api.Controllers;
 
 [ApiController]
 [Route("emails")]
-public class EmailController(EmailService emailService) : ControllerBase
+public class EmailController(IEmailService emailService) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> CreateEmail([FromBody] CreateEmailRequest dto, CancellationToken cancellationToken)
