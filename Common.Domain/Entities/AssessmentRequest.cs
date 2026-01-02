@@ -13,7 +13,8 @@ public class AssessmentRequest : BaseEntity<int>
     public int? M3Id { get; set; }
     public virtual Employee? M3 { get; set; }
 
-    public Code Code { get; set; } = null!;
+    public int CodeId { get; set; }
+    public virtual Code Code { get; set; } = null!;
     public DateTime RequestedToDate { get; set; }
     public AssessmentRequestStatus Status { get; set; }
     public string? RejectionReason { get; set; }

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Assessment.Application\Assessment.Application.csproj" />
+    <ProjectReference Include="..\Common.DAL\Common.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -28,6 +28,11 @@ public class AssessmentRequestConfiguration : IEntityTypeConfiguration<Assessmen
             .HasForeignKey(o => o.M3Id)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.HasOne(o => o.Code)
+            .WithMany()
+            .HasForeignKey(o => o.CodeId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.Property(o => o.RejectionReason)
             .HasMaxLength(1000);
 
