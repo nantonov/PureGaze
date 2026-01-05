@@ -18,14 +18,14 @@ public class AssessmentRequestConfiguration : IEntityTypeConfiguration<Assessmen
             .HasForeignKey(o => o.EmployeeId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(o => o.M1)
+        builder.HasOne(o => o.Manager)
             .WithMany()
-            .HasForeignKey(o => o.M1Id)
+            .HasForeignKey(o => o.ManagerId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        builder.HasOne(o => o.M3)
+        builder.HasOne(o => o.Code)
             .WithMany()
-            .HasForeignKey(o => o.M3Id)
+            .HasForeignKey(o => o.CodeId)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(o => o.RejectionReason)
