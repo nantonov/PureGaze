@@ -13,7 +13,7 @@ public class EmailService(
     ILogger<EmailService> logger) 
     : IEmailService
 {
-    public async Task CreateEmailAsync(CreateEmailRequest dto, CancellationToken cancellationToken = default)
+    public async Task CreateEmailAsync(CreateEmailRequest dto, CancellationToken ct = default)
     {
         var email = new Email
         {
@@ -26,13 +26,13 @@ public class EmailService(
             Status = EmailStatus.InQueue
         };
         
-        await emailRepository.AddAsync(email, cancellationToken);
-        await emailRepository.SaveChangesAsync(cancellationToken);
+        await emailRepository.AddAsync(email, ct);
+        await emailRepository.SaveChangesAsync(ct);
     }
     
-    public async Task ResendFailedEmailsAsync(CancellationToken cancellationToken = default)
+    public async Task ResendFailedEmailsAsync(CancellationToken ct = default)
     {
-        var emails = await emailRepository.GetExceededEmailsAsync(cancellationToken);
+        var emails = await emailRepository.GetExceededEmailsAsync(ct);
         
         foreach (var email in emails)
         {
@@ -40,7 +40,7 @@ public class EmailService(
             email.Status = EmailStatus.Sending;
         }
         //to lock em from other
-        await emailRepository.SaveChangesAsync(cancellationToken);
+        await emailRepository.SaveChangesAsync(ct);
 
         
         foreach (var email in emails)
@@ -48,7 +48,7 @@ public class EmailService(
             email.RetryCount = 0;
             try
             {
-                await emailSender.SendAsync(email, cancellationToken);
+                await emailSender.SendAsync(email, ct);
                 email.Status = EmailStatus.Sent;
                 email.SentAt = DateTime.UtcNow;
             }
@@ -59,9 +59,9 @@ public class EmailService(
             }
         }
 
-        await emailRepository.SaveChangesAsync(cancellationToken);
+        await emailRepository.SaveChangesAsync(ct);
     }
 
-    public Task<List<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus status, CancellationToken cancellationToken = default)
-        => emailRepository.GetEmailsAsync(page, pageSize, status, cancellationToken);
+    public Task<List<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus status, CancellationToken ct = default)
+        => emailRepository.GetEmailsAsync(page, pageSize, status, ct);
 }
