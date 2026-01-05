@@ -21,16 +21,16 @@ public class EmailController(IEmailService emailService) : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateEmail([FromBody] CreateEmailRequest dto, CancellationToken ct)
+    public async Task<IActionResult> CreateEmail([FromBody] CreateEmailRequest request, CancellationToken ct)
     {
-        await emailService.CreateEmailAsync(dto, ct);
+        await emailService.CreateEmailAsync(request, ct);
         return Ok();
     }
     
     [HttpPost("resend-failed")]
-    public async Task<IActionResult> ResendFailedEmails(CancellationToken ct)
+    public async Task<IActionResult> ResendEmailManually(Guid id ,CancellationToken ct)
     {
-        await emailService.ResendFailedEmailsAsync(ct);
+        await emailService.ResendEmailManuallyAsync(id, ct);
         return Ok();
     }
 

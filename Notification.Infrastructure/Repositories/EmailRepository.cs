@@ -8,6 +8,11 @@ namespace Notification.Infrastructure.Repositories;
 
 public class EmailRepository(AppDbContext context) : IEmailRepository
 {
+    public ValueTask<Email?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    {
+        return context.Emails.FindAsync([id], ct);
+    }
+
     public async Task AddAsync(Email email, CancellationToken ct = default) 
         => await context.Emails.AddAsync(email, ct);
     
@@ -20,14 +25,7 @@ public class EmailRepository(AppDbContext context) : IEmailRepository
             .OrderBy(e => e.CreatedAt)
             .Take(10)
             .ToListAsync(ct);
-
-    public async Task<List<Email>> GetExceededEmailsAsync(CancellationToken ct = default)
-    {
-        return await context.Emails
-            .Where(e => e.Status == EmailStatus.ExceededRetryCount)
-            .ToListAsync(ct);
-    }
-
+    
     public async Task<List<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus? status, CancellationToken ct = default)
     {
         var query = context.Emails.AsQueryable();

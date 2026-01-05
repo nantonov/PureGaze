@@ -13,14 +13,14 @@ public class EmailService(
     ILogger<EmailService> logger) 
     : IEmailService
 {
-    public async Task CreateEmailAsync(CreateEmailRequest dto, CancellationToken ct = default)
+    public async Task CreateEmailAsync(CreateEmailRequest request, CancellationToken ct = default)
     {
         var email = new Email
         {
             Id = Guid.NewGuid(),
-            Subject = dto.Subject,
-            Body = dto.Body,
-            To = dto.To,
+            Subject = request.Subject,
+            Body = request.Body,
+            To = request.To,
             From = "system@example.com",
             RetryCount = 0,
             Status = EmailStatus.InQueue
@@ -30,35 +30,18 @@ public class EmailService(
         await emailRepository.SaveChangesAsync(ct);
     }
     
-    public async Task ResendFailedEmailsAsync(CancellationToken ct = default)
+    public async Task ResendEmailManuallyAsync(Guid id, CancellationToken ct = default)
     {
-        var emails = await emailRepository.GetExceededEmailsAsync(ct);
+        var email = await emailRepository.GetByIdAsync(id, ct);
+        if (email is null)
+            throw new KeyNotFoundException($"Email with id {id} not found");
         
-        foreach (var email in emails)
-        {
-            email.RetryCount = 0;
-            email.Status = EmailStatus.Sending;
-        }
-        //to lock em from other
-        await emailRepository.SaveChangesAsync(ct);
-
+        await emailSender.SendAsync(email, ct);
         
-        foreach (var email in emails)
-        {
-            email.RetryCount = 0;
-            try
-            {
-                await emailSender.SendAsync(email, ct);
-                email.Status = EmailStatus.Sent;
-                email.SentAt = DateTime.UtcNow;
-            }
-            catch (Exception ex)
-            {
-                email.Status = EmailStatus.Failed;
-                logger.LogError(ex, "Failed to manually resend email {Id}", email.Id);
-            }
-        }
-
+        email.RetryCount++;
+        email.Status = EmailStatus.Sent;
+        email.SentAt = DateTime.UtcNow;
+        
         await emailRepository.SaveChangesAsync(ct);
     }
 
