@@ -15,7 +15,7 @@ public class EmailService(
 {
     public async Task CreateEmailAsync(CreateEmailRequest request, CancellationToken ct = default)
     {
-        var email = new Email
+        await emailRepository.AddAsync(new Email
         {
             Id = Guid.NewGuid(),
             Subject = request.Subject,
@@ -24,9 +24,8 @@ public class EmailService(
             From = "system@example.com",
             RetryCount = 0,
             Status = EmailStatus.InQueue
-        };
+        }, ct);
         
-        await emailRepository.AddAsync(email, ct);
         await emailRepository.SaveChangesAsync(ct);
     }
     
@@ -36,15 +35,26 @@ public class EmailService(
         if (email is null)
             throw new KeyNotFoundException($"Email with id {id} not found");
         
-        await emailSender.SendAsync(email, ct);
+        try
+        {
+            await emailSender.SendAsync(email, ct);
+            
+            email.Status = EmailStatus.Sent;
+            email.SentAt = DateTime.UtcNow;
+        }
+        catch (Exception e)
+        { 
+            //TODO: log exception    
+        }
         
+        email.UpdatedAt = DateTime.UtcNow;
         email.RetryCount++;
-        email.Status = EmailStatus.Sent;
-        email.SentAt = DateTime.UtcNow;
         
         await emailRepository.SaveChangesAsync(ct);
+        
+        //TODO: if exception we should return info message
     }
 
-    public Task<List<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus status, CancellationToken ct = default)
+    public Task<IList<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus status, CancellationToken ct = default)
         => emailRepository.GetEmailsAsync(page, pageSize, status, ct);
 }

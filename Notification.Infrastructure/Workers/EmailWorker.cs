@@ -54,7 +54,7 @@ public sealed class EmailWorker(
         await repository.SaveChangesAsync(ct);
     }
     
-    private async Task<List<Email>> AcquireEmailsAsync(
+    private async Task<IList<Email>> AcquireEmailsAsync(
         IEmailRepository repository,
         CancellationToken ct)
     {

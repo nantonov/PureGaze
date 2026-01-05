@@ -27,8 +27,8 @@ public class EmailController(IEmailService emailService) : ControllerBase
         return Ok();
     }
     
-    [HttpPost("resend-failed")]
-    public async Task<IActionResult> ResendEmailManually(Guid id ,CancellationToken ct)
+    [HttpPost("resend")]
+    public async Task<IActionResult> ResendEmailManually(Guid id, CancellationToken ct)
     {
         await emailService.ResendEmailManuallyAsync(id, ct);
         return Ok();

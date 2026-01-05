@@ -8,25 +8,23 @@ namespace Notification.Infrastructure.Repositories;
 
 public class EmailRepository(AppDbContext context) : IEmailRepository
 {
-    public ValueTask<Email?> GetByIdAsync(Guid id, CancellationToken ct = default)
-    {
-        return context.Emails.FindAsync([id], ct);
-    }
-
+    public ValueTask<Email?> GetByIdAsync(Guid id, CancellationToken ct = default) 
+        => context.Emails.FindAsync([id], ct);
+    
     public async Task AddAsync(Email email, CancellationToken ct = default) 
         => await context.Emails.AddAsync(email, ct);
     
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
     
-    public async Task<List<Email>> GetPendingEmailsAsync(CancellationToken ct = default) 
+    public async Task<IList<Email>> GetPendingEmailsAsync(CancellationToken ct = default) 
         => await context.Emails
             .Where(e => e.Status == EmailStatus.InQueue || e.Status == EmailStatus.Failed)
             .OrderBy(e => e.CreatedAt)
             .Take(10)
             .ToListAsync(ct);
     
-    public async Task<List<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus? status, CancellationToken ct = default)
+    public async Task<IList<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus? status, CancellationToken ct = default)
     {
         var query = context.Emails.AsQueryable();
 
