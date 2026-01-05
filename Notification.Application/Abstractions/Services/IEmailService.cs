@@ -6,6 +6,7 @@ namespace Notification.Application.Abstractions.Services;
 
 public interface IEmailService
 {
-    Task CreateEmailAsync(CreateEmailRequest dto, CancellationToken cancellationToken = default);
-    Task<List<Email>> GetFailedEmailsAsync(CancellationToken cancellationToken = default);
+    Task CreateEmailAsync(CreateEmailRequest request, CancellationToken ct = default);
+    Task ResendEmailManuallyAsync(Guid id, CancellationToken ct = default);
+    Task<IList<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus status, CancellationToken ct = default);
 }
