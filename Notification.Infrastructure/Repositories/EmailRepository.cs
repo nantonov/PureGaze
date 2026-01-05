@@ -14,16 +14,31 @@ public class EmailRepository(AppDbContext context) : IEmailRepository
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
     
-    public async Task<List<Email>> GetFailedEmailsReadOnlyAsync(CancellationToken ct = default) 
-        => await context.Emails 
-            .Where(e => e.Status == EmailStatus.ExceededRetryCount)
-            .AsNoTracking()
-            .ToListAsync(ct);
-    
     public async Task<List<Email>> GetPendingEmailsAsync(CancellationToken ct = default) 
         => await context.Emails
             .Where(e => e.Status == EmailStatus.InQueue || e.Status == EmailStatus.Failed)
             .OrderBy(e => e.CreatedAt)
             .Take(10)
             .ToListAsync(ct);
+
+    public async Task<List<Email>> GetExceededEmailsAsync(CancellationToken ct = default)
+    {
+        return await context.Emails
+            .Where(e => e.Status == EmailStatus.ExceededRetryCount)
+            .ToListAsync(ct);
+    }
+
+    public async Task<List<Email>> GetEmailsAsync(int page, int pageSize, EmailStatus? status, CancellationToken ct = default)
+    {
+        var query = context.Emails.AsQueryable();
+
+        if (status.HasValue)
+            query = query.Where(e => e.Status == status.Value);
+
+        return await query
+            .OrderByDescending(e => e.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+    }
 }
