@@ -6,14 +6,16 @@ namespace Assessment.Api.Controllers;
 
 [ApiController]
 [Route("assessment-requests")]
-public class AssessmentRequestController(IAssessmentRequestService assessmentRequestService) : ControllerBase
+public class AssessmentRequestController(IAssessmentRequestService assessmentRequestService) 
+    : ControllerBase
 {
     [HttpPost]
     [Route("appoint")]
-    public async Task<IActionResult> Appoint([FromBody] AppointAssessmentDto dto, CancellationToken ct)
+    public async Task<IActionResult> Appoint(CancellationToken ct)
     {
-        var result = await assessmentRequestService.AppointAsync(dto, ct);
+        await assessmentRequestService
+            .AppointAsync(new AppointAssessmentRequest(1), ct);
 
-        return Ok(result);
+        return Ok();
     }
 }

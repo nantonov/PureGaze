@@ -4,5 +4,5 @@ namespace Assessment.Application.Abstractions.Services;
 
 public interface IAssessmentRequestService
 {
-    Task<int> AppointAsync(AppointAssessmentDto requestModel, CancellationToken cancellationToken);
+    Task<int> AppointAsync(AppointAssessmentRequest request, CancellationToken cancellationToken);
 }

@@ -1,7 +1,6 @@
 using Assessment.Application.Abstractions.Infrastructure;
 using Common.DAL;
 using Common.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Assessment.Infrastructure.Repositories;
 
@@ -12,5 +11,4 @@ public class AssessmentRequestRepository(AppDbContext context) : IAssessmentRequ
 
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
-    
 }

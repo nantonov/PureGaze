@@ -12,32 +12,36 @@ public class AssessmentRequestService(
     IAssessmentRequestRepository assessmentRequestRepository, 
     IEmployeeRepository employeeRepository, 
     IEmailRepository emailRepository,
+    ICodeRepository codeRepository,
     IEmailFactory emailFactory) : IAssessmentRequestService
 {
-    public async Task<int> AppointAsync(AppointAssessmentDto dto, CancellationToken cancellationToken)
+    public async Task<int> AppointAsync(AppointAssessmentRequest request, CancellationToken cancellationToken)
     {
-        var m1 = await employeeRepository.GetEmployeeAsync(dto.M1Id, cancellationToken);
-        var employee = await employeeRepository.GetEmployeeAsync(dto.EmployeeId, cancellationToken);
-
-        if (m1 == null)
-            throw new KeyNotFoundException($"M1 with Id {dto.M1Id} not found.");
+        var employee = await employeeRepository.GetEmployeeAsync(request.EmployeeId, cancellationToken);
         if (employee == null)
-            throw new KeyNotFoundException($"Employee with Id {dto.EmployeeId} not found.");
-        if (string.IsNullOrWhiteSpace(m1.Email))
-            throw new ValidationException($"Manager {m1.FirstNameEn} {m1.LastNameEn} does not have a valid email address.");
+            throw new KeyNotFoundException($"Employee with Id {request.EmployeeId} not found.");
+
+        var manager = employee.M1 ?? employee.M3;
+            
+        if (manager == null)
+            throw new KeyNotFoundException($"Manager with Id {request.EmployeeId} not found.");
+        
+        if (employee.ProfessionalLevelId == null)
+            throw new ValidationException($"Current Professional Level for Employee with Id {request.EmployeeId} is not set.");
+        
+        var codeId = await codeRepository.GetCodeIdByProfessionalLevelIdAsync(employee.ProfessionalLevelId.Value, cancellationToken);
 
         var assessmentRequest = new AssessmentRequest
         {
-            EmployeeId = dto.EmployeeId,
-            M1Id = dto.M1Id,
-            M3Id = dto.M3Id,
-            CodeId = dto.CodeId,
-            RequestedToDate = dto.RequestedToDate,
+            EmployeeId = request.EmployeeId,
+            ManagerId = manager.Id,
+            CodeId = codeId,
             Status = AssessmentRequestStatus.Created
         };
 
-        var email = emailFactory.CreateAssessmentRequestEmail(m1.Email, $"{employee.FirstNameEn} {employee.LastNameEn}");
+        var email = emailFactory.CreateAssessmentRequestEmail(manager.Email!, $"{employee.FirstNameEn} {employee.LastNameEn}");
 
+        //TODO: think about right saving
         await emailRepository.AddAsync(email, cancellationToken);
         await assessmentRequestRepository.AddAsync(assessmentRequest, cancellationToken);
         await assessmentRequestRepository.SaveChangesAsync(cancellationToken);
