@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Assessment.Infrastructure.Exceptions.Handlers;
+namespace Notification.Infrastructure.Exceptions;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
-        Exception exception, 
+        Exception exception,
         CancellationToken cancellationToken)
     {
         var problemDetails = new ProblemDetails

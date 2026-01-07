@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Assessment.Common.Exceptions;
+namespace Common.Data.Exceptions;
 
 public class BaseException (
     string message, 

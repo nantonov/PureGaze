@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Assessment.Common\Assessment.Common.csproj" />
     <ProjectReference Include="..\Assessment.Infrastructure\Assessment.Infrastructure.csproj" />
     <ProjectReference Include="..\Assessment.Application\Assessment.Application.csproj" />
     <ProjectReference Include="..\Common.DAL\Common.DAL.csproj" />
