@@ -6,7 +6,10 @@ namespace Assessment.Infrastructure.Exceptions.Handlers;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(
+        HttpContext httpContext,
+        Exception exception, 
+        CancellationToken cancellationToken)
     {
         var problemDetails = new ProblemDetails
         {

@@ -1,12 +1,10 @@
-using Common.Data;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Notification.Infrastructure.Exceptions;
 
-public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+public class GlobalExceptionHandler : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
@@ -15,27 +13,12 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
     {
         var problemDetails = new ProblemDetails
         {
-            Instance = httpContext.Request.Path
+            Title = "Internal Server Error",
+            Status = StatusCodes.Status500InternalServerError,
+            Detail = exception.Message
         };
 
-        if (exception is BaseException baseException)
-        {
-            logger.LogError(baseException, "Exception occurred: {Message}", baseException.Message);
-
-            problemDetails.Title = baseException.Title;
-            problemDetails.Status = (int)baseException.StatusCode;
-            problemDetails.Detail = baseException.Message;
-        }
-        else
-        {
-            logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
-
-            problemDetails.Title = "Server error";
-            problemDetails.Status = StatusCodes.Status500InternalServerError;
-            problemDetails.Detail = exception.Message;
-        }
-
-        httpContext.Response.StatusCode = problemDetails.Status ?? StatusCodes.Status500InternalServerError;
+        httpContext.Response.StatusCode = problemDetails.Status.Value;
 
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
