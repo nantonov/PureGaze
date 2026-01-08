@@ -1,6 +1,6 @@
 ﻿using Common.Domain.Entities;
 
-namespace Notification.Application.Abstractions.Infrastructure;
+namespace Assessment.Application.Abstractions.Infrastructure;
 
 public interface IEmailRepository
 {

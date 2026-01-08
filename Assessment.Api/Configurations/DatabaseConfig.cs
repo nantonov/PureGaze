@@ -1,3 +1,6 @@
+using Assessment.Application.Abstractions.Infrastructure;
+using Assessment.Application.Abstractions.Services;
+using Assessment.Infrastructure.Repositories;
 using Common.DAL;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +25,8 @@ public static class DatabaseConfig
                         errorNumbersToAdd: null);
                 });
         });
+
+        builder.Services.AddScoped<IAssessmentRequestRepository, AssessmentRequestRepository>();
         
         return builder;
     }
