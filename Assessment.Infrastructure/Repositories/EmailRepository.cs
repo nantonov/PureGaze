@@ -1,8 +1,8 @@
+using Assessment.Application.Abstractions.Infrastructure;
 using Common.DAL;
 using Common.Domain.Entities;
-using Notification.Application.Abstractions.Infrastructure;
 
-namespace Notification.Infrastructure.Repositories;
+namespace Assessment.Infrastructure.Repositories;
 
 public class EmailRepository(AppDbContext context) : IEmailRepository
 {

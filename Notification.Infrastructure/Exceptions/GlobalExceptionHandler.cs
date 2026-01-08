@@ -9,7 +9,7 @@ public class GlobalExceptionHandler : IExceptionHandler
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         var problemDetails = new ProblemDetails
         {
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = problemDetails.Status.Value;
 
-        await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync(problemDetails, ct);
 
         return true;
     }
