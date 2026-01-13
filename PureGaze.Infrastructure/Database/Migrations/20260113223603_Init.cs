@@ -226,6 +226,36 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Assessments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TemplateId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    TargetGrade = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assessments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Assessments_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Assessments_Templates_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "Templates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Topics",
                 columns: table => new
                 {
@@ -244,6 +274,45 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         principalTable: "Templates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AssessmentStages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssessmentId = table.Column<int>(type: "int", nullable: false),
+                    StageType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TopicId = table.Column<int>(type: "int", nullable: false),
+                    AssessorId = table.Column<int>(type: "int", nullable: true),
+                    Summary = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    IsRecommended = table.Column<bool>(type: "bit", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssessmentStages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AssessmentStages_Assessments_AssessmentId",
+                        column: x => x.AssessmentId,
+                        principalTable: "Assessments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssessmentStages_Employees_AssessorId",
+                        column: x => x.AssessorId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AssessmentStages_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -348,6 +417,36 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuestionScores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StageId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionScores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionScores_AssessmentStages_StageId",
+                        column: x => x.StageId,
+                        principalTable: "AssessmentStages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuestionScores_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuestionTranslates",
                 columns: table => new
                 {
@@ -406,6 +505,31 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Assessments_EmployeeId",
+                table: "Assessments",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assessments_TemplateId",
+                table: "Assessments",
+                column: "TemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssessmentStages_AssessmentId",
+                table: "AssessmentStages",
+                column: "AssessmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssessmentStages_AssessorId",
+                table: "AssessmentStages",
+                column: "AssessorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssessmentStages_TopicId",
+                table: "AssessmentStages",
+                column: "TopicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_HeadId",
                 table: "Employees",
                 column: "HeadId");
@@ -444,6 +568,16 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 name: "IX_Questions_SubTopicId",
                 table: "Questions",
                 column: "SubTopicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionScores_QuestionId",
+                table: "QuestionScores",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionScores_StageId",
+                table: "QuestionScores",
+                column: "StageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subtopics_TopicId",
@@ -506,6 +640,9 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 name: "ProfessionalLevels");
 
             migrationBuilder.DropTable(
+                name: "QuestionScores");
+
+            migrationBuilder.DropTable(
                 name: "QuestionTranslates");
 
             migrationBuilder.DropTable(
@@ -518,13 +655,19 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 name: "Answers");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "AssessmentStages");
 
             migrationBuilder.DropTable(
                 name: "Questions");
 
             migrationBuilder.DropTable(
+                name: "Assessments");
+
+            migrationBuilder.DropTable(
                 name: "Subtopics");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Topics");

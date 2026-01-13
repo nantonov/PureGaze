@@ -19,4 +19,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<Email> Emails { get; set; }
     public DbSet<AssessmentRequest> AssessmentRequests { get; set; }
     public DbSet<Code> Codes { get; set; }
+    public DbSet<Assessment> Assessments { get; set; }
+    public DbSet<AssessmentStage> AssessmentStages { get; set; }
+    public DbSet<QuestionScore> QuestionScores { get; set; }
 }
