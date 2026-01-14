@@ -4,11 +4,11 @@ using PureGaze.Domain.Entities;
 
 namespace PureGaze.Infrastructure.Database.Configurations;
 
-public class QuestionScoreConfiguration : IEntityTypeConfiguration<QuestionScore>
+public class SubtopicScoreConfiguration : IEntityTypeConfiguration<SubtopicScore>
 {
-    public void Configure(EntityTypeBuilder<QuestionScore> builder)
+    public void Configure(EntityTypeBuilder<SubtopicScore> builder)
     {
-        builder.ToTable("QuestionScores");
+        builder.ToTable("SubtopicScores");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
@@ -20,9 +20,9 @@ public class QuestionScoreConfiguration : IEntityTypeConfiguration<QuestionScore
             .WithMany(x => x.Scores)
             .IsRequired();
 
-        builder.HasOne(x => x.Question)
+        builder.HasOne(x => x.Subtopic)
             .WithMany()
-            .HasForeignKey(x => x.QuestionId)
+            .HasForeignKey(x => x.SubtopicId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

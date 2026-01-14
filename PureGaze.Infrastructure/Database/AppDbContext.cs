@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PureGaze.Infrastructure.Database;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) 
+public class AppDbContext(DbContextOptions<AppDbContext> options)
     : DbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
-    
+
     public DbSet<Employee> Employees { get; set; }
     public DbSet<ManagerialLevel> ManagerialLevels { get; set; }
     public DbSet<ProfessionalLevel> ProfessionalLevels { get; set; }
@@ -21,5 +21,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<Code> Codes { get; set; }
     public DbSet<Assessment> Assessments { get; set; }
     public DbSet<AssessmentStage> AssessmentStages { get; set; }
-    public DbSet<QuestionScore> QuestionScores { get; set; }
+    public DbSet<SubtopicScore> SubtopicScores { get; set; }
 }

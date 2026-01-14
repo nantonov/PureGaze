@@ -12,14 +12,11 @@ public class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-
-        builder.Property(x => x.TargetGrade)
-            .HasMaxLength(10);
-
+        
         builder.HasOne<Employee>()
             .WithMany()
             .HasForeignKey(x => x.EmployeeId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne<Template>()
             .WithMany()

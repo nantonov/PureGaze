@@ -13,21 +13,16 @@ public class AssessmentStageConfiguration : IEntityTypeConfiguration<AssessmentS
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
-        builder.Property(x => x.StageType)
-            .HasMaxLength(50)
-            .IsRequired();
-
         builder.Property(x => x.Summary)
             .HasMaxLength(1000);
 
         builder.HasOne(x => x.Assessment)
-            .WithMany(x => x.Stages)
-            .IsRequired();
+            .WithMany(x => x.Stages);
 
         builder.HasMany(x => x.Scores)
             .WithOne(x => x.Stage)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.HasOne(x => x.Topic)
             .WithMany()
             .HasForeignKey(x => x.TopicId)

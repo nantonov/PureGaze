@@ -12,7 +12,7 @@ using PureGaze.Infrastructure.Database;
 namespace PureGaze.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260113223603_Init")]
+    [Migration("20260114150157_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -75,6 +75,9 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CodeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -84,11 +87,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("TargetGrade")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<int>("TemplateId")
                         .HasColumnType("int");
 
@@ -96,6 +94,8 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CodeId");
 
                     b.HasIndex("EmployeeId");
 
@@ -164,11 +164,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
                     b.Property<bool?>("IsRecommended")
                         .HasColumnType("bit");
-
-                    b.Property<string>("StageType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -468,42 +463,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     b.ToTable("Questions", (string)null);
                 });
 
-            modelBuilder.Entity("PureGaze.Domain.Entities.QuestionScore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StageId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("StageId");
-
-                    b.ToTable("QuestionScores", (string)null);
-                });
-
             modelBuilder.Entity("PureGaze.Domain.Entities.QuestionTranslate", b =>
                 {
                     b.Property<int>("QuestionId")
@@ -544,6 +503,42 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     b.HasIndex("TopicId");
 
                     b.ToTable("Subtopics", (string)null);
+                });
+
+            modelBuilder.Entity("PureGaze.Domain.Entities.SubtopicScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubtopicId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StageId");
+
+                    b.HasIndex("SubtopicId");
+
+                    b.ToTable("SubtopicScores", (string)null);
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.SubtopicTranslate", b =>
@@ -651,10 +646,16 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Assessment", b =>
                 {
+                    b.HasOne("PureGaze.Domain.Entities.Code", "Code")
+                        .WithMany()
+                        .HasForeignKey("CodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PureGaze.Domain.Entities.Employee", null)
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PureGaze.Domain.Entities.Template", null)
@@ -662,6 +663,8 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Code");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.AssessmentRequest", b =>
@@ -787,25 +790,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PureGaze.Domain.Entities.QuestionScore", b =>
-                {
-                    b.HasOne("PureGaze.Domain.Entities.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PureGaze.Domain.Entities.AssessmentStage", "Stage")
-                        .WithMany("Scores")
-                        .HasForeignKey("StageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-
-                    b.Navigation("Stage");
-                });
-
             modelBuilder.Entity("PureGaze.Domain.Entities.QuestionTranslate", b =>
                 {
                     b.HasOne("PureGaze.Domain.Entities.Question", null)
@@ -822,6 +806,25 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PureGaze.Domain.Entities.SubtopicScore", b =>
+                {
+                    b.HasOne("PureGaze.Domain.Entities.AssessmentStage", "Stage")
+                        .WithMany("Scores")
+                        .HasForeignKey("StageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PureGaze.Domain.Entities.Subtopic", "Subtopic")
+                        .WithMany()
+                        .HasForeignKey("SubtopicId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Stage");
+
+                    b.Navigation("Subtopic");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.SubtopicTranslate", b =>
