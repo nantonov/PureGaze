@@ -10,9 +10,7 @@ public static class DictionaryExtensions
         => new ()
         {
             Id = dto.Id,
-            LanguageId = dto.LanguageId, 
             Translation = dto.Translation, 
-            ValueId = dto.ValueId, 
             Value = dto.Value, 
             OrderValue = dto.OrderValue
         };
@@ -20,9 +18,7 @@ public static class DictionaryExtensions
     public static void Update(this BaseDictionaryEntity entity, BaseDictionaryDto dto)
     {
         entity.Id = dto.Id;
-        entity.LanguageId = dto.LanguageId;
         entity.Translation = dto.Translation;
-        entity.ValueId = dto.ValueId;
         entity.Value = dto.Value;
         entity.OrderValue = dto.OrderValue;
     }

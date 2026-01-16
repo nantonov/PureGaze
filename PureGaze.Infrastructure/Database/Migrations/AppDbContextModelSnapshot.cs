@@ -374,9 +374,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("OrderValue")
                         .HasColumnType("int");
 
@@ -392,9 +389,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("ValueId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -409,9 +403,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("OrderValue")
                         .HasColumnType("int");
 
@@ -427,9 +418,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("ValueId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

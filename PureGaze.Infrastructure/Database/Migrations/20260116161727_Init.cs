@@ -121,9 +121,7 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     OrderValue = table.Column<int>(type: "int", nullable: true)
                 },
@@ -139,9 +137,7 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Translation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ValueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     OrderValue = table.Column<int>(type: "int", nullable: true)
                 },

@@ -17,17 +17,11 @@ public class GetDictionariesResponse
 
 public class BaseDictionary
 {
-    [JsonPropertyName("id")]
+    [JsonPropertyName("valueId")]
     public Guid Id { get; set; }
-    
-    [JsonPropertyName("languageId")]
-    public Guid LanguageId { get; set; }
     
     [JsonPropertyName("translation")]
     public string Translation { get; set; } = string.Empty;
-    
-    [JsonPropertyName("valueId")]
-    public Guid ValueId { get; set; }
     
     [JsonPropertyName("value")]
     public string Value { get; set; } = string.Empty;
@@ -39,9 +33,7 @@ public class BaseDictionary
         => new()
         {
             Id = dictionary.Id,
-            LanguageId = dictionary.LanguageId,
             Translation = dictionary.Translation,
-            ValueId = dictionary.ValueId,
             Value = dictionary.Value,
             OrderValue =  dictionary.OrderValue
         };
