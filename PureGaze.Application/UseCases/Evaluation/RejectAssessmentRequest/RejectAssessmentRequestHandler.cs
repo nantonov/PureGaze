@@ -11,11 +11,11 @@ public class RejectAssessmentRequestHandler(
 {
     public async Task Handle(RejectAssessmentRequestCommand command, CancellationToken ct = default)
     {
-        var request = await assessmentRequestRepository.GetByIdAsync(command.RequestId, ct)
-            ?? throw new KeyNotFoundException($"Assessment request with Id {command.RequestId} not found.");
-
         if (IsNullOrWhiteSpace(command.Reason))
             throw new ArgumentException("Rejection reason cannot be empty.");
+        
+        var request = await assessmentRequestRepository.GetByIdAsync(command.RequestId, ct)
+            ?? throw new KeyNotFoundException($"Assessment request with Id {command.RequestId} not found.");
         
         request.Status = AssessmentRequestStatus.Rejected;
         request.RejectionReason = command.Reason;
