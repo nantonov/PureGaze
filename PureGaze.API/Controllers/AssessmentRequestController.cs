@@ -53,11 +53,11 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher)
         return Ok(result);
     }
 
-    [HttpPost("{id}/reject")]
-    public async Task<IActionResult> Reject([FromRoute] int id, [FromBody] AssessmentRequestRejectDto dto,
+    [HttpPost("reject")]
+    public async Task<IActionResult> Reject([FromBody] RejectAssessmentRequestCommand command, 
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new RejectAssessmentRequestCommand(id, dto.Reason), ct);
+        await dispatcher.SendAsync(command, ct);
         return Ok();
     }
 }
