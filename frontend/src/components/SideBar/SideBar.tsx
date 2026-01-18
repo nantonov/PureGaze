@@ -1,30 +1,35 @@
 import { NavLink } from "react-router-dom";
 import { menuItems } from "../../config/menu";
+import { useState } from "react";
+import styles from "./SideBar.module.css";
 
 export default function SideBar() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <aside
-      style={{
-        width: "220px",
-        borderRight: "1px solid #ddd",
-        padding: "16px",
-      }}
+    className={`${styles.sidebar} ${
+      collapsed ? styles.collapsed : ""
+    }`}
     >
-      <nav>
+       <div className={styles.header}>
+        <button
+        className={styles.toggle}
+          onClick={() => setCollapsed(v => !v)}>
+            {collapsed ? "expand" : "collapse"}
+        </button>
+      </div>
+
+      <nav className={styles.menu}>
         {menuItems.map((item) => (
-          <div key={item.path}>
-            <NavLink
-              to={item.path}
-              style={({ isActive }) => ({
-                display: "block",
-                padding: "8px",
-                textDecoration: "none",
-                fontWeight: isActive ? "bold" : "normal",
-              })}
-            >
-              {item.label}
-            </NavLink>
-          </div>
+          <NavLink 
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) =>
+              `${styles.link} ${isActive ? styles.active : ""}`
+            }>
+             {!collapsed && item.label}
+          </NavLink>
         ))}
       </nav>
     </aside>

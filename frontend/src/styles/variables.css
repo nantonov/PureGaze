@@ -1,0 +1,13 @@
+:root {
+    --font-main: 'Inter', system-ui, sans-serif;
+
+    --color-bg: #ffffff;
+    --color-text: #1a1a1a;
+    --color-sidebar: #f4f4f5;
+}
+
+[data-theme="dark"] {
+    --color-bg: #0f172a;
+    --color-text: #e5e7eb;
+    --color-sidebar: #020617;
+}
