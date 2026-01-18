@@ -1,0 +1,45 @@
+.header {
+    height: 56px;
+    background-color: var(--color-sidebar);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    font-weight: 600;
+    font-size: 18px;
+  }
+  
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .select {
+    background: none;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: inherit;
+  }
+  
+  .user {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
