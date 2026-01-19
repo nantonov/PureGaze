@@ -11,8 +11,8 @@ public class EmailFactory : IEmailFactory
     public Email CreateAssessmentRequestEmail(string managerEmail, string employeeName)
         => CreateEmail(managerEmail, $"{employeeName} has created a new assessment request");
 
-    public Email CreateAssessmentApprovedEmail(string employeeName)
-        => CreateEmail(employeeName, $"{employeeName} your assessment has been successfully approved");
+    public Email CreateAssessmentApprovedEmail(string employeeEmail,string employeeName)
+        => CreateEmail(employeeEmail, $"{employeeName} your assessment has been successfully approved");
     
     private Email CreateEmail(string to, string body)
     {
