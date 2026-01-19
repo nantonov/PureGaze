@@ -9,10 +9,10 @@ using PureGaze.Infrastructure.Database;
 
 #nullable disable
 
-namespace PureGaze.Infrastructure.Database.Migrations
+namespace PureGaze.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260116161727_Init")]
+    [Migration("20260119154345_Init")]
     partial class Init
     {
         /// <inheritdoc />
