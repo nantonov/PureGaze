@@ -34,7 +34,6 @@ public class AssessmentRequestRepository(AppDbContext context)
             .Include(r => r.Employee)
             .FirstOrDefaultAsync(r => r.Id == id, ct);
     
-
     public async Task<AssessmentRequest?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.AssessmentRequests
             .Include(x => x.Employee)

@@ -2,4 +2,4 @@ using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Evaluation.ApproveAssessmentRequest;
 
-public record ApproveAssessmentRequestCommand(int Id) : IRequest;
+public sealed record ApproveAssessmentRequestCommand(int Id) : IRequest;
