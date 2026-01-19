@@ -32,6 +32,8 @@ public static class DatabaseConfig
         builder.Services.AddScoped<ICodeRepository, CodeRepository>();
         builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         builder.Services.AddScoped<IAssessmentRequestRepository, AssessmentRequestRepository>();
+        builder.Services.AddScoped<IAssessmentRepository, AssessmentRepository>();
+        builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
         builder.Services.Scan(scan => scan 
             .FromApplicationDependencies() 
             .AddClasses(c => c.AssignableTo(typeof(IDictionaryRepository<>))) 

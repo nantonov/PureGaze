@@ -18,8 +18,18 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<ProfessionalLevel> ProfessionalLevels { get; set; }
     public DbSet<Email> Emails { get; set; }
     public DbSet<AssessmentRequest> AssessmentRequests { get; set; }
+    public DbSet<AssessmentStage> AssessmentStages { get; set; }
+    public DbSet<Template> Templates { get; set; }
+    public DbSet<Topic> Topics { get; set; }
+    public DbSet<Subtopic> Subtopics { get; set; }
+    public DbSet<Question> Questions { get; set; }
+    public DbSet<Answer> Answers { get; set; }
     public DbSet<Code> Codes { get; set; }
     public DbSet<Assessment> Assessments { get; set; }
-    public DbSet<AssessmentStage> AssessmentStages { get; set; }
     public DbSet<SubtopicScore> SubtopicScores { get; set; }
+    public DbSet<TopicTranslate> TopicTranslates { get; set; }
+    public DbSet<SubtopicTranslate> SubtopicTranslates { get; set; }
+    public DbSet<QuestionTranslate> QuestionTranslates { get; set; }
+    public DbSet<AnswerTranslate> AnswerTranslates { get; set; }
+    public DbSet<CodeTranslate> CodeTranslates { get; set; }
 }

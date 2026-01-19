@@ -8,7 +8,7 @@ using PureGaze.Infrastructure.Database;
 
 #nullable disable
 
-namespace PureGaze.Infrastructure.Database.Migrations
+namespace PureGaze.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
+using PureGaze.Application.UseCases.Evaluation.ApproveAssessmentRequest;
 using PureGaze.Application.UseCases.Evaluation.CreateAssessmentRequest;
 using PureGaze.Application.UseCases.Evaluation.GetAssessmentRequestDetails;
 using PureGaze.Application.UseCases.Evaluation.GetAssignetToMeRequests;
@@ -17,8 +17,16 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher)
     [HttpPost]
     public async Task<IActionResult> Create(CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new CreateAssessmentRequestCommand(124), ct);
+        await dispatcher.SendAsync(new CreateAssessmentRequestCommand(888), ct);
 
+        return Ok();
+    }
+
+    [HttpPost("approve")]
+    public async Task<IActionResult> Approve([FromBody] ApproveAssessmentRequestCommand command,
+        CancellationToken ct = default)
+    {
+        await dispatcher.SendAsync(command, ct);
         return Ok();
     }
 
@@ -54,7 +62,7 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher)
     }
 
     [HttpPost("reject")]
-    public async Task<IActionResult> Reject([FromBody] RejectAssessmentRequestCommand command, 
+    public async Task<IActionResult> Reject([FromBody] RejectAssessmentRequestCommand command,
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);

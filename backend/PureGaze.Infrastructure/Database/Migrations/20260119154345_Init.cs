@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PureGaze.Infrastructure.Database.Migrations
+namespace PureGaze.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -600,7 +600,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 name: "IX_Topics_TemplateId",
                 table: "Topics",
                 column: "TemplateId");
-            
             migrationBuilder.Sql(@"
                         ALTER TABLE Employees NOCHECK
                         CONSTRAINT FK_Employees_Employees_HeadId
