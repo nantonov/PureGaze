@@ -10,6 +10,9 @@ public class EmailFactory : IEmailFactory
 
     public Email CreateAssessmentRequestEmail(string managerEmail, string employeeName)
         => CreateEmail(managerEmail, $"{employeeName} has created a new assessment request");
+
+    public Email CreateAssessmentApprovedEmail(string employeeName)
+        => CreateEmail(employeeName, $"{employeeName} your assessment has been successfully approved");
     
     private Email CreateEmail(string to, string body)
     {
@@ -20,7 +23,7 @@ public class EmailFactory : IEmailFactory
             Body = body,
             To = to,
             From = FromEmailDefault,
-            
+
             Status = EmailStatus.InQueue
         };
     }

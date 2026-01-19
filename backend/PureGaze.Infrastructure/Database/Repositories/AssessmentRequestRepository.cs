@@ -28,7 +28,14 @@ public class AssessmentRequestRepository(AppDbContext context)
             .Take(pageSize)
             .AsNoTracking()
             .ToListAsync(ct);
-    
+
+    public async Task<AssessmentRequest?> GetByIdWithEmployeeAsync(int id, CancellationToken ct)
+    {
+        return await context.AssessmentRequests
+            .Include(r => r.Employee)
+            .FirstOrDefaultAsync(r => r.Id == id, ct);
+    }
+
     public async Task<AssessmentRequest?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.AssessmentRequests
             .Include(x => x.Employee)
