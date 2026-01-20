@@ -15,9 +15,9 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
         builder.Property(o => o.Id)
             .ValueGeneratedOnAdd();
         
-        builder.HasOne<Question>()
-            .WithMany() 
-            .HasForeignKey(o => o.QuestionId)
+        builder.HasOne(o => o.Question)
+            .WithOne(o => o.Answer) 
+            .HasForeignKey<Answer>(o => o.QuestionId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
