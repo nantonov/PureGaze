@@ -1,5 +1,6 @@
-import { EmployeeMenu } from "../EmployeeMenu/EmployeeMenu";
+import { EmployeeMenu } from "@/components/EmployeeMenu/EmployeeMenu";
 import styles from "./Header.module.css";
+import AuthButtons from "@/components/AuthButtons/AuthButtons";
 
 export default function Header() {
   return (
@@ -7,10 +8,10 @@ export default function Header() {
       <div className={styles.left}>
         <span className={styles.logo}>Inno Assessment Portal</span>
       </div>
-
-        <div className={styles.right}>
-          <EmployeeMenu />
+      <AuthButtons />
+      <div className={styles.right}>
+        <EmployeeMenu />
       </div>
     </header>
   );
-};
+}

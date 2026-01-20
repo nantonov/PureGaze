@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useEmployee } from "../../app/context/EmployeeContext";
-import { useTheme } from "../../app/context/ThemeContext";
-import { useLanguage } from "../../app/context/LanguageContext";
+import { useEmployee } from "@/app/context/EmployeeContext";
+import { useTheme } from "@/app/context/ThemeContext";
+import { useLanguage } from "@/app/context/LanguageContext";
+import styles from "./EmployeeMenu.module.css";
 
 export const EmployeeMenu = () => {
   const { employee } = useEmployee();
@@ -13,22 +14,23 @@ export const EmployeeMenu = () => {
   if (!employee) return null;
 
   return (
-    <div className="user-menu">
-      <button onClick={() => setOpen(o => !o)}>
+    <div className={styles.userMenu}>
+      <button onClick={() => setOpen((o) => !o)}>
         {employee.lastName} {employee.firstName}
       </button>
 
       {open && (
-        <div className="dropdown">
-          <div className="dropdown-item" onClick={toggle}>
+        <div className={styles.dropdown}>
+          <button type="button" className={styles.dropdownItem} onClick={toggle}>
             Theme: {theme}
-          </div>
+          </button>
 
-          <div className="dropdown-item">
-            Language:
+          <div className={styles.dropdownItem}>
+            <span>Language:</span>
             <select
+              className={styles.select}
               value={language}
-              onChange={e => setLanguage(e.target.value as any)}
+              onChange={(e) => setLanguage(e.target.value === "ru" ? "ru" : "en")}
             >
               <option value="en">EN</option>
               <option value="ru">RU</option>
