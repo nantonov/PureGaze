@@ -11,16 +11,35 @@ public class UpdateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
 {
     public async Task Handle(UpdateSubtopicCommand command, CancellationToken ct = default)
     {
+        ValidateInput(command);
+
         var subtopic = await subtopicRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Subtopic with Id {command.Id} not found.");
 
-        var newNames = command.Translates
+        await ValidateUniquenessAsync(subtopic, command.Translates, ct);
+
+        subtopic.Update(command.Translates);
+
+        await subtopicRepository.SaveChangesAsync(ct);
+    }
+
+    private void ValidateInput(UpdateSubtopicCommand command)
+    {
+        ArgumentNullException.ThrowIfNull(command.Translates);
+
+        if (command.Translates.Count == 0)
+            throw new ArgumentException("At least one subtopic translate is required.");
+    }
+
+    private async Task ValidateUniquenessAsync(Subtopic subtopic, List<UpdateSubtopicTranslateDto> translates, CancellationToken ct)
+    {
+        var newNames = translates
             .Where(tDto => !subtopic.SubtopicTranslates.Any(st => st.Language == tDto.Language && st.Name == tDto.Name))
             .Select(tDto => tDto.Name)
             .Distinct()
             .ToList();
 
-        if (newNames.Any())
+        if (newNames.Count > 0)
         {
             var existingName = await subtopicRepository.GetAnyExistingNameAsync(subtopic.TopicId, newNames, subtopic.Id, ct);
             if (existingName != null)
@@ -28,16 +47,5 @@ public class UpdateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
                 throw new ValidationException($"Subtopic with name '{existingName}' already exists in topic '{subtopic.TopicId}'.");
             }
         }
-
-        foreach (var translateDto in command.Translates)
-        {
-            subtopic.SubtopicTranslates.SyncTranslate(
-                translateDto.Language,
-                t => t.Name = translateDto.Name,
-                lang => new SubtopicTranslate { SubtopicId = subtopic.Id, Language = lang, Name = translateDto.Name },
-                t => t.Language == translateDto.Language);
-        }
-
-        await subtopicRepository.SaveChangesAsync(ct);
     }
 }

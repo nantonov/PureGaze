@@ -1,4 +1,5 @@
 using PureGaze.Application.Abstractions.Infrastructure;
+using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
 
@@ -11,37 +12,26 @@ public class CreateQuestionWithAnswerCommandHandler(
 {
     public async Task<int> Handle(CreateQuestionWithAnswerCommand command, CancellationToken ct = default)
     {
-        ArgumentNullException.ThrowIfNull(command.Translates);
-        ArgumentNullException.ThrowIfNull(command.Answer);
-        ArgumentNullException.ThrowIfNull(command.Answer.Translates);
-
-        if (!command.Translates.Any()) throw new ArgumentException("At least one question translate is required.");
-        if (!command.Answer.Translates.Any()) throw new ArgumentException("At least one answer translate is required.");
-
-        var subtopic = await subtopicRepository.GetByIdAsync(command.SubTopicId, ct)
+        ValidateInput(command);
+        
+        _ = await subtopicRepository.GetByIdAsync(command.SubTopicId, ct)
             ?? throw new KeyNotFoundException($"Subtopic with Id {command.SubTopicId} not found.");
 
-        var question = new Question
-        {
-            SubTopicId = command.SubTopicId,
-            QuestionTranslates = command.Translates.Select(t => new QuestionTranslate
-            {
-                Language = t.Language,
-                Content = t.Content
-            }).ToList(),
-            Answer = new Answer
-            {
-                AnswerTranslates = command.Answer.Translates.Select(t => new AnswerTranslate
-                {
-                    Language = t.Language,
-                    Content = t.Content
-                }).ToList()
-            }
-        };
+        var question = command.ToEntity();
 
         await questionRepository.AddAsync(question, ct);
         await questionRepository.SaveChangesAsync(ct);
 
         return question.Id;
+    }
+
+    private void ValidateInput(CreateQuestionWithAnswerCommand command)
+    {
+        ArgumentNullException.ThrowIfNull(command.Translates);
+        ArgumentNullException.ThrowIfNull(command.Answer);
+        ArgumentNullException.ThrowIfNull(command.Answer.Translates);
+
+        if (command.Translates.Count == 0) throw new ArgumentException("At least one question translate is required.");
+        if (command.Answer.Translates.Count == 0) throw new ArgumentException("At least one answer translate is required.");
     }
 }

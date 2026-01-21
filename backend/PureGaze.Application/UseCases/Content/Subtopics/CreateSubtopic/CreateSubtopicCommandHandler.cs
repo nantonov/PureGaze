@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using PureGaze.Application.Abstractions.Infrastructure;
+using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
 
@@ -10,6 +11,27 @@ public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
 {
     public async Task Handle(CreateSubtopicCommand command, CancellationToken ct = default)
     {
+        ValidateInput(command);
+        await ValidateUniquenessAsync(command, ct);
+        
+        var subtopic = command.ToEntity();
+
+        await subtopicRepository.AddAsync(subtopic, ct);
+        await subtopicRepository.SaveChangesAsync(ct);
+    }
+
+    private void ValidateInput(CreateSubtopicCommand command)
+    {
+        ArgumentNullException.ThrowIfNull(command.Translates);
+        ArgumentNullException.ThrowIfNull(command.Questions);
+
+        if (command.Translates.Count == 0)
+            throw new ArgumentException("At least one subtopic translate is required.");
+    }
+    
+    private async Task ValidateUniquenessAsync(CreateSubtopicCommand command, CancellationToken ct)
+    {
+        // Validate subtopic names uniqueness
         var names = command.Translates.Select(t => t.Name).ToList();
         var existingName = await subtopicRepository.GetAnyExistingNameAsync(command.TopicId, names, null, ct);
         
@@ -17,34 +39,5 @@ public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
         {
             throw new ValidationException($"Subtopic with name '{existingName}' already exists in topic '{command.TopicId}'.");
         }
-
-        var subtopic = new Subtopic
-        {
-            TopicId = command.TopicId,
-            SubtopicTranslates = command.Translates.Select(t => new SubtopicTranslate
-            {
-                Language = t.Language,
-                Name = t.Name
-            }).ToList(),
-            Questions = command.Questions.Select(qDto => new Question
-            {
-                QuestionTranslates = qDto.Translates.Select(t => new QuestionTranslate
-                {
-                    Language = t.Language,
-                    Content = t.Content
-                }).ToList(),
-                Answer = new Answer
-                {
-                    AnswerTranslates = qDto.Answer.Translates.Select(t => new AnswerTranslate
-                    {
-                        Language = t.Language,
-                        Content = t.Content
-                    }).ToList()
-                }
-            }).ToList()
-        };
-
-        await subtopicRepository.AddAsync(subtopic, ct);
-        await subtopicRepository.SaveChangesAsync(ct);
     }
 }

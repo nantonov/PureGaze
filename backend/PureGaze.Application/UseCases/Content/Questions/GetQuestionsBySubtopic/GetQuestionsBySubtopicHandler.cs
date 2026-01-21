@@ -1,5 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Contracts.Application;
+using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,15 +13,6 @@ public class GetQuestionsBySubtopicHandler(IQuestionRepository questionRepositor
     {
         var questions = await questionRepository.GetBySubTopicIdAsync(query.SubTopicId, ct);
 
-        return questions.Select(q => new QuestionDto
-        {
-            Id = q.Id,
-            SubTopicId = q.SubTopicId,
-            Translates = q.QuestionTranslates.Select(t => new QuestionTranslateInfoDto
-            {
-                Language = t.Language,
-                Content = t.Content
-            }).ToList()
-        }).ToList();
+        return questions.Select(q => q.ToDto()).ToList();
     }
 }

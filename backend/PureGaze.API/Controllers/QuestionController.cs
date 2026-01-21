@@ -19,7 +19,7 @@ public class QuestionController(IRequestDispatcher dispatcher) : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("by-subtopic/{subTopicId}")]
+    [HttpGet("subtopic/{subTopicId}")]
     public async Task<IActionResult> GetBySubtopic([FromRoute] int subTopicId, CancellationToken ct = default)
     {
         var result = await dispatcher.SendAsync<GetQuestionsBySubtopicQuery, List<QuestionDto>>(new GetQuestionsBySubtopicQuery(subTopicId), ct);

@@ -18,14 +18,11 @@ public class AnswerController(IRequestDispatcher dispatcher) : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("by-question/{questionId}")]
+    [HttpGet("question/{questionId}")]
     public async Task<IActionResult> GetByQuestion([FromRoute] int questionId, CancellationToken ct = default)
     {
         var result = await dispatcher.SendAsync<GetAnswersByQuestionQuery, AnswerDto?>(new GetAnswersByQuestionQuery(questionId), ct);
         
-        if (result == null)
-            return NotFound();
-            
         return Ok(result);
     }
 

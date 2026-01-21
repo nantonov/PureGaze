@@ -10,18 +10,21 @@ public class UpdateAnswerCommandHandler(IAnswerRepository answerRepository)
 {
     public async Task Handle(UpdateAnswerCommand command, CancellationToken ct = default)
     {
+        ValidateInput(command);
+
         var answer = await answerRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Answer with Id {command.Id} not found.");
 
-        foreach (var translateDto in command.Translates)
-        {
-            answer.AnswerTranslates.SyncTranslate(
-                translateDto.Language,
-                t => t.Content = translateDto.Content,
-                lang => new AnswerTranslate { AnswerId = answer.Id, Language = lang, Content = translateDto.Content },
-                t => t.Language == translateDto.Language);
-        }
+        answer.Update(command.Translates);
 
         await answerRepository.SaveChangesAsync(ct);
+    }
+
+    private static void ValidateInput(UpdateAnswerCommand command)
+    {
+        ArgumentNullException.ThrowIfNull(command.Translates);
+
+        if (command.Translates.Count == 0)
+            throw new ArgumentException("At least one answer translate is required.");
     }
 }
