@@ -1,0 +1,8 @@
+project_prefix      = "puregaze" 
+environment         = "dev"
+location            = ""
+
+sql_admin_login     = "adminuser"
+sql_admin_password  = "YourSecurePassword123!"
+
+storage_account_name = "youruniquestateaccount"
