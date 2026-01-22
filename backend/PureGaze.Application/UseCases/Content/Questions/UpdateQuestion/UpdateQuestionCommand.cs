@@ -10,6 +10,6 @@ public record UpdateQuestionCommand(
 
 public record UpdateQuestionTranslateDto(Language Language, string Content);
 
-public record UpdateQuestionAnswerDto(List<UpdateAnswerTranslateDto> Translates);
+public record UpdateQuestionAnswerDto(List<UpdateQuestionAnswerTranslateDto> Translates);
 
-public record UpdateAnswerTranslateDto(Language Language, string Content);
+public record UpdateQuestionAnswerTranslateDto(Language Language, string Content);
