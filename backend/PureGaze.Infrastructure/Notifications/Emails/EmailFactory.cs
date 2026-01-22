@@ -11,8 +11,12 @@ public class EmailFactory : IEmailFactory
     public Email CreateAssessmentRequestEmail(string managerEmail, string employeeName)
         => CreateEmail(managerEmail, $"{employeeName} has created a new assessment request");
 
-    public Email CreateAssessmentApprovedEmail(string employeeEmail, string employeeFirstName, string employeeLastName)
-        => CreateEmail(employeeEmail, $"{employeeFirstName} {employeeLastName}, your assessment has been successfully approved");
+    public Email CreateAssessmentApprovedEmail(string employeeEmail, string employeeName)
+        => CreateEmail(employeeEmail, $"{employeeName}, your assessment has been successfully approved");
+
+    public Email CreateAssessmentRejectedEmail(string employeeEmail, string employeeName, string rejectionReason)
+        => CreateEmail(employeeEmail, $"{employeeName}, your assessment request has been rejected. Reason: {rejectionReason}");
+
     private Email CreateEmail(string to, string body)
     {
         return new Email
