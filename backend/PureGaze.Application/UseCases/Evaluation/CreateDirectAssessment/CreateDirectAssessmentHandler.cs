@@ -20,7 +20,9 @@ public class CreateDirectAssessmentHandler(
         var employee = await employeeRepository.GetByIdAsync(command.EmployeeId, ct)
             ?? throw new KeyNotFoundException($"Employee with Id {command.EmployeeId} not found.");
 
-        ValidateManagerIsLinkedToEmployee(command.ManagerId, employee);
+        if (employee.M1Id != command.ManagerId && employee.M3Id != command.ManagerId)
+            throw new UnauthorizedAccessException(
+                $"Manager with Id {command.ManagerId} is not linked to Employee with Id {employee.Id} as M1 or M3.");
 
         if (employee.ProfessionalLevelId == null)
             throw new ValidationException($"Professional Level for Employee with Id {command.EmployeeId} is not set.");
@@ -46,21 +48,11 @@ public class CreateDirectAssessmentHandler(
 
         await assessmentRepository.AddAsync(assessment, ct);
 
-        var email = emailFactory.CreateAssessmentCreatedByManagerEmail(
+        var email = emailFactory.CreateAssessmentDirectByManagerEmail(
             employee.Email!,
             $"{employee.FirstNameEn} {employee.LastNameEn}");
 
         await emailRepository.AddAsync(email, ct);
         await emailRepository.SaveChangesAsync(ct);
-    }
-
-    private static void ValidateManagerIsLinkedToEmployee(int managerId, Employee employee)
-    {
-        var isM1 = employee.M1Id == managerId;
-        var isM3 = employee.M3Id == managerId;
-
-        if (!isM1 && !isM3)
-            throw new UnauthorizedAccessException(
-                $"Manager with Id {managerId} is not linked to Employee with Id {employee.Id} as M1 or M3.");
     }
 }

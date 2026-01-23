@@ -17,7 +17,7 @@ public class EmailFactory : IEmailFactory
     public Email CreateAssessmentRejectedEmail(string employeeEmail, string employeeName, string rejectionReason)
         => CreateEmail(employeeEmail, $"{employeeName}, your assessment request has been rejected. Reason: {rejectionReason}");
 
-    public Email CreateAssessmentCreatedByManagerEmail(string employeeEmail, string employeeName)
+    public Email CreateAssessmentDirectByManagerEmail(string employeeEmail, string employeeName)
         => CreateEmail(employeeEmail, $"{employeeName}, your manager has created an assessment for you");
 
     private Email CreateEmail(string to, string body)
