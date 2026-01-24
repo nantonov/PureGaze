@@ -4,9 +4,13 @@ public class Employee : BaseEntity<int>
 {
     public string? FirstNameEn { get; set; }
     public string? LastNameEn { get; set; }
-    public Guid? ProfessionalLevelId { get; set; }
-    public Guid? ManagerialLevelId { get; set; }
     public string? Email { get; set; }
+    
+    public Guid? ProfessionalLevelId { get; set; }
+    public ProfessionalLevel? ProfessionalLevel { get; set; }
+    
+    public Guid? ManagerialLevelId { get; set; }
+    public ManagerialLevel? ManagerialLevel { get; set; }
     
     public int? ManagerId { get; set; }
     public Employee? Manager  { get; set; } 
