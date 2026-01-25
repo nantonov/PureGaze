@@ -1,3 +1,3 @@
-export default function AssessmnetRequest() {
-  return <h1>AssessmnetRequest</h1>;
+export default function AssessmentRequest() {
+  return <h1>AssessmentRequest</h1>;
 }

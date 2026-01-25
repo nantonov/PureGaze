@@ -1,17 +1,27 @@
 import { useState } from "react";
-import { useEmployee } from "@/app/context/EmployeeContext";
-import { useTheme } from "@/app/context/ThemeContext";
-import { useLanguage } from "@/app/context/LanguageContext";
+import { useEmployee } from "@/contexts/EmployeeContext";
+import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./EmployeeMenu.module.css";
 
 export const EmployeeMenu = () => {
-  const { employee } = useEmployee();
+  const { employee, setEmployee  } = useEmployee();
   const { theme, toggle } = useTheme();
   const { language, setLanguage } = useLanguage();
-
+  const { logout } = useAuth0();
   const [open, setOpen] = useState(false);
 
   if (!employee) return null;
+
+  const handleLogout = () => {
+    setEmployee(null);
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
+  };
 
   return (
     <div className={styles.userMenu}>
@@ -36,6 +46,13 @@ export const EmployeeMenu = () => {
               <option value="ru">RU</option>
             </select>
           </div>
+          <button
+            type="button"
+            className={styles.dropdownItem}
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       )}
     </div>

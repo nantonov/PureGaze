@@ -1,25 +1,22 @@
-export type MenuItem = {
-  label: string;
-  path: string;
-  roles?: string[];
-};
+import type { MenuItem } from "@/types/MenuItem";
+import { ROUTES } from "@/shared/constants";
 
 export const menuItems: MenuItem[] = [
   {
     label: "Dashboard",
-    path: "/",
+    path: ROUTES.DASHBOARD,
   },
   {
     label: "Assessment Requests",
-    path: "/assessment-requests",
+    path: ROUTES.ASSESSMENT_REQUESTS,
   },
   {
     label: "Assessments",
-    path: "/assessments",
+    path: ROUTES.ASSESSMENTS,
   },
   {
     label: "Employees",
-    path: "/employees",
+    path: ROUTES.EMPLOYEES,
     roles: ["admin"],
   },
 ];

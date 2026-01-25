@@ -3,5 +3,5 @@ export interface Employee {
   firstName: string;
   lastName: string;
   email: string;
-  role?: "admin" | "employee";
+  managerLevelId?: string;
 }

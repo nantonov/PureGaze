@@ -1,0 +1,27 @@
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(52, 52, 52)
+}
+
+.logo {
+    width: 200px;
+    height: 80px;
+    background-image: url("../../assets/logo.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.btn {
+    background-color: rgb(170, 34, 34);
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
