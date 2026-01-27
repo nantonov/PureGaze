@@ -13,11 +13,13 @@ export default function Login() {
   }
 
   return (
-    <div className={styles.content}>
-      <div className={styles.logo}></div>
-      <button className={styles.btn} onClick={handleLogin}>
-        Continue with Google
-      </button>
+    <div className={styles.pageWrapper}>
+      <div className={styles.content}>
+        <div className={styles.logo}></div>
+        <button className={styles.btn} onClick={handleLogin}>
+          Continue with Google
+        </button>
+      </div>
     </div>
   );
 }
