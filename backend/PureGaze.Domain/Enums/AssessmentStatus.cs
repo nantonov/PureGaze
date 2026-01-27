@@ -1,5 +1,9 @@
+using System.Text.Json.Serialization;
+using PureGaze.Domain.Converters;
+
 namespace PureGaze.Domain.Enums;
 
+[JsonConverter(typeof(EnumTypeConverter<AssessmentStatus>))]
 public enum AssessmentStatus
 {
     Created = 1,
