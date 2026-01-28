@@ -1,18 +1,18 @@
 .layout {
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
 }
 
 .body {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-  }
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
 
 .content {
-    flex: 1;
-    padding: 24px;
-    overflow: auto;
-    background-color: var(--color-bg);
+  flex: 1;
+  padding: 24px;
+  overflow: auto;
+  background-color: var(--background);
 }

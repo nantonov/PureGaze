@@ -23,6 +23,6 @@
 }
 
 .message {
-  color: var(--color-text-secondary, #666);
+  color: var(--text-color-secondary, #666);
   font-size: 0.9rem;
 }
