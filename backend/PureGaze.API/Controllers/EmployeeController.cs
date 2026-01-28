@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Staff.GetCurrentEmployee;
+using PureGaze.Application.UseCases.Staff.UpdateEmployeeLanguage;
+using PureGaze.Application.UseCases.Staff.UpdateEmployeeTheme;
 
 namespace PureGaze.API.Controllers;
 
@@ -19,5 +21,25 @@ public class EmployeeController(IRequestDispatcher dispatcher)
                 .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>(new GetCurrentEmployeeQuery(Email), ct);
         
         return Ok(response);
+    }
+    
+    [HttpPut("theme")]
+    public async Task<IActionResult> UpdateTheme([FromBody]UpdateEmployeeThemeCommand command, CancellationToken ct)
+    {
+        command.Email = Email;
+        
+        await dispatcher.SendAsync(command, ct);
+        
+        return Ok();
+    }
+    
+    [HttpPut("lanaguage")]
+    public async Task<IActionResult> UpdateLanguage([FromBody]UpdateEmployeeLanguageCommand command, CancellationToken ct)
+    {
+        command.Email = Email;
+        
+        await dispatcher.SendAsync(command, ct);
+        
+        return Ok();
     }
 }

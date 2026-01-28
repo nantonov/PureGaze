@@ -33,6 +33,8 @@ public class Employee : BaseEntity<int>
     public int? M4Id { get; set; }
     public Employee? M4 { get; set; }
 
+    public EmployeeSettings EmployeeSettings { get; set; }
+    
     public DateTime HireDate { get; set; }
     public DateTime? TerminationDate { get; set; }
     public string? LifecycleStatus { get; set; }

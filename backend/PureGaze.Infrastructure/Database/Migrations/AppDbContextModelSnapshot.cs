@@ -8,7 +8,7 @@ using PureGaze.Infrastructure.Database;
 
 #nullable disable
 
-namespace PureGaze.Infrastructure.Migrations
+namespace PureGaze.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -361,9 +361,29 @@ namespace PureGaze.Infrastructure.Migrations
 
                     b.HasIndex("ManagerId");
 
+                    b.HasIndex("ManagerialLevelId");
+
+                    b.HasIndex("ProfessionalLevelId");
+
                     b.HasIndex("RMId");
 
                     b.ToTable("Employees", (string)null);
+                });
+
+            modelBuilder.Entity("PureGaze.Domain.Entities.EmployeeSettings", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Theme")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId");
+
+                    b.ToTable("EmployeeSettings", (string)null);
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.ManagerialLevel", b =>
@@ -746,6 +766,14 @@ namespace PureGaze.Infrastructure.Migrations
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("PureGaze.Domain.Entities.ManagerialLevel", "ManagerialLevel")
+                        .WithMany()
+                        .HasForeignKey("ManagerialLevelId");
+
+                    b.HasOne("PureGaze.Domain.Entities.ProfessionalLevel", "ProfessionalLevel")
+                        .WithMany()
+                        .HasForeignKey("ProfessionalLevelId");
+
                     b.HasOne("PureGaze.Domain.Entities.Employee", "RM")
                         .WithMany()
                         .HasForeignKey("RMId")
@@ -763,7 +791,22 @@ namespace PureGaze.Infrastructure.Migrations
 
                     b.Navigation("Manager");
 
+                    b.Navigation("ManagerialLevel");
+
+                    b.Navigation("ProfessionalLevel");
+
                     b.Navigation("RM");
+                });
+
+            modelBuilder.Entity("PureGaze.Domain.Entities.EmployeeSettings", b =>
+                {
+                    b.HasOne("PureGaze.Domain.Entities.Employee", "Employee")
+                        .WithOne("EmployeeSettings")
+                        .HasForeignKey("PureGaze.Domain.Entities.EmployeeSettings", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Question", b =>
@@ -866,6 +909,12 @@ namespace PureGaze.Infrastructure.Migrations
             modelBuilder.Entity("PureGaze.Domain.Entities.Code", b =>
                 {
                     b.Navigation("CodeTranslates");
+                });
+
+            modelBuilder.Entity("PureGaze.Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("EmployeeSettings")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Question", b =>

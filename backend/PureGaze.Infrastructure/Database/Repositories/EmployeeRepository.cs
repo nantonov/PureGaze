@@ -25,6 +25,7 @@ public class EmployeeRepository(AppDbContext dbContext)
     public async Task<Employee?> GetByEmailAsync(string email, CancellationToken ct = default) 
         => await dbContext.Employees
             .Include(x => x.ManagerialLevel)
+            .Include(x => x.EmployeeSettings)
             .FirstOrDefaultAsync(x => x.Email == email, ct);
 
     public async Task AddAsync(Employee employee, CancellationToken ct = default)

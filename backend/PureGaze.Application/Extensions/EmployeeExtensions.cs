@@ -1,5 +1,6 @@
 ﻿using PureGaze.Domain.Entities;
 using PureGaze.Application.Contracts.Integrations.Hrm;
+using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.Extensions;
 
@@ -25,7 +26,12 @@ public static class EmployeeExtensions
             Hash = dto.Hash,
             HireDate = dto.HireDate,
             TerminationDate = dto.TerminationDate,
-            LifecycleStatus =  dto.LifecycleStatus
+            LifecycleStatus =  dto.LifecycleStatus,
+            EmployeeSettings = new EmployeeSettings
+            {
+                Theme = Theme.Dark,
+                Language = Language.English
+            }
         };
     
     public static void Update(this Employee emp, EmployeeDto dto)

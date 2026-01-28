@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PureGaze.Infrastructure.Migrations
+namespace PureGaze.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -48,70 +48,6 @@ namespace PureGaze.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Emails", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    FirstNameEn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    LastNameEn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ProfessionalLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ManagerialLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ManagerId = table.Column<int>(type: "int", nullable: true),
-                    HeadId = table.Column<int>(type: "int", nullable: true),
-                    RMId = table.Column<int>(type: "int", nullable: true),
-                    M1Id = table.Column<int>(type: "int", nullable: true),
-                    M2Id = table.Column<int>(type: "int", nullable: true),
-                    M3Id = table.Column<int>(type: "int", nullable: true),
-                    M4Id = table.Column<int>(type: "int", nullable: true),
-                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TerminationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LifecycleStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Hash = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_HeadId",
-                        column: x => x.HeadId,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_M1Id",
-                        column: x => x.M1Id,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_M2Id",
-                        column: x => x.M2Id,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_M3Id",
-                        column: x => x.M3Id,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_M4Id",
-                        column: x => x.M4Id,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_ManagerId",
-                        column: x => x.ManagerId,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_RMId",
-                        column: x => x.RMId,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -182,6 +118,101 @@ namespace PureGaze.Infrastructure.Migrations
                         name: "FK_Templates_Codes_CodeId",
                         column: x => x.CodeId,
                         principalTable: "Codes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    FirstNameEn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastNameEn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ProfessionalLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ManagerialLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ManagerId = table.Column<int>(type: "int", nullable: true),
+                    HeadId = table.Column<int>(type: "int", nullable: true),
+                    RMId = table.Column<int>(type: "int", nullable: true),
+                    M1Id = table.Column<int>(type: "int", nullable: true),
+                    M2Id = table.Column<int>(type: "int", nullable: true),
+                    M3Id = table.Column<int>(type: "int", nullable: true),
+                    M4Id = table.Column<int>(type: "int", nullable: true),
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TerminationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LifecycleStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hash = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_HeadId",
+                        column: x => x.HeadId,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_M1Id",
+                        column: x => x.M1Id,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_M2Id",
+                        column: x => x.M2Id,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_M3Id",
+                        column: x => x.M3Id,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_M4Id",
+                        column: x => x.M4Id,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_Employees_RMId",
+                        column: x => x.RMId,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_ManagerialLevels_ManagerialLevelId",
+                        column: x => x.ManagerialLevelId,
+                        principalTable: "ManagerialLevels",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employees_ProfessionalLevels_ProfessionalLevelId",
+                        column: x => x.ProfessionalLevelId,
+                        principalTable: "ProfessionalLevels",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Topics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TemplateId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Topics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Topics_Templates_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "Templates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -258,62 +289,22 @@ namespace PureGaze.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topics",
+                name: "EmployeeSettings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TemplateId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Language = table.Column<int>(type: "int", nullable: false),
+                    Theme = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Topics", x => x.Id);
+                    table.PrimaryKey("PK_EmployeeSettings", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_Topics_Templates_TemplateId",
-                        column: x => x.TemplateId,
-                        principalTable: "Templates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AssessmentStages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AssessmentId = table.Column<int>(type: "int", nullable: false),
-                    TopicId = table.Column<int>(type: "int", nullable: false),
-                    AssessorId = table.Column<int>(type: "int", nullable: true),
-                    Summary = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    IsRecommended = table.Column<bool>(type: "bit", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssessmentStages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AssessmentStages_Assessments_AssessmentId",
-                        column: x => x.AssessmentId,
-                        principalTable: "Assessments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssessmentStages_Employees_AssessorId",
-                        column: x => x.AssessorId,
+                        name: "FK_EmployeeSettings_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AssessmentStages_Topics_TopicId",
-                        column: x => x.TopicId,
-                        principalTable: "Topics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -357,6 +348,44 @@ namespace PureGaze.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AssessmentStages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssessmentId = table.Column<int>(type: "int", nullable: false),
+                    TopicId = table.Column<int>(type: "int", nullable: false),
+                    AssessorId = table.Column<int>(type: "int", nullable: true),
+                    Summary = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    IsRecommended = table.Column<bool>(type: "bit", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssessmentStages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AssessmentStages_Assessments_AssessmentId",
+                        column: x => x.AssessmentId,
+                        principalTable: "Assessments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssessmentStages_Employees_AssessorId",
+                        column: x => x.AssessorId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AssessmentStages_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -372,6 +401,25 @@ namespace PureGaze.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Questions_Subtopics_SubTopicId",
                         column: x => x.SubTopicId,
+                        principalTable: "Subtopics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubtopicTranslates",
+                columns: table => new
+                {
+                    SubtopicId = table.Column<int>(type: "int", nullable: false),
+                    Language = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubtopicTranslates", x => new { x.SubtopicId, x.Language });
+                    table.ForeignKey(
+                        name: "FK_SubtopicTranslates_Subtopics_SubtopicId",
+                        column: x => x.SubtopicId,
                         principalTable: "Subtopics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -405,25 +453,6 @@ namespace PureGaze.Infrastructure.Migrations
                         principalTable: "Subtopics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SubtopicTranslates",
-                columns: table => new
-                {
-                    SubtopicId = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubtopicTranslates", x => new { x.SubtopicId, x.Language });
-                    table.ForeignKey(
-                        name: "FK_SubtopicTranslates_Subtopics_SubtopicId",
-                        column: x => x.SubtopicId,
-                        principalTable: "Subtopics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -561,9 +590,19 @@ namespace PureGaze.Infrastructure.Migrations
                 column: "M4Id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Employees_ManagerialLevelId",
+                table: "Employees",
+                column: "ManagerialLevelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_ManagerId",
                 table: "Employees",
                 column: "ManagerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_ProfessionalLevelId",
+                table: "Employees",
+                column: "ProfessionalLevelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_RMId",
@@ -600,6 +639,7 @@ namespace PureGaze.Infrastructure.Migrations
                 name: "IX_Topics_TemplateId",
                 table: "Topics",
                 column: "TemplateId");
+            
             migrationBuilder.Sql(@"
                         ALTER TABLE Employees NOCHECK
                         CONSTRAINT FK_Employees_Employees_HeadId
@@ -639,10 +679,7 @@ namespace PureGaze.Infrastructure.Migrations
                 name: "Emails");
 
             migrationBuilder.DropTable(
-                name: "ManagerialLevels");
-
-            migrationBuilder.DropTable(
-                name: "ProfessionalLevels");
+                name: "EmployeeSettings");
 
             migrationBuilder.DropTable(
                 name: "QuestionTranslates");
@@ -676,6 +713,12 @@ namespace PureGaze.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Topics");
+
+            migrationBuilder.DropTable(
+                name: "ManagerialLevels");
+
+            migrationBuilder.DropTable(
+                name: "ProfessionalLevels");
 
             migrationBuilder.DropTable(
                 name: "Templates");
