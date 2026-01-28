@@ -1,25 +1,25 @@
 .header {
-    height: 56px;
-    background-color: var(--color-sidebar);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-  }
-  
-  .left {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo {
-    font-weight: 600;
-    font-size: 18px;
-  }
-  
-  .right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  height: 56px;
+  background-color: var(--sidebar-background);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
