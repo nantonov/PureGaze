@@ -90,3 +90,40 @@ variable "st_replication_type" {
   description = "Storage account replication type"
   default     = "LRS"
 }
+
+variable "app_service_sku" {
+  type        = string
+  description = "App Service SKU (F1, B1, etc.)"
+  default     = "F1"
+}
+
+variable "dotnet_version" {
+  type        = string
+  description = "Dotnet version for App Service"
+  default     = "10.0"
+}
+
+variable "azure_service_plan_os_type" {
+  type = string
+  description = "OS type"
+  default = "Linux"
+}
+
+variable "azure_subscription_id" {
+  type = string
+  description = "Azure subscription id"
+}
+variable "swa_location" {
+  type    = string
+  default = "westus2"
+}
+
+variable "swa_sku_tier" {
+  type    = string
+  default = "Free"
+}
+
+variable "swa_sku_size" {
+  type = string 
+  default = "Free"
+}
