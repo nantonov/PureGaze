@@ -8,10 +8,59 @@ on:
       - 'backend/**'
   workflow_dispatch:
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+permissions:
+  id-token: write
+  contents: read
 
+env:
+  TF_RESOURCE_GROUP: "puregaze-tf-rg"
+  TF_STORAGE_ACCOUNT: "puregaze2026storage"
+  TF_CONTAINER_NAME: "tfstate"
+  TF_KEY: "dev.terraform.tfstate"
+  TF_WORKING_DIR: "backend/PureGaze.Infrastructure/Terraform"
+
+jobs:
+  infrastructure:
+    name: 'Provision Infrastructure'
+    runs-on: ubuntu-latest
+    environment: 'Development'
+    
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_USE_OIDC: true
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: |
+        terraform init \
+          -backend-config="resource_group_name=${{ env.TF_RESOURCE_GROUP }}" \
+          -backend-config="storage_account_name=${{ env.TF_STORAGE_ACCOUNT }}" \
+          -backend-config="container_name=${{ env.TF_CONTAINER_NAME }}" \
+          -backend-config="key=${{ env.TF_KEY }}" \
+          -backend-config="use_oidc=true"
+      working-directory: ${{ env.TF_WORKING_DIR }}
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+      working-directory: ${{ env.TF_WORKING_DIR }}
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/develop'
+      run: terraform apply -auto-approve -input=false
+      working-directory: ${{ env.TF_WORKING_DIR }}
+
+  build:
+    needs: infrastructure
+    runs-on: ubuntu-latest
+    environment: 'Development'
     steps:
       - uses: actions/checkout@v4
 
@@ -24,13 +73,13 @@ jobs:
         run: dotnet build backend/PureGaze.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish backend/PureGaze.API/PureGaze.API.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish backend/PureGaze.API/PureGaze.API.csproj -c Release -o puregaze-api
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: puregaze-api
 
   deploy:
     runs-on: ubuntu-latest
