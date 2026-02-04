@@ -8,7 +8,8 @@ IHostEnvironment env = builder.Environment;
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
+    .AddEnvironmentVariables();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

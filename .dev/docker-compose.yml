@@ -1,0 +1,47 @@
+services:
+
+  backend:
+    depends_on:
+      db:
+        condition: service_healthy
+    image: puregaze_backend:latest
+    build:
+      context: .
+      dockerfile: ./backend.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DatabaseOptions__ConnectionString: "Server=db;Database=PureGazeDb;TrustServerCertificate=True;User Id=SA;Password=password123!;"
+      ASPNETCORE_URLS: "https://0.0.0.0:7254"
+    ports:
+      - "7254:7254"
+    volumes:
+      - ../backend:/app
+
+  frontend:
+    image: puregaze_frontend:latest
+    build:
+      context: .
+      dockerfile: ./frontend.Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../frontend:/app
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:latest"
+    ports:
+      - 1433:1433
+    volumes:             
+      - puregaze_sqlserver_data:/var/opt/mssql
+    environment:
+      SA_PASSWORD: "password123!"
+      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  puregaze_sqlserver_data:
