@@ -517,7 +517,8 @@ namespace PureGaze.Infrastructure.Database.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
                 table: "Answers",
-                column: "QuestionId");
+                column: "QuestionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssessmentRequests_CodeId",

@@ -15,8 +15,8 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
         builder.Property(o => o.Id)
             .ValueGeneratedOnAdd();
         
-        builder.HasOne<Subtopic>()
-            .WithMany() 
+        builder.HasOne(o => o.Subtopic)
+            .WithMany(o => o.Questions) 
             .HasForeignKey(o => o.SubTopicId)
             .OnDelete(DeleteBehavior.Cascade);
     }

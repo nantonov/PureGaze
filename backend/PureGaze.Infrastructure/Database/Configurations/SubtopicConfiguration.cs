@@ -15,8 +15,8 @@ public class SubtopicConfiguration : IEntityTypeConfiguration<Subtopic>
         builder.Property(o => o.Id)
             .ValueGeneratedOnAdd();
         
-        builder.HasOne<Topic>()
-            .WithMany() 
+        builder.HasOne(o => o.Topic)
+            .WithMany(o => o.Subtopics) 
             .HasForeignKey(o => o.TopicId)
             .OnDelete(DeleteBehavior.Cascade);
     }

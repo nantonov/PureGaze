@@ -41,7 +41,8 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("QuestionId")
+                        .IsUnique();
 
                     b.ToTable("Answers", (string)null);
                 });
@@ -633,11 +634,13 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Answer", b =>
                 {
-                    b.HasOne("PureGaze.Domain.Entities.Question", null)
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
+                    b.HasOne("PureGaze.Domain.Entities.Question", "Question")
+                        .WithOne("Answer")
+                        .HasForeignKey("PureGaze.Domain.Entities.Answer", "QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.AnswerTranslate", b =>
@@ -811,11 +814,13 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Question", b =>
                 {
-                    b.HasOne("PureGaze.Domain.Entities.Subtopic", null)
-                        .WithMany()
+                    b.HasOne("PureGaze.Domain.Entities.Subtopic", "Subtopic")
+                        .WithMany("Questions")
                         .HasForeignKey("SubTopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Subtopic");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.QuestionTranslate", b =>
@@ -829,11 +834,13 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Subtopic", b =>
                 {
-                    b.HasOne("PureGaze.Domain.Entities.Topic", null)
-                        .WithMany()
+                    b.HasOne("PureGaze.Domain.Entities.Topic", "Topic")
+                        .WithMany("Subtopics")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.SubtopicScore", b =>
@@ -919,11 +926,16 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Question", b =>
                 {
+                    b.Navigation("Answer")
+                        .IsRequired();
+
                     b.Navigation("QuestionTranslates");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Subtopic", b =>
                 {
+                    b.Navigation("Questions");
+
                     b.Navigation("SubtopicTranslates");
                 });
 
@@ -934,6 +946,8 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Topic", b =>
                 {
+                    b.Navigation("Subtopics");
+
                     b.Navigation("TopicTranslates");
                 });
 #pragma warning restore 612, 618
