@@ -1,6 +1,6 @@
-using PureGaze.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using PureGaze.Application.Abstractions.Infrastructure;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Infrastructure.Database.Repositories;
 
@@ -12,7 +12,7 @@ public class EmployeeRepository(AppDbContext dbContext)
             .Employees
             .Where(x => ids.Contains(x.Id))
             .ToDictionaryAsync(x => x.Id, ct);
-    
+
     public async Task<Employee?> GetByIdAsync(int id, CancellationToken ct = default)
         => await dbContext.Employees
             .Include(x => x.M1)
@@ -22,10 +22,11 @@ public class EmployeeRepository(AppDbContext dbContext)
             .Include(x => x.Manager)
             .FirstOrDefaultAsync(x => x.Id == id, ct);
 
-    public async Task<Employee?> GetByEmailAsync(string email, CancellationToken ct = default) 
+    public async Task<Employee?> GetByEmailAsync(string email, CancellationToken ct = default)
         => await dbContext.Employees
             .Include(x => x.ManagerialLevel)
             .Include(x => x.EmployeeSettings)
+            .Include(x => x.ProfessionalLevel)
             .FirstOrDefaultAsync(x => x.Email == email, ct);
 
     public async Task AddAsync(Employee employee, CancellationToken ct = default)

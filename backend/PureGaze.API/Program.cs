@@ -12,9 +12,8 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+builder.AddSwagger();
 builder.AuthConfigBuild();
 builder.CorsBuild();
 builder.RequestsBuild();
@@ -27,15 +26,7 @@ var app = builder.Build();
 
 await app.CheckDatabase();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger(x =>
-    {
-        x.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_1;
-    });
-    app.UseSwaggerUI();
-}
-
+app.UseSwaggerForDevelopment();
 app.UseHttpsRedirection();
 app.UseCors(CorsOptions.PolicyName);
 app.UseAuthentication();
