@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 
 namespace PureGaze.API.Configurations;
 
@@ -17,10 +18,10 @@ public static class SwaggerConfig
                 Description = "JWT Authorization header using the Bearer scheme."
             });
 
-            x.AddSecurityRequirement(document => new OpenApiSecurityRequirement
-            {
-                [new OpenApiSecuritySchemeReference("bearer", document)] = []
-            });
+            // x.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+            // {
+            //     [new OpenApiSecuritySchemeReference("bearer", document)] = []
+            // });
         });
     }
 
@@ -31,7 +32,7 @@ public static class SwaggerConfig
         
         app.UseSwagger(x =>
         {
-            x.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+           //x.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
         });
         app.UseSwaggerUI();
     }
