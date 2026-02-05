@@ -3,13 +3,13 @@ name: Build and Deploy Backend
 on:
   push:
     branches:
-      - develop
+      - develop-add-CI/CD-yaml-files
     paths:
       - 'backend/**'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   TF_RESOURCE_GROUP: "puregaze-tf-rg"
@@ -36,7 +36,7 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
       with:
-        ref: develop
+        ref: develop-add-CI/CD-yaml-files
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
@@ -50,19 +50,19 @@ jobs:
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/develop'
+      if: github.ref_name == 'develop-add-CI/CD-yaml-files'
       run: terraform apply -auto-approve -input=false
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Commit Terraform State
-      if: github.ref == 'refs/heads/develop'
+      if: github.ref_name == 'develop-add-CI/CD-yaml-files'
       run: |
         git config --global user.name 'GitHub Actions Bot'
         git config --global user.email 'actions@github.com'
-        git pull origin develop
+        git pull origin develop-add-CI/CD-yaml-files --rebase
         git add terraform.tfstate
         git commit -m "Update Terraform State [skip ci]" || echo "No changes to commit"
-        git push origin develop
+        git push origin HEAD:develop-add-CI/CD-yaml-files
       working-directory: ${{ env.TF_WORKING_DIR }}
 
   build:
