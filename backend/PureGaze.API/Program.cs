@@ -28,10 +28,11 @@ await app.CheckDatabase();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(x =>
-    {
-        x.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_1;
-    });
+    // app.UseSwagger(x =>
+    // {
+    //     x.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_1;
+    // });
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
 

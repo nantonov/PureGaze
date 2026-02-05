@@ -100,7 +100,7 @@ variable "app_service_sku" {
 variable "dotnet_version" {
   type        = string
   description = "Dotnet version for App Service"
-  default     = "10.0"
+  default     = "9.0"
 }
 
 variable "azure_service_plan_os_type" {
