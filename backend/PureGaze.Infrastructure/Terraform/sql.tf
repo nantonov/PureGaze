@@ -16,10 +16,3 @@ resource "azurerm_mssql_database" "db" {
   auto_pause_delay_in_minutes = var.db_auto_pause_delay
   max_size_gb                 = var.db_max_size_gb
 }
-
-resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
-  name             = "AllowAzureServices"
-  server_id        = azurerm_mssql_server.sqlserver.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
-}
