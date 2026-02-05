@@ -1,22 +1,26 @@
 ﻿using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
 using System.ComponentModel.DataAnnotations;
+using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Evaluation.AssingAssesmentStage;
 
-public sealed class AssingAssesmentStageHandler(
+public sealed class AssignAssessmentStageHandler(
     IEmployeeRepository employeeRepository,
-    IAssessmentStageRepository assessmentStageRepository) : IRequestHandler<AssingAssesmentStageCommand>
+    IAssessmentStageRepository assessmentStageRepository,
+    IEmailFactory emailFactory,
+    IEmailRepository emailRepository) 
+    : IRequestHandler<AssignAssessmentStageCommand>
 {
-    public async Task Handle(AssingAssesmentStageCommand request, CancellationToken ct)
+    public async Task Handle(AssignAssessmentStageCommand request, CancellationToken ct)
     {
-        var assessmentStage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId)
+        var assessmentStage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId, ct)
             ?? throw new KeyNotFoundException($"Assesment stage with Id {request.AssessmentStageId} not found.");
         if (assessmentStage.AssessorId != null)
             throw new ValidationException($"Assesment stage with Id {request.AssessmentStageId} already has an assessor assigned.");
 
         var manager = await employeeRepository.GetByEmailAsync(request.ManagerEmail, ct)
-            ?? throw new KeyNotFoundException($"Manager with Id {request.ManagerEmail} not found.");
+            ?? throw new KeyNotFoundException($"Manager with email {request.ManagerEmail} was not found.");
         if (manager.ProfessionalLevel == null)
             throw new ValidationException($"Current Professional Level for Manager with Id {manager.Id} is not set.");
 
@@ -29,7 +33,15 @@ public sealed class AssingAssesmentStageHandler(
             throw new ValidationException("Professional Level for Manager in not enought for this assigment");
 
         assessmentStage.AssessorId = manager.Id;
-
         await assessmentStageRepository.SaveChangesAsync(ct);
+        
+        var topicName = assessmentStage.Topic.TopicTranslates
+            .FirstOrDefault(x => x.Language == Language.English)?.Name;
+        var email = emailFactory.CreateAssessmentStageAssignEmail(
+            employee?.Email ?? "", 
+            $"{manager.FirstNameEn} {manager.LastNameEn}",
+            topicName ?? "");
+        await emailRepository.AddAsync(email, ct);
+        await emailRepository.SaveChangesAsync(ct);
     }
 }

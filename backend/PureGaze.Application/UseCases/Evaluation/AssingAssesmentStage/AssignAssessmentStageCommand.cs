@@ -2,4 +2,5 @@
 
 namespace PureGaze.Application.UseCases.Evaluation.AssingAssesmentStage;
 
-public sealed record AssingAssesmentStageCommand(int AssessmentStageId, string ManagerEmail) : IRequest;
+public sealed record AssignAssessmentStageCommand(int AssessmentStageId, string ManagerEmail) 
+    : IRequest;

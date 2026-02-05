@@ -10,10 +10,10 @@ public class AssessmentStagesController(IRequestDispatcher dispatcher)
     : BaseController
 {
     [HttpPost("assign-me")]
-    public async Task<IActionResult> AssignMe([FromBody] int AssessmentStageId,
+    public async Task<IActionResult> AssignMe([FromBody] int assessmentStageId,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new AssingAssesmentStageCommand(AssessmentStageId, Email), ct);
+        await dispatcher.SendAsync(new AssignAssessmentStageCommand(assessmentStageId, Email), ct);
 
         return Ok();
     }

@@ -26,13 +26,13 @@ public static class SwaggerConfig
 
     public static void UseSwaggerForDevelopment(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        if (!app.Environment.IsDevelopment()) 
+            return;
+        
+        app.UseSwagger(x =>
         {
-            app.UseSwagger(x =>
-            {
-                x.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
-            });
-            app.UseSwaggerUI();
-        }
+            x.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+        });
+        app.UseSwaggerUI();
     }
 }

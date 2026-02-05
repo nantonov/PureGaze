@@ -8,4 +8,5 @@ public interface IEmailFactory
     Email CreateAssessmentApprovedEmail(string employeeEmail, string employeeName);
     Email CreateAssessmentRejectedEmail(string employeeEmail, string employeeName, string rejectionReason);
     Email CreateAssessmentDirectByManagerEmail(string employeeEmail, string employeeName);
+    Email CreateAssessmentStageAssignEmail(string employeeEmail, string managerName, string stageName);
 }

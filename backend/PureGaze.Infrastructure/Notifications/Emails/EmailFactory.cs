@@ -20,6 +20,9 @@ public class EmailFactory : IEmailFactory
     public Email CreateAssessmentDirectByManagerEmail(string employeeEmail, string employeeName)
         => CreateEmail(employeeEmail, $"{employeeName}, your manager has created an assessment for you");
 
+    public Email CreateAssessmentStageAssignEmail(string employeeEmail, string managerName, string stageName)
+        => CreateEmail(employeeEmail, $"{managerName} was assigned to stage {stageName} for your assessment");
+
     private Email CreateEmail(string to, string body)
     {
         return new Email
