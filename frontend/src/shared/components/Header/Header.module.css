@@ -1,7 +1,7 @@
 .header {
-  height: 56px;
-  background-color: var(--sidebar-background);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  height: 8vh;
+  background-color: var(--background-secondary);
+  border-bottom: var(--border-color) solid 1px;
   display: flex;
   align-items: center;
   justify-content: space-between;
