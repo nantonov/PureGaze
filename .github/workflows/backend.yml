@@ -6,6 +6,7 @@ on:
       - develop-add-CI/CD-yaml-files
     paths:
       - 'backend/**'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 permissions:
