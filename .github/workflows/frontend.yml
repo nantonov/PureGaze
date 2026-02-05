@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - develop-add-CI/CD-yaml-files
     paths:
       - 'frontend/**'
   workflow_dispatch:
