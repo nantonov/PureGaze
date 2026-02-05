@@ -9,7 +9,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 env:
@@ -29,23 +28,21 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ARM_USE_OIDC: true
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      TF_VAR_azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_VAR_sql_admin_password: ${{ secrets.SQL_ADMIN_PASSWORD }}
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
+      with:
+        ref: develop
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Init
-      run: |
-        terraform init \
-          -backend-config="resource_group_name=${{ env.TF_RESOURCE_GROUP }}" \
-          -backend-config="storage_account_name=${{ env.TF_STORAGE_ACCOUNT }}" \
-          -backend-config="container_name=${{ env.TF_CONTAINER_NAME }}" \
-          -backend-config="key=${{ env.TF_KEY }}" \
-          -backend-config="use_oidc=true"
+      run: terraform init
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Terraform Plan
@@ -55,6 +52,17 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/develop'
       run: terraform apply -auto-approve -input=false
+      working-directory: ${{ env.TF_WORKING_DIR }}
+
+    - name: Commit Terraform State
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        git config --global user.name 'GitHub Actions Bot'
+        git config --global user.email 'actions@github.com'
+        git pull origin develop
+        git add terraform.tfstate
+        git commit -m "Update Terraform State [skip ci]" || echo "No changes to commit"
+        git push origin develop
       working-directory: ${{ env.TF_WORKING_DIR }}
 
   build:
@@ -94,10 +102,14 @@ jobs:
         with:
           name: .net-app
 
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'puregaze-dev-webapp'
           package: .
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
