@@ -12,6 +12,8 @@ public sealed class AssingAssesmentStageHandler(
     {
         var assessmentStage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId)
             ?? throw new KeyNotFoundException($"Assesment stage with Id {request.AssessmentStageId} not found.");
+        if (assessmentStage.AssessorId != null)
+            throw new ValidationException($"Assesment stage with Id {request.AssessmentStageId} already has an assessor assigned.");
 
         var manager = await employeeRepository.GetByEmailAsync(request.ManagerEmail, ct)
             ?? throw new KeyNotFoundException($"Manager with Id {request.ManagerEmail} not found.");
@@ -26,7 +28,7 @@ public sealed class AssingAssesmentStageHandler(
         if (manager.ProfessionalLevel.OrderValue <= employee.ProfessionalLevel.OrderValue)
             throw new ValidationException("Professional Level for Manager in not enought for this assigment");
 
-        assessmentStage.AssessmentId = manager.Id;
+        assessmentStage.AssessorId = manager.Id;
 
         await assessmentStageRepository.SaveChangesAsync(ct);
     }
