@@ -146,7 +146,9 @@ coverage/
 # Terraform
 .terraform/
 # *.tfstate
+# *.tfstate
 # *.tfstate.*
+*.backup
 crash.log
 crash.*.log
 # *.tfvars
