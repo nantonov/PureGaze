@@ -33,7 +33,7 @@ public class EmployeeController(IRequestDispatcher dispatcher)
         return Ok();
     }
     
-    [HttpPut("lanaguage")]
+    [HttpPut("language")]
     public async Task<IActionResult> UpdateLanguage([FromBody]UpdateEmployeeLanguageCommand command, CancellationToken ct)
     {
         command.Email = Email;
