@@ -3,11 +3,11 @@ import { menuItems } from "@/config/menu";
 import { useState, useMemo } from "react";
 import { useEmployee } from "@/contexts/EmployeeContext";
 import styles from "./SideBar.module.css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
   const { employee } = useEmployee();
-
   const filteredMenuItems = useMemo(() => {
     return menuItems.filter((item) => {
       if (!item.roles) return true;
@@ -18,20 +18,23 @@ export default function SideBar() {
 
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
-      <div className={styles.header}>
-        <button className={styles.toggle} onClick={() => setCollapsed((v) => !v)}>
-          {collapsed ? "expand" : "collapse"}
-        </button>
-      </div>
+      <button className={styles.toggle} onClick={() => setCollapsed((v) => !v)}>
+        {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+      </button>
 
       <nav className={styles.menu}>
         {filteredMenuItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
-            className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ""}`}
+            className={({ isActive }) =>
+              `${styles.link} ${isActive ? styles.active : ""} ${collapsed ? styles.linkCollapsed : ""}`
+            }
+            title={collapsed ? item.label : ""}
           >
-            {!collapsed && item.label}
+            <span className={styles.iconWrapper}>{item.icon}</span>
+
+            {!collapsed && <span className={styles.linkLabel}>{item.label}</span>}
           </NavLink>
         ))}
       </nav>

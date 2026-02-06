@@ -1,5 +1,5 @@
 .layout {
-  display: flex;
+  display: block;
   height: 100vh;
   flex-direction: column;
 }
@@ -8,6 +8,10 @@
   flex: 1;
   display: flex;
   overflow: hidden;
+  height: calc(var(--real-vh, 1vh) * 100 - 76px);
+  width: 100%;
+  background-color: var(--background);
+  position: relative;
 }
 
 .content {

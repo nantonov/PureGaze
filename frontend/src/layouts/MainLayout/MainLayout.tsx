@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import SideBar from "@/shared/components/SideBar/SideBar";
 import Header from "@/shared/components/Header/Header";
+import ContentArea from "@/shared/components/ContentArea/ContentArea";
 import styles from "./MainLayout.module.css";
 
 export default function MainLayout() {
@@ -9,9 +10,9 @@ export default function MainLayout() {
       <Header />
       <div className={styles.body}>
         <SideBar />
-        <main className={styles.content}>
+        <ContentArea>
           <Outlet />
-        </main>
+        </ContentArea>
       </div>
     </div>
   );
