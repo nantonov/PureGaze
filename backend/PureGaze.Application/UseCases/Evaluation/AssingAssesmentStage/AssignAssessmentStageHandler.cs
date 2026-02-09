@@ -17,9 +17,9 @@ public sealed class AssignAssessmentStageHandler(
     public async Task Handle(AssignAssessmentStageCommand request, CancellationToken ct)
     {
         var assessmentStage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId, ct)
-            ?? throw new KeyNotFoundException($"Assesment stage with Id {request.AssessmentStageId} not found.");
+            ?? throw new KeyNotFoundException($"Assessment stage with Id {request.AssessmentStageId} not found.");
         if (assessmentStage.AssessorId != null)
-            throw new ValidationException($"Assesment stage with Id {request.AssessmentStageId} already has an assessor assigned.");
+            throw new ValidationException($"Assessment stage with Id {request.AssessmentStageId} already has an assessor assigned.");
 
         var managerEmail = currentUserContextProvider.GetUserEmail();
         var manager = await employeeRepository.GetByEmailAsync(managerEmail, ct)

@@ -4,11 +4,10 @@ using PureGaze.Application.UseCases.Evaluation.CreateSubtopicScore;
 
 namespace PureGaze.API.Controllers;
 
-
 [ApiController]
 [Route("subtopic-scores")]
 public class SubtopicScoresController(IRequestDispatcher dispatcher)
-    : BaseController
+    : Controller
 {
     [HttpPost]
     public async Task<IActionResult> CreateSubtopicScore([FromBody] CreateSubtopicScoreCommand createSubtopicScoreRequest,

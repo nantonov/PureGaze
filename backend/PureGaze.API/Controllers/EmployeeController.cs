@@ -12,7 +12,7 @@ namespace PureGaze.API.Controllers;
 [ApiController]
 [Authorize]
 public class EmployeeController(IRequestDispatcher dispatcher) 
-    : BaseController
+    : Controller
 {
     [HttpGet("me")]
     public async Task<IActionResult> Me(CancellationToken ct)

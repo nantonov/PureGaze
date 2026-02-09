@@ -1,16 +1,16 @@
-﻿using Azure.Core;
-using PureGaze.Application.Abstractions.Providers;
+﻿using PureGaze.Application.Abstractions.Providers;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace PureGaze.API.Providers;
 
-internal sealed class CurrentUserContextProvider(IHttpContextAccessor httpContextAccessor) : ICurrentUserContextProvider
+internal sealed class CurrentUserContextProvider(IHttpContextAccessor httpContextAccessor) 
+    : ICurrentUserContextProvider
 {
     public string GetUserEmail()
     {
-        var request = httpContextAccessor.HttpContext.Request;
+        var request = httpContextAccessor.HttpContext?.Request;
 
-        var authHeader = request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = request?.Headers["Authorization"].FirstOrDefault();
 
         if (string.IsNullOrWhiteSpace(authHeader))
             return string.Empty;
@@ -19,6 +19,6 @@ internal sealed class CurrentUserContextProvider(IHttpContextAccessor httpContex
 
         var handler = new JwtSecurityTokenHandler();
 
-        return handler.ReadJwtToken(token).Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+        return handler.ReadJwtToken(token).Claims.FirstOrDefault(x => x.Type == "email")?.Value ?? string.Empty;
     }
 }

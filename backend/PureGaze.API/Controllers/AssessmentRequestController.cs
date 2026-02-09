@@ -3,7 +3,7 @@ using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Evaluation.ApproveAssessmentRequest;
 using PureGaze.Application.UseCases.Evaluation.CreateAssessmentRequest;
 using PureGaze.Application.UseCases.Evaluation.GetAssessmentRequestDetails;
-using PureGaze.Application.UseCases.Evaluation.GetAssignetToMeRequests;
+using PureGaze.Application.UseCases.Evaluation.GetAssignedToMeRequests;
 using PureGaze.Application.UseCases.Evaluation.GetMyAssessmentRequests;
 using PureGaze.Application.UseCases.Evaluation.RejectAssessmentRequest;
 

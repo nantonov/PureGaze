@@ -1,11 +1,10 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Evaluation.CreateSubtopicScore;
 using PureGaze.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace PureGaze.Application.UseCases.Evaluation.CreateDirectAssessment;
+namespace PureGaze.Application.UseCases.Evaluation.CreateSubtopicScore;
 
 public class CreateSubtopicScoreHandler(
     ISubtopicScoreRepository subtopicScoreRepository,
@@ -29,7 +28,7 @@ public class CreateSubtopicScoreHandler(
             Comment = request.Comment
         };
 
-        await subtopicScoreRepository.AddAsync(subtopicScore);
-        await subtopicScoreRepository.SaveChangesAsync();
+        await subtopicScoreRepository.AddAsync(subtopicScore, ct);
+        await subtopicScoreRepository.SaveChangesAsync(ct);
     }
 }

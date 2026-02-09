@@ -7,7 +7,7 @@ namespace PureGaze.API.Controllers;
 [ApiController]
 [Route("assessment-stages")]
 public class AssessmentStagesController(IRequestDispatcher dispatcher)
-    : BaseController
+    : Controller
 {
     [HttpPost("assign-me")]
     public async Task<IActionResult> AssignMe([FromBody] AssignAssessmentStageCommand assignAssessmentStageCommand,
