@@ -14,5 +14,5 @@ resource "azurerm_mssql_database" "db" {
   sku_name                    = var.db_sku_name
   # min_capacity                = var.db_min_capacity
   # auto_pause_delay_in_minutes = var.db_auto_pause_delay
-  max_size_gb                 = var.db_max_size_gb
+  # max_size_gb                 = var.db_max_size_gb
 }
