@@ -33,4 +33,5 @@ jobs:
         env:
           VITE_AUTH0_DOMAIN: ${{ secrets.VITE_AUTH0_DOMAIN }}
           VITE_AUTH0_CLIENT_ID: ${{ secrets.VITE_AUTH0_CLIENT_ID }}
+          VITE_AUTH0_AUDIENCE: "puregaze2026-dev-webapp.azurewebsites.net"
           VITE_AUTH0_Cache_Location: "localstorage"
