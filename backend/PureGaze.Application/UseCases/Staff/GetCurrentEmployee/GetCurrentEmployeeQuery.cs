@@ -2,5 +2,5 @@
 
 namespace PureGaze.Application.UseCases.Staff.GetCurrentEmployee;
 
-public sealed record GetCurrentEmployeeQuery(string Email) 
+public sealed record GetCurrentEmployeeQuery() 
     : IRequest<GetCurrentEmployeeResponse>;

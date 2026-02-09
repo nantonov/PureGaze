@@ -11,7 +11,7 @@ namespace PureGaze.API.Controllers;
 [Route("employees")]
 [ApiController]
 [Authorize]
-public class EmployeeController(IRequestDispatcher dispatcher, ICurrentUserContextProvider currentUserContextProvider) 
+public class EmployeeController(IRequestDispatcher dispatcher) 
     : BaseController
 {
     [HttpGet("me")]
@@ -19,7 +19,7 @@ public class EmployeeController(IRequestDispatcher dispatcher, ICurrentUserConte
     {
         GetCurrentEmployeeResponse response = 
             await dispatcher
-                .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>(new GetCurrentEmployeeQuery(currentUserContextProvider.GetUserEmail()), ct);
+                .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>(new GetCurrentEmployeeQuery(), ct);
         
         return Ok(response);
     }
@@ -27,8 +27,6 @@ public class EmployeeController(IRequestDispatcher dispatcher, ICurrentUserConte
     [HttpPut("theme")]
     public async Task<IActionResult> UpdateTheme([FromBody]UpdateEmployeeThemeCommand command, CancellationToken ct)
     {
-        command.Email = currentUserContextProvider.GetUserEmail();
-        
         await dispatcher.SendAsync(command, ct);
         
         return Ok();
@@ -37,8 +35,6 @@ public class EmployeeController(IRequestDispatcher dispatcher, ICurrentUserConte
     [HttpPut("language")]
     public async Task<IActionResult> UpdateLanguage([FromBody]UpdateEmployeeLanguageCommand command, CancellationToken ct)
     {
-        command.Email = currentUserContextProvider.GetUserEmail();
-        
         await dispatcher.SendAsync(command, ct);
         
         return Ok();
