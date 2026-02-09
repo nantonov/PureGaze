@@ -1,5 +1,7 @@
 using PureGaze.API;
 using PureGaze.API.Configurations;
+using PureGaze.API.Providers;
+using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Infrastructure.Cors;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,8 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserContextProvider, CurrentUserContextProvider>();
 
 builder.AddSwagger();
 builder.AuthConfigBuild();

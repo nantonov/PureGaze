@@ -38,6 +38,7 @@ public static class DatabaseConfig
         builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
         builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
         builder.Services.AddScoped<IAssessmentStageRepository, AssessmentStageRepository>();
+        builder.Services.AddScoped<ISubtopicScoreRepository, SubtopicScoreRepository>();
 
         builder.Services.Scan(scan => scan
             .FromApplicationDependencies()
