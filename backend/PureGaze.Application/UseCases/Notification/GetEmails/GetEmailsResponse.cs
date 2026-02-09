@@ -2,7 +2,4 @@
 
 namespace PureGaze.Application.UseCases.Notification.GetEmails;
 
-public class GetEmailsResponse
-{
-    public IReadOnlyList<EmailDto> Emails { get; set; } = [];
-}
+public class GetEmailsResponse(IReadOnlyList<EmailDto> Emails);

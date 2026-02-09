@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Staff.GetCurrentEmployee;
 using PureGaze.Application.UseCases.Staff.UpdateEmployeeLanguage;
@@ -11,14 +12,14 @@ namespace PureGaze.API.Controllers;
 [ApiController]
 [Authorize]
 public class EmployeeController(IRequestDispatcher dispatcher) 
-    : BaseController
+    : Controller
 {
     [HttpGet("me")]
     public async Task<IActionResult> Me(CancellationToken ct)
     {
         GetCurrentEmployeeResponse response = 
             await dispatcher
-                .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>(new GetCurrentEmployeeQuery(Email), ct);
+                .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>(new GetCurrentEmployeeQuery(), ct);
         
         return Ok(response);
     }
@@ -26,8 +27,6 @@ public class EmployeeController(IRequestDispatcher dispatcher)
     [HttpPut("theme")]
     public async Task<IActionResult> UpdateTheme([FromBody]UpdateEmployeeThemeCommand command, CancellationToken ct)
     {
-        command.Email = Email;
-        
         await dispatcher.SendAsync(command, ct);
         
         return Ok();
@@ -36,8 +35,6 @@ public class EmployeeController(IRequestDispatcher dispatcher)
     [HttpPut("language")]
     public async Task<IActionResult> UpdateLanguage([FromBody]UpdateEmployeeLanguageCommand command, CancellationToken ct)
     {
-        command.Email = Email;
-        
         await dispatcher.SendAsync(command, ct);
         
         return Ok();

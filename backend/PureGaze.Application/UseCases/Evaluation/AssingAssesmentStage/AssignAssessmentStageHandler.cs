@@ -2,6 +2,7 @@
 using PureGaze.Application.Requests;
 using System.ComponentModel.DataAnnotations;
 using PureGaze.Domain.Enums;
+using PureGaze.Application.Abstractions.Providers;
 
 namespace PureGaze.Application.UseCases.Evaluation.AssingAssesmentStage;
 
@@ -9,18 +10,20 @@ public sealed class AssignAssessmentStageHandler(
     IEmployeeRepository employeeRepository,
     IAssessmentStageRepository assessmentStageRepository,
     IEmailFactory emailFactory,
-    IEmailRepository emailRepository) 
+    IEmailRepository emailRepository,
+    ICurrentUserContextProvider currentUserContextProvider) 
     : IRequestHandler<AssignAssessmentStageCommand>
 {
     public async Task Handle(AssignAssessmentStageCommand request, CancellationToken ct)
     {
         var assessmentStage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId, ct)
-            ?? throw new KeyNotFoundException($"Assesment stage with Id {request.AssessmentStageId} not found.");
+            ?? throw new KeyNotFoundException($"Assessment stage with Id {request.AssessmentStageId} not found.");
         if (assessmentStage.AssessorId != null)
-            throw new ValidationException($"Assesment stage with Id {request.AssessmentStageId} already has an assessor assigned.");
+            throw new ValidationException($"Assessment stage with Id {request.AssessmentStageId} already has an assessor assigned.");
 
-        var manager = await employeeRepository.GetByEmailAsync(request.ManagerEmail, ct)
-            ?? throw new KeyNotFoundException($"Manager with email {request.ManagerEmail} was not found.");
+        var managerEmail = currentUserContextProvider.GetUserEmail();
+        var manager = await employeeRepository.GetByEmailAsync(managerEmail, ct)
+            ?? throw new KeyNotFoundException($"Manager with email {managerEmail} was not found.");
         if (manager.ProfessionalLevel == null)
             throw new ValidationException($"Current Professional Level for Manager with Id {manager.Id} is not set.");
 

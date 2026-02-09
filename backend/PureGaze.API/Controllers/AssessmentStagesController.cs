@@ -7,13 +7,13 @@ namespace PureGaze.API.Controllers;
 [ApiController]
 [Route("assessment-stages")]
 public class AssessmentStagesController(IRequestDispatcher dispatcher)
-    : BaseController
+    : Controller
 {
     [HttpPost("assign-me")]
-    public async Task<IActionResult> AssignMe([FromBody] int assessmentStageId,
+    public async Task<IActionResult> AssignMe([FromBody] AssignAssessmentStageCommand assignAssessmentStageCommand,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new AssignAssessmentStageCommand(assessmentStageId, Email), ct);
+        await dispatcher.SendAsync(assignAssessmentStageCommand, ct);
 
         return Ok();
     }

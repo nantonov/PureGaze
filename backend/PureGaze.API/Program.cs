@@ -12,9 +12,10 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 
-builder.AddSwagger();
 builder.AuthConfigBuild();
+builder.AddSwagger();
 builder.CorsBuild();
 builder.RequestsBuild();
 builder.DatabasesBuild();
