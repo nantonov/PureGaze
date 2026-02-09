@@ -58,7 +58,7 @@ variable "db_collation" {
 variable "db_sku_name" {
   type        = string
   description = "Database SKU name"
-  default     = "GP_S_Gen5_1"
+  default     = "Free"
 }
 
 variable "db_min_capacity" {
