@@ -24,7 +24,7 @@ public class CreateSubtopicScoreHandler(
         if (assessmentStage.Assessor?.Email != currentUserContextProvider.GetUserEmail())
             throw new ValidationException($"Only assessor can set subtopic score");
 
-        var subtopicScore = await subtopicScoreRepository.GetBySubtopicAndStageIdAsync(request.SubtopicId, request.StageId);
+        var subtopicScore = await subtopicScoreRepository.GetBySubtopicAndStageIdAsync(request.SubtopicId, request.StageId, ct);
 
         if(subtopicScore == null)
         {
