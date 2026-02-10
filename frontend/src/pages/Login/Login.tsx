@@ -19,6 +19,18 @@ export default function Login() {
         <button className={styles.btn} onClick={handleLogin}>
           Continue with Google
         </button>
+        <button
+          style={{ marginTop: "1rem", backgroundColor: "grey" }}
+          className={styles.btn}
+          onClick={() => {
+            fetch(`${import.meta.env.VITE_API_URL}/ping`)
+              .then(res => res.text())
+              .then(text => alert(`BACKEND SAYS: ${text}`))
+              .catch(err => alert(`ERROR: ${err.message}`));
+          }}
+        >
+          TEST PING (Check Backend)
+        </button>
       </div>
     </div>
   );
