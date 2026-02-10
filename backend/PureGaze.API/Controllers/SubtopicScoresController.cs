@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Evaluation.CreateSubtopicScore;
+using PureGaze.Application.UseCases.Evaluation.ScoreSubtopic;
 
 namespace PureGaze.API.Controllers;
 
@@ -10,10 +10,10 @@ public class SubtopicScoresController(IRequestDispatcher dispatcher)
     : Controller
 {
     [HttpPost]
-    public async Task<IActionResult> CreateSubtopicScore([FromBody] CreateSubtopicScoreCommand createSubtopicScoreRequest,
+    public async Task<IActionResult> CreateSubtopicScore([FromBody] ScoreSubtopicCommand scoreSubtopicRequest,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(createSubtopicScoreRequest, ct);
+        await dispatcher.SendAsync(scoreSubtopicRequest, ct);
 
         return Ok();
     }
