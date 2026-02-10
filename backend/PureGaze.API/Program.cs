@@ -41,7 +41,7 @@ app.UseCors(CorsOptions.PolicyName);
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/ping", () => "pong").AllowAnonymous();
+app.MapGet("/ping", () => "pong").RequireAuthorization();
 
 app.MapControllers();
 
