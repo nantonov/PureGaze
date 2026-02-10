@@ -16,7 +16,4 @@ public class SubtopicScoreRepository(AppDbContext context)
 
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
-
-    public async Task UpdateAsync(SubtopicScore subtopicScore, CancellationToken ct = default)
-        => context.Update(subtopicScore);
 }
