@@ -10,7 +10,7 @@ export function useBootstrapEmployee() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("bootstrap", { isLoading, isAuthenticated, employee });
+
 
     if (isLoading) return;
     if (!isAuthenticated) return;
