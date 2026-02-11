@@ -1,0 +1,114 @@
+name: Build and Deploy Backend Puregaze
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - "backend/**"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  TF_RESOURCE_GROUP: "puregaze-tf-rg"
+  TF_STORAGE_ACCOUNT: "puregaze2026storage"
+  TF_CONTAINER_NAME: "tfstate"
+  TF_KEY: "dev.terraform.tfstate"
+  TF_WORKING_DIR: "backend/PureGaze.Infrastructure/Terraform"
+
+jobs:
+  infrastructure:
+    name: "Provision Infrastructure"
+    runs-on: ubuntu-latest
+    environment: "Development"
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      TF_VAR_azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_VAR_sql_admin_password: ${{ secrets.SQL_ADMIN_PASSWORD }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+      - name: Terraform Apply
+        if: github.ref_name == 'develop'
+        run: terraform apply -auto-approve -input=false
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+      - name: Commit Terraform State
+        if: github.ref_name == 'develop'
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add .
+          git commit -m "Update Terraform State [skip ci]" || echo "No changes to commit"
+          git pull origin develop --rebase
+          git push origin HEAD:develop
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+  build:
+    needs: infrastructure
+    runs-on: ubuntu-latest
+    environment: "Development"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Build with dotnet
+        run: dotnet build backend/PureGaze.sln --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish backend/PureGaze.API/PureGaze.API.csproj -c Release -o puregaze-api
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: puregaze-api
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: "Development"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: "puregaze2026-dev-webapp"
+          package: .

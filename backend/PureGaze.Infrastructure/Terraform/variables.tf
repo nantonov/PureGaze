@@ -58,7 +58,7 @@ variable "db_collation" {
 variable "db_sku_name" {
   type        = string
   description = "Database SKU name"
-  default     = "GP_S_Gen5_1"
+  default     = "Free"
 }
 
 variable "db_min_capacity" {
@@ -100,7 +100,7 @@ variable "app_service_sku" {
 variable "dotnet_version" {
   type        = string
   description = "Dotnet version for App Service"
-  default     = "10.0"
+  default     = "9.0"
 }
 
 variable "azure_service_plan_os_type" {
