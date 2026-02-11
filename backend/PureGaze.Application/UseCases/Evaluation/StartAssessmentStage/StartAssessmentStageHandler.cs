@@ -20,7 +20,7 @@ public class StartAssessmentStageHandler(
             throw new ValidationException("Only assessor can start assessment stage");
 
         if (assessmentStage.Status != StageStatus.Pending)
-            throw new ValidationException("Only pending assesment stage could be started");
+            throw new ValidationException("Only a pending assessment stage can be started.");
 
         assessmentStage.Status = StageStatus.InProgress;
 
