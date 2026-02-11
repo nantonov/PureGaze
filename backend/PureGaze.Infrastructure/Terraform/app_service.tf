@@ -25,7 +25,10 @@ resource "azurerm_linux_web_app" "app" {
 
   app_settings = {
     "ASPNETCORE_ENVIRONMENT" = "Development"
-    "ConnectionStrings__DefaultConnection" = "Server=tcp:${azurerm_mssql_server.sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.db.name};Persist Security Info=False;User ID=${var.sql_admin_login};Password=${var.sql_admin_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    "DatabaseOptions__ConnectionString" = "Server=tcp:${azurerm_mssql_server.sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.db.name};Persist Security Info=False;User ID=${var.sql_admin_login};Password=${var.sql_admin_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    "JwtOptions__Audience" = "https://puregaze2026-dev-webapp.azurewebsites.net"
+    "JwtOptions__Issuer"   = "https://inno-assessment-api-dev.eu.auth0.com/"
+    "CorsOptions__Origins__0" = "https://${azurerm_static_web_app.static_app.default_host_name}"
   }
 
   tags = {

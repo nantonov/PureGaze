@@ -12,14 +12,7 @@ resource "azurerm_mssql_database" "db" {
   server_id                   = azurerm_mssql_server.sqlserver.id
   collation                   = var.db_collation
   sku_name                    = var.db_sku_name
-  min_capacity                = var.db_min_capacity
-  auto_pause_delay_in_minutes = var.db_auto_pause_delay
-  max_size_gb                 = var.db_max_size_gb
-}
-
-resource "azurerm_mssql_firewall_rule" "allow_me" {
-  name             = "${var.project_prefix}-allow-current-ip"
-  server_id        = azurerm_mssql_server.sqlserver.id
-  end_ip_address   = chomp(data.http.myip.response_body)
-  start_ip_address = chomp(data.http.myip.response_body)
+  # min_capacity                = var.db_min_capacity
+  # auto_pause_delay_in_minutes = var.db_auto_pause_delay
+  # max_size_gb                 = var.db_max_size_gb
 }

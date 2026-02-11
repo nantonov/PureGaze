@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.784122">
+  <PropertyGroup>
+    <StartupCommand>npm run dev</StartupCommand>
+    <JavaScriptTestFramework>Vitest</JavaScriptTestFramework>
+    <BuildCommand>npm run build</BuildCommand>
+    <ProductionBuildCommand>npm run build</ProductionBuildCommand>
+    <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
+    <ShouldRunBuildScript>false</ShouldRunBuildScript>
+  </PropertyGroup>
+</Project>
