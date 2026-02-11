@@ -15,7 +15,4 @@ public class AssessmentStageRepository(AppDbContext context)
 
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
-
-    public void Update(AssessmentStage assessmentStage)
-        => context.Update(assessmentStage);
 }

@@ -23,7 +23,6 @@ public class StartAssessmentStageHandler(
             throw new ValidationException("Only pending assesment stage could be started");
 
         assessmentStage.Status = StageStatus.InProgress;
-        assessmentStageRepository.Update(assessmentStage);
 
         await assessmentStageRepository.SaveChangesAsync(ct);
     }
