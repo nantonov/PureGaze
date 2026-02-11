@@ -13,9 +13,6 @@ public class GetAssessmentRequestDetailsHandler(
         var assessmentRequest = await assessmentRequestRepository.GetByIdAsync(query.AssessmentRequestId, ct)
             ?? throw new KeyNotFoundException($"Assessment Request with Id {query.AssessmentRequestId} not found.");
 
-        return new GetAssessmentRequestDetailsResponse
-        {
-            Details = assessmentRequest.ToDetailsDto()
-        };
+        return new GetAssessmentRequestDetailsResponse(assessmentRequest.ToDetailsDto());
     }
 }

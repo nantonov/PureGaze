@@ -7,23 +7,23 @@ namespace PureGaze.Infrastructure.Database.Repositories;
 public class AssessmentRequestRepository(AppDbContext context) 
     : IAssessmentRequestRepository
 {
-    public async Task<IReadOnlyList<AssessmentRequest>> GetByEmployeeIdAsync(int employeeId, int page, int pageSize, CancellationToken ct = default)
+    public async Task<IReadOnlyList<AssessmentRequest>> GetByEmployeeEmailAsync(string employeeEmail, int page, int pageSize, CancellationToken ct = default)
         => await context.AssessmentRequests
             .Include(x => x.Employee)
             .Include(x => x.Manager)
             .Include(x => x.Code)
-            .Where(x => x.EmployeeId == employeeId)
+            .Where(x => x.Employee.Email == employeeEmail)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .AsNoTracking()
             .ToListAsync(ct);
 
-    public async Task<IReadOnlyList<AssessmentRequest>> GetByManagerIdAsync(int managerId, int page, int pageSize, CancellationToken ct = default)
+    public async Task<IReadOnlyList<AssessmentRequest>> GetByManagerEmailAsync(string managerEmail, int page, int pageSize, CancellationToken ct = default)
         => await context.AssessmentRequests
             .Include(x => x.Employee)
             .Include(x => x.Manager)
             .Include(x => x.Code)
-            .Where(x => x.ManagerId == managerId)
+            .Where(x => x.Manager.Email == managerEmail)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .AsNoTracking()

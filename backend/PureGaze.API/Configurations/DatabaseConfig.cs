@@ -11,13 +11,13 @@ public static class DatabaseConfig
     {
         builder.Services.AddOptions<AppDbOptions>()
             .Bind(builder.Configuration.GetSection(AppDbOptions.SectionName));
-        
+
         builder.Services.AddDbContextFactory<AppDbContext>(options =>
         {
-            var dbOptions = 
+            var dbOptions =
                 builder.Configuration.GetSection(AppDbOptions.SectionName)
                     .Get<AppDbOptions>();
-            
+
             options.UseSqlServer(dbOptions?.ConnectionString,
                 sqlServerOptionsAction: sqlOptions =>
                 {
@@ -34,14 +34,19 @@ public static class DatabaseConfig
         builder.Services.AddScoped<IAssessmentRequestRepository, AssessmentRequestRepository>();
         builder.Services.AddScoped<IAssessmentRepository, AssessmentRepository>();
         builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
-        builder.Services.Scan(scan => scan 
-            .FromApplicationDependencies() 
-            .AddClasses(c => c.AssignableTo(typeof(IDictionaryRepository<>))) 
-            .AsImplementedInterfaces() 
+        builder.Services.AddScoped<ISubtopicRepository, SubtopicRepository>();
+        builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+        builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
+        builder.Services.AddScoped<IAssessmentStageRepository, AssessmentStageRepository>();
+        builder.Services.AddScoped<ISubtopicScoreRepository, SubtopicScoreRepository>();
+
+        builder.Services.Scan(scan => scan
+            .FromApplicationDependencies()
+            .AddClasses(c => c.AssignableTo(typeof(IDictionaryRepository<>)))
+            .AsImplementedInterfaces()
             .WithScopedLifetime()
         );
-        
-        
+
         return builder;
     }
 }

@@ -11,9 +11,6 @@ public class GetEmailsHandler(IEmailRepository emailRepository)
     {
         var emails = await emailRepository.GetEmailsAsync(query.Page, query.PageSize, query.Status, ct);
 
-        return new GetEmailsResponse
-        {
-            Emails = [..emails.Select(x => x.ToDto())]
-        };
+        return new GetEmailsResponse([.. emails.Select(x => x.ToDto())]);
     }
 }

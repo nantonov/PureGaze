@@ -8,13 +8,14 @@ IHostEnvironment env = builder.Environment;
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
+    .AddEnvironmentVariables();
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 builder.AuthConfigBuild();
+builder.AddSwagger();
 builder.CorsBuild();
 builder.RequestsBuild();
 builder.DatabasesBuild();
@@ -26,16 +27,7 @@ var app = builder.Build();
 
 await app.CheckDatabase();
 
-if (app.Environment.IsDevelopment())
-{
-    // app.UseSwagger(x =>
-    // {
-    //     x.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_1;
-    // });
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseSwaggerForDevelopment();
 app.UseHttpsRedirection();
 app.UseCors(CorsOptions.PolicyName);
 app.UseAuthentication();
