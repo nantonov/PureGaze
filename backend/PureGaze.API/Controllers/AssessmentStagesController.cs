@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Evaluation.AssingAssesmentStage;
+using PureGaze.Application.UseCases.Evaluation.CompleteAssessmentStage;
 using PureGaze.Application.UseCases.Evaluation.StartAssessmentStage;
 
 namespace PureGaze.API.Controllers;
@@ -24,6 +25,15 @@ public class AssessmentStagesController(IRequestDispatcher dispatcher)
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(startAssessmentStageCommand, ct);
+
+        return Ok();
+    }
+
+    [HttpPost("complete")]
+    public async Task<IActionResult> Complete([FromBody] CompleteAssessmentStageCommand completeAssessmentStageCommand,
+        CancellationToken ct = default)
+    {
+        await dispatcher.SendAsync(completeAssessmentStageCommand, ct);
 
         return Ok();
     }
