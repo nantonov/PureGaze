@@ -17,7 +17,7 @@ public class CompleteAssessmentStageHandler(
             ?? throw new KeyNotFoundException($"Assessment Stage with Id {request.AssessmentStageId} was not found.");
 
         if (assessmentStage.Assessor?.Email != currentUserContextProvider.GetUserEmail())
-            throw new ValidationException("Only assessor can start assessment stage");
+            throw new ValidationException("Only assessor can complete assessment stage");
 
         if (assessmentStage.Status != StageStatus.InProgress)
             throw new ValidationException("Only in progress assessment stages can be completed");
