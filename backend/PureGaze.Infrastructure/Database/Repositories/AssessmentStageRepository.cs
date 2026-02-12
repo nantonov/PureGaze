@@ -19,6 +19,7 @@ public class AssessmentStageRepository(AppDbContext context)
             .Include(x => x.Assessor)
             .Include(x => x.Topic).ThenInclude(x => x.Subtopics)
             .Include(x => x.Scores)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(x => x.Id == id, ct);
 
     public async Task SaveChangesAsync(CancellationToken ct = default)
