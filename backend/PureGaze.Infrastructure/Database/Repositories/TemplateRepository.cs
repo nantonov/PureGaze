@@ -14,7 +14,7 @@ public class TemplateRepository(AppDbContext context) : ITemplateRepository
             .Include(t => t.Topics)
             .FirstOrDefaultAsync(t => t.CodeId == codeId, ct);
 
-    public async void Remove(Template template) =>
+    public async void Delete(Template template) =>
         context.Templates.Remove(template);
 
     public Task SaveChangesAsync(CancellationToken ct = default)
