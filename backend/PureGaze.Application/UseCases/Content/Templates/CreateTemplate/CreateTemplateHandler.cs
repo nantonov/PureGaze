@@ -9,7 +9,7 @@ public class CreateTemplateHandler(ITemplateRepository templateRepository)
 {
     public async Task Handle(CreateTemplateCommand request, CancellationToken ct)
     {
-        if (await templateRepository.GetByCodeIdAsync(request.CodeId) != null)
+        if (await templateRepository.GetByCodeIdAsync(request.CodeId, ct) != null)
             throw new ValidationException($"Template with code `{request.CodeId}` already exists");
 
         await templateRepository.AddAsync(new() { CodeId = request.CodeId }, ct);
