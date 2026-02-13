@@ -7,7 +7,7 @@ namespace PureGaze.Infrastructure.Database.Repositories;
 public class TemplateRepository(AppDbContext context) : ITemplateRepository
 {
     public async Task AddAsync(Template template, CancellationToken ct = default) =>
-        await context.Templates.AddAsync(template);
+        await context.Templates.AddAsync(template, ct);
 
     public async Task<Template?> GetByCodeIdAsync(int codeId, CancellationToken ct = default)
         => await context.Templates
