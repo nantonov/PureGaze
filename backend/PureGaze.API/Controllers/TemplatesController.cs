@@ -19,11 +19,11 @@ public class TemplatesController(IRequestDispatcher dispatcher)
         return Ok();
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteTemplate([FromBody] DeleteTemplateCommand request,
+    [HttpDelete("{codeId}")]
+    public async Task<IActionResult> DeleteTemplate(int codeId,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(request, ct);
+        await dispatcher.SendAsync(new DeleteTemplateCommand(codeId), ct);
 
         return Ok();
     }
