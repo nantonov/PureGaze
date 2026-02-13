@@ -14,6 +14,6 @@ public class DeleteTemplateHandler(ITemplateRepository templateRepository)
             throw new KeyNotFoundException($"Template with code `{request.CodeId}` was not found");
 
         templateRepository.Remove(template);
-        await templateRepository.SaveChangesAsync();
+        await templateRepository.SaveChangesAsync(ct);
     }
 }
