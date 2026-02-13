@@ -13,10 +13,10 @@ public class TemplateRepository(AppDbContext context) : ITemplateRepository
         => await context.Templates
             .Include(t => t.Topics)
             .FirstOrDefaultAsync(t => t.CodeId == codeId, ct);
+    
+    public void Delete(Template template) 
+        => context.Templates.Remove(template);
 
-    public async void Remove(Template template) =>
-        context.Templates.Remove(template);
-
-    public Task SaveChangesAsync(CancellationToken ct = default)
-        => context.SaveChangesAsync(ct);
+    public async Task SaveChangesAsync(CancellationToken ct = default)
+        => await context.SaveChangesAsync(ct);
 }

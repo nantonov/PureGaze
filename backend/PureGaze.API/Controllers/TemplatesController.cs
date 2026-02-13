@@ -7,8 +7,7 @@ namespace PureGaze.API.Controllers;
 
 [ApiController]
 [Route("templates")]
-public class TemplatesController(IRequestDispatcher dispatcher)
-    : Controller
+public class TemplatesController(IRequestDispatcher dispatcher) : Controller
 {
     [HttpPost]
     public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand request,

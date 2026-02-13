@@ -8,12 +8,11 @@ public class DeleteTemplateHandler(ITemplateRepository templateRepository)
 {
     public async Task Handle(DeleteTemplateCommand request, CancellationToken ct)
     {
-        var template = await templateRepository.GetByCodeIdAsync(request.CodeId);
-
-        if (template == null)
-            throw new KeyNotFoundException($"Template with code `{request.CodeId}` was not found");
-
-        templateRepository.Remove(template);
+        var template = await templateRepository.GetByCodeIdAsync(request.CodeId, ct)
+            ?? throw new KeyNotFoundException($"Template with code `{request.CodeId}` was not found");
+        
+        templateRepository.Delete(template);
+        
         await templateRepository.SaveChangesAsync(ct);
     }
 }
