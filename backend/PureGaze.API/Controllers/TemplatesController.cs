@@ -11,19 +11,19 @@ public class TemplatesController(IRequestDispatcher dispatcher)
     : Controller
 {
     [HttpPost]
-    public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand scoreSubtopicRequest,
+    public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand request,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(scoreSubtopicRequest, ct);
+        await dispatcher.SendAsync(request, ct);
 
         return Ok();
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteTemplate([FromBody] DeleteTemplateCommand scoreSubtopicRequest,
+    public async Task<IActionResult> DeleteTemplate([FromBody] DeleteTemplateCommand request,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(scoreSubtopicRequest, ct);
+        await dispatcher.SendAsync(request, ct);
 
         return Ok();
     }
