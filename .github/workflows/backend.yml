@@ -3,7 +3,7 @@ name: Build and Deploy Backend Puregaze
 on:
   push:
     branches:
-      - develop
+       - turn_off
     paths:
       - "backend/**"
       - ".github/workflows/**"
