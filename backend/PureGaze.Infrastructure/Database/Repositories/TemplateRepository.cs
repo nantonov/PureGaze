@@ -25,7 +25,7 @@ public class TemplateRepository(AppDbContext context) : ITemplateRepository
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
 
-    public IAsyncEnumerable<Template> Query(int page, int pageSize, CancellationToken ct = default)
+    public IAsyncEnumerable<Template> Query(int page, int pageSize)
         => context.Templates
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

@@ -15,9 +15,9 @@ public class GetTemplatesHandler(ITemplateRepository templateRepository)
         if (request.PageSize < 1)
             throw new ValidationException("PageSize cannot be < 1");
 
-        var templates = await templateRepository.Query(request.Page, request.PageSize, ct)
+        var templates = await templateRepository.Query(request.Page, request.PageSize)
             .Select(x => new TemplateDto(x.Id))
-            .ToListAsync();
+            .ToListAsync(ct);
 
         return new GetTemplatesQueryResult(templates);
     }
