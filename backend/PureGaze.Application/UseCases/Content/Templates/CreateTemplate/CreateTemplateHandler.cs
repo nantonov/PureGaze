@@ -13,14 +13,14 @@ public class CreateTemplateHandler(ITemplateRepository templateRepository)
         if (await templateRepository.GetByCodeIdAsync(request.CodeId, ct) != null)
             throw new ValidationException($"Template with code `{request.CodeId}` already exists");
 
-        var tempalte = new Template
+        var template = new Template
         {
             CodeId = request.CodeId
         };
 
-        await templateRepository.AddAsync(tempalte, ct);
+        await templateRepository.AddAsync(template, ct);
         await templateRepository.SaveChangesAsync(ct);
 
-        return new CreateTemplateResult(tempalte.Id);
+        return new CreateTemplateResult(template.Id);
     }
 }
