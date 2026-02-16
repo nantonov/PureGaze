@@ -1,7 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
-using System.ComponentModel.DataAnnotations;
+using PureGaze.Application.Contracts.Application;
 
 namespace PureGaze.Application.UseCases.Content.Templates.GetTemplates;
 
@@ -10,15 +9,11 @@ public class GetTemplatesHandler(ITemplateRepository templateRepository)
 {
     public async Task<GetTemplatesQueryResult> Handle(GetTemplatesQuery request, CancellationToken ct)
     {
-        if (request.Page < 1)
-            throw new ValidationException("Page cannot be < 1");
-        if (request.PageSize < 1)
-            throw new ValidationException("PageSize cannot be < 1");
+        var templates = 
+            await templateRepository.GetTemplates(request.Page, request.PageSize, ct);
 
-        var templates = await templateRepository.Query(request.Page, request.PageSize)
-            .Select(x => new TemplateDto(x.Id))
-            .ToListAsync(ct);
-
-        return new GetTemplatesQueryResult(templates);
+        return 
+            new GetTemplatesQueryResult(
+                [..templates.Select(template => new TemplateDto(template.Id, template.Code?.Display))]);
     }
 }

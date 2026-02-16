@@ -11,6 +11,15 @@ namespace PureGaze.API.Controllers;
 [Route("templates")]
 public class TemplatesController(IRequestDispatcher dispatcher) : Controller
 {
+    [HttpGet]
+    public async Task<IActionResult> GetTemplates([FromQuery] GetTemplatesQuery request,
+        CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync<GetTemplatesQuery, GetTemplatesQueryResult>(request, ct);
+
+        return Ok(result);
+    }
+    
     [HttpPost]
     public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand request,
         CancellationToken ct = default)
@@ -20,20 +29,11 @@ public class TemplatesController(IRequestDispatcher dispatcher) : Controller
         return Ok(result);
     }
 
-    [HttpGet]
-    public async Task<IActionResult> QueryTemplates([FromQuery] GetTemplatesQuery request,
-        CancellationToken ct = default)
-    {
-        var result = await dispatcher.SendAsync<GetTemplatesQuery, GetTemplatesQueryResult>(request, ct);
-
-        return Ok(result);
-    }
-
     [HttpGet("{templateId}/topics")]
     public async Task<IActionResult> GetTopicsForTemplate(
-        int templateId,
-        int page,
-        int pageSize,
+        [FromRoute] int templateId,
+        [FromQuery] int page,
+        [FromQuery] int pageSize,
         CancellationToken ct = default)
     {
         var result = await dispatcher.SendAsync<GetTopicsForTemplateQuery, GetTopicsForTemplateResult>(
