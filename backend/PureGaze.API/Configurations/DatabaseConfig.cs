@@ -34,6 +34,7 @@ public static class DatabaseConfig
         builder.Services.AddScoped<IAssessmentRequestRepository, AssessmentRequestRepository>();
         builder.Services.AddScoped<IAssessmentRepository, AssessmentRepository>();
         builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
+        builder.Services.AddScoped<ITopicsRepository, TopicsRepository>();
         builder.Services.AddScoped<ISubtopicRepository, SubtopicRepository>();
         builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
         builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();

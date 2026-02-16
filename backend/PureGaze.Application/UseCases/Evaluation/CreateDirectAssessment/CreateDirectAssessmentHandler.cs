@@ -30,7 +30,7 @@ public class CreateDirectAssessmentHandler(
         var code = await codeRepository.GetByProfessionalLevelIdAsync(employee.ProfessionalLevelId.Value, ct)
             ?? throw new KeyNotFoundException($"Code for Employee with Id {command.EmployeeId} not found.");
 
-        var template = await templateRepository.GetByCodeIdAsync(code.Id, ct)
+        var template = await templateRepository.GetByIdAsync(code.Id, ct)
             ?? throw new KeyNotFoundException($"Template for Code {code.Id} not found.");
 
         var assessment = new Assessment

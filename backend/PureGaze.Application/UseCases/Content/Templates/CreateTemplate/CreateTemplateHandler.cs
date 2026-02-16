@@ -1,19 +1,26 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
-using System.ComponentModel.DataAnnotations;
 using PureGaze.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace PureGaze.Application.UseCases.Content.Templates.CreateTemplate;
 
 public class CreateTemplateHandler(ITemplateRepository templateRepository)
-    : IRequestHandler<CreateTemplateCommand>
+    : IRequestHandler<CreateTemplateCommand, CreateTemplateResult>
 {
-    public async Task Handle(CreateTemplateCommand request, CancellationToken ct)
+    public async Task<CreateTemplateResult> Handle(CreateTemplateCommand request, CancellationToken ct)
     {
         if (await templateRepository.GetByCodeIdAsync(request.CodeId, ct) != null)
             throw new ValidationException($"Template with code `{request.CodeId}` already exists");
 
-        await templateRepository.AddAsync(new Template { CodeId = request.CodeId }, ct);
+        var template = new Template
+        {
+            CodeId = request.CodeId
+        };
+
+        await templateRepository.AddAsync(template, ct);
         await templateRepository.SaveChangesAsync(ct);
+
+        return new CreateTemplateResult(template.Id);
     }
 }
