@@ -2,5 +2,5 @@
 
 namespace PureGaze.Application.UseCases.Content.Topics.DeleteTopic;
 
-public sealed record DeleteTopicsCommand(int Id) : IRequest;
+public sealed record DeleteTopicCommand(int Id) : IRequest;
 

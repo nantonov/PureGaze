@@ -22,7 +22,7 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
     public async Task<IActionResult> DeleteTopic(int topicId,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new DeleteTopicsCommand(topicId), ct);
+        await dispatcher.SendAsync(new DeleteTopicCommand(topicId), ct);
 
         return Ok();
     }
