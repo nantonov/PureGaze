@@ -1,8 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Content.Templates.QueryTemplates;
-using PureGaze.Application.UseCases.Content.Templates.TemplatesQuery;
 using System.ComponentModel.DataAnnotations;
 
 namespace PureGaze.Application.UseCases.Content.Templates.GetTemplates;

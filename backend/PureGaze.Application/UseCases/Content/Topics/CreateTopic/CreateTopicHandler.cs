@@ -1,10 +1,9 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Content.Topics.CreateTopic;
 using PureGaze.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace PureGaze.Application.UseCases.Content.Templates.CreateTemplate;
+namespace PureGaze.Application.UseCases.Content.Topics.CreateTopic;
 
 public sealed class CreateTopicHandler(ITopicsRepository topicsRepository)
     : IRequestHandler<CreateTopicCommand, CreateTopicResult>

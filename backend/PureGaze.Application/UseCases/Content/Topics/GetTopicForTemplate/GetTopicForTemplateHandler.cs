@@ -1,7 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Content.Topics.GetTopics;
 
 namespace PureGaze.Application.UseCases.Content.Topics.GetTopicForTemplate;
 

@@ -2,9 +2,8 @@
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Content.Templates.CreateTemplate;
 using PureGaze.Application.UseCases.Content.Templates.DeleteTemplate;
-using PureGaze.Application.UseCases.Content.Templates.QueryTemplates;
-using PureGaze.Application.UseCases.Content.Templates.TemplatesQuery;
-using PureGaze.Application.UseCases.Content.Topics.GetTopics;
+using PureGaze.Application.UseCases.Content.Templates.GetTemplates;
+using PureGaze.Application.UseCases.Content.Topics.GetTopicForTemplate;
 
 namespace PureGaze.API.Controllers;
 
