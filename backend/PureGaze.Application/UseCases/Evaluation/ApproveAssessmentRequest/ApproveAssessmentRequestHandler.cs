@@ -21,7 +21,7 @@ public class ApproveAssessmentRequestHandler(
         if (request.Status == AssessmentRequestStatus.Approved) 
             throw new InvalidOperationException("Request is already approved.");
         
-        var template = await templateRepository.GetByCodeIdAsync(request.CodeId, ct)
+        var template = await templateRepository.GetByIdAsync(request.CodeId, ct)
             ?? throw new KeyNotFoundException($"Template for Code {request.CodeId} not found.");
 
         request.Status = AssessmentRequestStatus.Approved;

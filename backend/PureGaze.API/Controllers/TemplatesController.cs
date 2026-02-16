@@ -2,6 +2,9 @@
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Content.Templates.CreateTemplate;
 using PureGaze.Application.UseCases.Content.Templates.DeleteTemplate;
+using PureGaze.Application.UseCases.Content.Templates.QueryTemplates;
+using PureGaze.Application.UseCases.Content.Templates.TemplatesQuery;
+using PureGaze.Application.UseCases.Content.Topics.GetTopics;
 
 namespace PureGaze.API.Controllers;
 
@@ -13,16 +16,35 @@ public class TemplatesController(IRequestDispatcher dispatcher) : Controller
     public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand request,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(request, ct);
+        var result = await dispatcher.SendAsync<CreateTemplateCommand, CreateTemplateResult>(request, ct);
 
-        return Ok();
+        return Ok(result);
     }
 
-    [HttpDelete("{codeId}")]
-    public async Task<IActionResult> DeleteTemplate(int codeId,
+    [HttpGet]
+    public async Task<IActionResult> QueryTemplates([FromQuery] GetTemplatesQuery request,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new DeleteTemplateCommand(codeId), ct);
+        var result = await dispatcher.SendAsync<GetTemplatesQuery, GetTemplatesQueryResult>(request, ct);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{templateId}/topic")]
+    public async Task<IActionResult> GetTopicForTemplate(int templateId,
+        CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync<GetTopicForTemplateQuery, GetTopicForTemplateResult>(
+            new GetTopicForTemplateQuery(templateId), ct);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{templateId}")]
+    public async Task<IActionResult> DeleteTemplate(int templateId,
+        CancellationToken ct = default)
+    {
+        await dispatcher.SendAsync(new DeleteTemplateCommand(templateId), ct);
 
         return Ok();
     }
