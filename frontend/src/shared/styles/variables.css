@@ -61,6 +61,7 @@ body {
   --priority-color-urgent: #e57373;
   --error-border-color: #d32f2f;
   --error-background-color: rgba(211, 47, 47, 0.08);
+  --logout-hover-color: rgba(220, 53, 69, 0.08);
   --validation-warning-border: #f6c343;
   --validation-warning-background: #fff7e6;
   --validation-warning-text: #6b4b00;
