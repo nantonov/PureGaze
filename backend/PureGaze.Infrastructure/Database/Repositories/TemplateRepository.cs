@@ -9,10 +9,10 @@ public class TemplateRepository(AppDbContext context) : ITemplateRepository
     public async Task AddAsync(Template template, CancellationToken ct = default) =>
         await context.Templates.AddAsync(template, ct);
 
-    public async Task<Template?> GetByIdAsync(int Id, CancellationToken ct = default)
+    public async Task<Template?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.Templates
             .Include(t => t.Topics)
-            .FirstOrDefaultAsync(t => t.Id == Id, ct);
+            .FirstOrDefaultAsync(t => t.Id == id, ct);
 
     public async Task<Template?> GetByCodeIdAsync(int codeId, CancellationToken ct = default)
         => await context.Templates
