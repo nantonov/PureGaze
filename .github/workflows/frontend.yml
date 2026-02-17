@@ -3,7 +3,8 @@ name: Build and Deploy Frontend
 on:
   push:
     branches:
-       - turn_off
+#       - turn_off
+       - develop-move-terraform-files
     paths:
       - 'frontend/**'
   workflow_dispatch:
