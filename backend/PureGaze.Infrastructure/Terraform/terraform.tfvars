@@ -1,7 +1,0 @@
-sql_admin_login      = "puregaze_admin"
-storage_account_name = "puregaze2026storage"
-project_prefix       = "puregaze2026"
-environment          = "dev"
-location             = "francecentral"
-resource_group_name  = "puregaze-tf-rg"
-db_sku_name          = "Free"
