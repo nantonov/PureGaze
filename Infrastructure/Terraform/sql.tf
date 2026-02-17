@@ -1,5 +1,5 @@
 resource "azurerm_mssql_server" "sqlserver" {
-  name                         = var.sql_server_name != "" ? var.sql_server_name : "${var.project_prefix}-sql-pure-gaze"
+  name                         = var.sql_server_name != "" ? var.sql_server_name : "${var.azure_project_prefix}-sql-pure-gaze"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   version                      = var.sql_server_version
@@ -8,7 +8,7 @@ resource "azurerm_mssql_server" "sqlserver" {
 }
 
 resource "azurerm_mssql_database" "db" {
-  name                        = "${var.project_prefix}-db"
+  name                        = "${var.azure_project_prefix}-db"
   server_id                   = azurerm_mssql_server.sqlserver.id
   collation                   = var.db_collation
   sku_name                    = var.db_sku_name

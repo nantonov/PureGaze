@@ -1,9 +1,9 @@
 resource "azurerm_service_plan" "app_plan" {
-  name                = "${var.project_prefix}-${var.environment}-asp"
+  name                = "${var.azure_project_prefix}-${var.environment}-asp"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   os_type             = var.azure_service_plan_os_type
-  sku_name            = var.app_service_sku
+  sku_name            = var.azure_app_service_sku
 
   tags = {
     environment = var.environment
@@ -11,7 +11,7 @@ resource "azurerm_service_plan" "app_plan" {
 }
 
 resource "azurerm_linux_web_app" "app" {
-  name                = "${var.project_prefix}-${var.environment}-webapp"
+  name                = "${var.azure_project_prefix}-${var.environment}-webapp"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   service_plan_id     = azurerm_service_plan.app_plan.id
@@ -20,15 +20,15 @@ resource "azurerm_linux_web_app" "app" {
     application_stack {
       dotnet_version = var.dotnet_version
     }
-    always_on = var.app_service_sku == "F1" ? false : true
+    always_on = var.azure_app_service_sku == "F1" ? false : true
   }
 
   app_settings = {
-    "ASPNETCORE_ENVIRONMENT" = "Development"
+    "ASPNETCORE_ENVIRONMENT"            = var.environment
     "DatabaseOptions__ConnectionString" = "Server=tcp:${azurerm_mssql_server.sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.db.name};Persist Security Info=False;User ID=${var.sql_admin_login};Password=${var.sql_admin_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-    "JwtOptions__Audience" = "https://puregaze2026-dev-webapp.azurewebsites.net"
-    "JwtOptions__Issuer"   = "https://inno-assessment-api-dev.eu.auth0.com/"
-    "CorsOptions__Origins__0" = "https://${azurerm_static_web_app.static_app.default_host_name}"
+    "JwtOptions__Audience"              = var.jwt_audience
+    "JwtOptions__Issuer"                = var.jwt_issuer
+    "CorsOptions__Origins__0"           = "https://${azurerm_static_web_app.static_app.default_host_name}"
   }
 
   tags = {

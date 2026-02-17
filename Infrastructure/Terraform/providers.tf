@@ -1,4 +1,5 @@
 terraform {
+  # place for keeping terraform state file
   # backend "azurerm" {
   # }
 
