@@ -2,6 +2,8 @@
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Content.Templates.CreateTemplate;
 using PureGaze.Application.UseCases.Content.Templates.DeleteTemplate;
+using PureGaze.Application.UseCases.Content.Templates.GetTemplates;
+using PureGaze.Application.UseCases.Content.Topics.GetTopicsForTemplate;
 
 namespace PureGaze.API.Controllers;
 
@@ -9,20 +11,42 @@ namespace PureGaze.API.Controllers;
 [Route("templates")]
 public class TemplatesController(IRequestDispatcher dispatcher) : Controller
 {
+    [HttpGet]
+    public async Task<IActionResult> GetTemplates([FromQuery] GetTemplatesQuery request,
+        CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync<GetTemplatesQuery, GetTemplatesQueryResult>(request, ct);
+
+        return Ok(result);
+    }
+    
     [HttpPost]
     public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand request,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(request, ct);
+        var result = await dispatcher.SendAsync<CreateTemplateCommand, CreateTemplateResult>(request, ct);
 
-        return Ok();
+        return Ok(result);
     }
 
-    [HttpDelete("{codeId}")]
-    public async Task<IActionResult> DeleteTemplate(int codeId,
+    [HttpGet("{templateId}/topics")]
+    public async Task<IActionResult> GetTopicsForTemplate(
+        [FromRoute] int templateId,
+        [FromQuery] int page,
+        [FromQuery] int pageSize,
         CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new DeleteTemplateCommand(codeId), ct);
+        var result = await dispatcher.SendAsync<GetTopicsForTemplateQuery, GetTopicsForTemplateResult>(
+            new GetTopicsForTemplateQuery(templateId, page, pageSize), ct);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{templateId}")]
+    public async Task<IActionResult> DeleteTemplate(int templateId,
+        CancellationToken ct = default)
+    {
+        await dispatcher.SendAsync(new DeleteTemplateCommand(templateId), ct);
 
         return Ok();
     }

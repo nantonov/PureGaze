@@ -2,4 +2,4 @@
 
 namespace PureGaze.Application.UseCases.Content.Templates.DeleteTemplate;
 
-public sealed record DeleteTemplateCommand(int CodeId) : IRequest;
+public sealed record DeleteTemplateCommand(int TemplateId) : IRequest;
