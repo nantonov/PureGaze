@@ -1,0 +1,8 @@
+sql_admin_login      = "puregaze_admin"
+sql_admin_password   = "YourSecurePassword123!"
+storage_account_name = ""
+project_prefix       = ""
+environment          = "dev"
+location             = ""
+resource_group_name = ""
+azure_subscription_id = ""

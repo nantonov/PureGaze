@@ -3,8 +3,7 @@ name: Build and Deploy Backend Puregaze
 on:
   push:
     branches:
-#       - turn_off
-       - develop-move-terraform-files
+       - turn_off
     paths:
       - "backend/**"
       - ".github/workflows/**"
