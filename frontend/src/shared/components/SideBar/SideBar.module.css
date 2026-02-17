@@ -66,9 +66,9 @@
 .toggle {
   position: absolute;
   top: 0px;
-  right: -18px;
+  right: -16px;
 
-  width: 18px;
+  width: 16px;
   height: 150px;
   border-radius: 0% 20px 20px 0;
 

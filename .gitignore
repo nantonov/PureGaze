@@ -134,6 +134,8 @@ coverage/
 .npm/
 .pnpm-store/
 
+.env.local
+
 # ESLint cache
 .eslintcache
 # Terraform

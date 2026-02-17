@@ -3,7 +3,7 @@ name: Build and Deploy Frontend
 on:
   push:
     branches:
-      - develop
+       - turn_off
     paths:
       - 'frontend/**'
   workflow_dispatch:
@@ -32,5 +32,5 @@ jobs:
         env:
           VITE_AUTH0_DOMAIN: ${{ secrets.VITE_AUTH0_DOMAIN }}
           VITE_AUTH0_CLIENT_ID: ${{ secrets.VITE_AUTH0_CLIENT_ID }}
-          VITE_AUTH0_AUDIENCE: "https://puregaze2026-dev-webapp.azurewebsites.net"
+          VITE_AUTH0_AUDIENCE: ${{ secrets.VITE_AUTH0_AUDIENCE }}
           VITE_AUTH0_Cache_Location: "localstorage"
