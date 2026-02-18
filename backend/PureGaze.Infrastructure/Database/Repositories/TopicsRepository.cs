@@ -15,13 +15,13 @@ public class TopicsRepository(AppDbContext context) : ITopicsRepository
             .AsNoTracking()
             .ToListAsync(ct);
     
-    public async Task AddAsync(Topic topic, CancellationToken ct = default) =>
-        await context.Topics.AddAsync(topic, ct);
-
     public async Task<Topic?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.Topics
             .Include(x => x.TopicTranslates)
             .FirstOrDefaultAsync(t => t.Id == id, ct);
+    
+    public async Task AddAsync(Topic topic, CancellationToken ct = default) =>
+        await context.Topics.AddAsync(topic, ct);
 
     public void Delete(Topic topic) => context.Topics.Remove(topic);
 

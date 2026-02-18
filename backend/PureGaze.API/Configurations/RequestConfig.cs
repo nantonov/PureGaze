@@ -6,7 +6,6 @@ public static class RequestConfig
 {
     public static WebApplicationBuilder RequestsBuild(this WebApplicationBuilder builder)
     {
-        
         builder.Services.AddScoped<IRequestDispatcher, RequestDispatcher>();
 
         builder.Services.Scan(scan => scan 

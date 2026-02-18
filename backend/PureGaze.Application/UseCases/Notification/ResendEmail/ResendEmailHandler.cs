@@ -21,7 +21,7 @@ public class ResendEmailHandler(
             email.Status = EmailStatus.Sent;
             email.SentAt = DateTime.UtcNow;
         }
-        catch (Exception e)
+        catch
         { 
             //TODO: log exception    
         }

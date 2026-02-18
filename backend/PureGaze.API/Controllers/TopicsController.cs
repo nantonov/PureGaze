@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Content.Topics.CreateTopic;
-using PureGaze.Application.UseCases.Content.Topics.DeleteTopic;
+using PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
+using PureGaze.Application.UseCases.Admin.Topics.DeleteTopic;
 
 namespace PureGaze.API.Controllers;
 

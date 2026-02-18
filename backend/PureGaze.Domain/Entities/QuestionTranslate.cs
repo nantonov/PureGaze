@@ -6,5 +6,5 @@ public class QuestionTranslate
 {
     public int QuestionId { get; set; }
     public Language Language { get; set; }
-    public string Content { get; set; } = null!;
+    public string? Content { get; set; }
 }

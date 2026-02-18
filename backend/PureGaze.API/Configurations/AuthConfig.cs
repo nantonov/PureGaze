@@ -15,7 +15,6 @@ public static class AuthConfig
         builder.Services.AddOptions<JwtOptions>()
             .Bind(builder.Configuration.GetSection(JwtOptions.SectionName));
         
-        
         builder.Services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

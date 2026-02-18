@@ -7,8 +7,7 @@ namespace PureGaze.API.Controllers;
 
 [ApiController]
 [Route("emails")]
-public class EmailController(IRequestDispatcher dispatcher) 
-    : ControllerBase
+public class EmailController(IRequestDispatcher dispatcher) : Controller
 {
     [HttpPost]
     public async Task<IActionResult> GetEmails([FromBody] GetEmailsQuery request, CancellationToken ct)

@@ -17,7 +17,7 @@ namespace PureGaze.Infrastructure.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -56,7 +56,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");
 
@@ -202,7 +201,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Display")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -232,7 +230,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LevelVision")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
@@ -248,14 +245,12 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Body")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("From")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -269,12 +264,10 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Subject")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("To")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -399,7 +392,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Translation")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -407,7 +399,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Value")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -428,7 +419,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Translation")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -436,7 +426,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Value")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -478,7 +467,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
@@ -556,7 +544,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -576,6 +563,9 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     b.Property<int>("CodeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CodeId1")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -586,6 +576,8 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
                     b.HasIndex("CodeId")
                         .IsUnique();
+
+                    b.HasIndex("CodeId1");
 
                     b.ToTable("Templates", (string)null);
                 });
@@ -623,7 +615,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -878,6 +869,12 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasForeignKey("PureGaze.Domain.Entities.Template", "CodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PureGaze.Domain.Entities.Code", "Code")
+                        .WithMany()
+                        .HasForeignKey("CodeId1");
+
+                    b.Navigation("Code");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Topic", b =>
@@ -920,14 +917,12 @@ namespace PureGaze.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Employee", b =>
                 {
-                    b.Navigation("EmployeeSettings")
-                        .IsRequired();
+                    b.Navigation("EmployeeSettings");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.Question", b =>
                 {
-                    b.Navigation("Answer")
-                        .IsRequired();
+                    b.Navigation("Answer");
 
                     b.Navigation("QuestionTranslates");
                 });

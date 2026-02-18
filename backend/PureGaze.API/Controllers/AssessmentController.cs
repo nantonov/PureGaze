@@ -6,8 +6,7 @@ namespace PureGaze.API.Controllers;
 
 [ApiController]
 [Route("assessments")]
-public class AssessmentController(IRequestDispatcher dispatcher)
-    : ControllerBase
+public class AssessmentController(IRequestDispatcher dispatcher) : Controller
 {
     [HttpPost("create-direct")]
     public async Task<IActionResult> CreateDirect([FromBody] CreateDirectAssessmentCommand command,

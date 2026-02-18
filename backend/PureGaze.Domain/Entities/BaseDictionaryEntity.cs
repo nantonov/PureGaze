@@ -2,7 +2,7 @@
 
 public class BaseDictionaryEntity : BaseEntity<Guid>
 {
-    public string Translation { get; set; } = string.Empty;
-    public string Value { get; set; } = string.Empty;
+    public string? Translation { get; set; }
+    public string? Value { get; set; }
     public int? OrderValue { get; set; }
 }

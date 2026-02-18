@@ -1,5 +1,5 @@
 using PureGaze.Application.Contracts.Application;
-using PureGaze.Application.UseCases.Content.Answers.UpdateAnswer;
+using PureGaze.Application.UseCases.Admin.Answers.UpdateAnswer;
 using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.Extensions;
@@ -14,7 +14,7 @@ public static class AnswerExtensions
             Translates = answer.AnswerTranslates.Select(t => new AnswerTranslateInfoDto
             {
                 Language = t.Language,
-                Content = t.Content
+                Content = t.Content ?? ""
             }).ToList()
         };
     
@@ -26,7 +26,7 @@ public static class AnswerExtensions
             Translates = answer.AnswerTranslates.Select(t => new AnswerTranslateInfoDto
             {
                 Language = t.Language,
-                Content = t.Content
+                Content = t.Content ?? ""
             }).ToList()
         };
     

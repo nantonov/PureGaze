@@ -11,8 +11,7 @@ namespace PureGaze.API.Controllers;
 
 [ApiController]
 [Route("assessment-requests")]
-public class AssessmentRequestController(IRequestDispatcher dispatcher)
-    : ControllerBase
+public class AssessmentRequestController(IRequestDispatcher dispatcher) : Controller
 {
     [HttpPost]
     public async Task<IActionResult> Create(CancellationToken ct = default)
@@ -27,6 +26,7 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher)
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
+        
         return Ok();
     }
 
@@ -66,6 +66,7 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher)
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
+        
         return Ok();
     }
 }

@@ -3,7 +3,7 @@
 public class HrmOptions
 {
     public static string SectionName => "HrmOptions";
-    public static string EmployeeClientName => "Emplloyee";
+    public static string EmployeeClientName => "Employee";
     public static string KeycloakClientName => "Keycloak";
 
     public string? EmployeeApiUrl { get; set; }

@@ -1,3 +1,12 @@
-﻿namespace PureGaze.Application.Contracts.Application;
+﻿using System.Text.Json.Serialization;
 
-public sealed record TopicDto(int Id, string? Name = "");
+namespace PureGaze.Application.Contracts.Application;
+
+public class TopicDto
+{
+    [JsonPropertyName("id")]
+    public int Id  { get; set; }
+    
+    [JsonPropertyName("name")]
+    public string? Name  { get; set; }
+}

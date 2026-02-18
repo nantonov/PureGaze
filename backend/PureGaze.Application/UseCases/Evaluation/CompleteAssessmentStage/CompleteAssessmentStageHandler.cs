@@ -22,7 +22,7 @@ public class CompleteAssessmentStageHandler(
         if (assessmentStage.Status != StageStatus.InProgress)
             throw new ValidationException("Only in progress assessment stages can be completed");
 
-        if (assessmentStage.Scores.Count != assessmentStage.Topic.Subtopics.Count)
+        if (assessmentStage.Scores.Count != assessmentStage.Topic?.Subtopics.Count)
             throw new ValidationException("Manager must score all subtopics");
 
         assessmentStage.Status = StageStatus.Completed;

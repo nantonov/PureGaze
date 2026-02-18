@@ -1,6 +1,6 @@
 using PureGaze.Application.Contracts.Application;
-using PureGaze.Application.UseCases.Content.Subtopics.CreateSubtopic;
-using PureGaze.Application.UseCases.Content.Subtopics.UpdateSubtopic;
+using PureGaze.Application.UseCases.Admin.Subtopics.CreateSubtopic;
+using PureGaze.Application.UseCases.Admin.Subtopics.UpdateSubtopic;
 using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.Extensions;
@@ -15,7 +15,7 @@ public static class SubtopicExtensions
             Translates = subtopic.SubtopicTranslates.Select(t => new SubtopicTranslateInfoDto
             {
                 Language = t.Language,
-                Name = t.Name
+                Name = t.Name ?? ""
             }).ToList()
         };
 

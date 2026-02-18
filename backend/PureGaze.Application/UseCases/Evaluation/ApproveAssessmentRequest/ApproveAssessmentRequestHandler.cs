@@ -27,7 +27,7 @@ public class ApproveAssessmentRequestHandler(
         request.Status = AssessmentRequestStatus.Approved;
         
         var email = emailFactory.CreateAssessmentApprovedEmail(
-            request.Employee.Email!, $"{request.Employee.FirstNameEn} {request.Employee.LastNameEn}");
+            request.Employee?.Email!, $"{request.Employee?.FirstNameEn} {request.Employee?.LastNameEn}");
 
         await assessmentRepository.AddAsync(request.ToAssessment(template), ct);
         await emailRepository.AddAsync(email, ct);

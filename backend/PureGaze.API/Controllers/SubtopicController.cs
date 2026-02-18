@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Content.Subtopics.CreateSubtopic;
-using PureGaze.Application.UseCases.Content.Subtopics.GetSubtopicDetails;
-using PureGaze.Application.UseCases.Content.Subtopics.UpdateSubtopic;
+using PureGaze.Application.UseCases.Admin.Subtopics.CreateSubtopic;
+using PureGaze.Application.UseCases.Admin.Subtopics.GetSubtopicDetails;
+using PureGaze.Application.UseCases.Admin.Subtopics.UpdateSubtopic;
 
 namespace PureGaze.API.Controllers;
 

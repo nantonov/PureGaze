@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Content.Templates.CreateTemplate;
-using PureGaze.Application.UseCases.Content.Templates.DeleteTemplate;
-using PureGaze.Application.UseCases.Content.Templates.GetTemplates;
-using PureGaze.Application.UseCases.Content.Topics.GetTopicsForTemplate;
+using PureGaze.Application.UseCases.Admin.Templates.CreateTemplate;
+using PureGaze.Application.UseCases.Admin.Templates.DeleteTemplate;
+using PureGaze.Application.UseCases.Admin.Templates.GetTemplates;
+using PureGaze.Application.UseCases.Admin.Topics.GetTopicsForTemplate;
 
 namespace PureGaze.API.Controllers;
 

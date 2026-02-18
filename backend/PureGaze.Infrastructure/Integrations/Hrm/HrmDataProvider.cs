@@ -34,7 +34,7 @@ public class HrmDataProvider(
                 In = new List<string>
                 {
                     Constants.JobTitles.DotNetDeveloperId,
-                    Constants.JobTitles.DotNetMAUIDeveloperId,
+                    Constants.JobTitles.DotNetMaUiDeveloperId,
                     Constants.JobTitles.HeadOfDotNetId
                 }
             }

@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using PureGaze.Domain.Entities;
+﻿using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Staff.GetCurrentEmployee;
 

@@ -7,13 +7,12 @@ namespace PureGaze.API.Controllers;
 
 [Route("hrmdata")]
 [ApiController]
-public class HrmDataController(IRequestDispatcher dispatcher)
-    : ControllerBase
+public class HrmDataController(IRequestDispatcher dispatcher) : Controller
 {
     [HttpGet("employees")]
     public async Task<IActionResult> GetEmployeeById(CancellationToken ct)
     {
-        await dispatcher.SendAsync<UploadEmployeeCommand>(new UploadEmployeeCommand(), ct);
+        await dispatcher.SendAsync(new UploadEmployeeCommand(), ct);
         
         return Ok();
     }
@@ -21,7 +20,7 @@ public class HrmDataController(IRequestDispatcher dispatcher)
     [HttpGet("dictionaries")]
     public async Task<IActionResult> GetDictionaries(CancellationToken ct)
     { 
-        await dispatcher.SendAsync<UploadDictionariesCommand>(new UploadDictionariesCommand(), ct);
+        await dispatcher.SendAsync(new UploadDictionariesCommand(), ct);
         
         return Ok();
     }

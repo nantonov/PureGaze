@@ -6,5 +6,5 @@ namespace PureGaze.Domain.Entities;
     {
         public int TopicId { get; set; }
         public Language Language { get; set; }
-        public string Name { get; set; } = null!;
+        public string? Name { get; set; }
     }

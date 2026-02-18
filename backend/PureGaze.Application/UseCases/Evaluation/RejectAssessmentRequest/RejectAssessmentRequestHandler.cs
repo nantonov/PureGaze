@@ -22,7 +22,7 @@ public class RejectAssessmentRequestHandler(
         request.RejectionReason = command.Reason;
 
         var email = emailFactory.CreateAssessmentRejectedEmail(
-            request.Employee.Email!, $"{request.Employee.FirstNameEn} {request.Employee.LastNameEn}", command.Reason);
+            request.Employee?.Email!, $"{request.Employee?.FirstNameEn} {request.Employee?.LastNameEn}", command.Reason);
 
         await emailRepository.AddAsync(email, ct);
         await assessmentRequestRepository.SaveChangesAsync(ct);

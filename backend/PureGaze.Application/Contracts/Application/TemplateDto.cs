@@ -1,3 +1,12 @@
-﻿namespace PureGaze.Application.Contracts.Application;
+﻿using System.Text.Json.Serialization;
 
-public sealed record TemplateDto(int Id, string? CodeName = "");
+namespace PureGaze.Application.Contracts.Application;
+
+public class TemplateDto
+{
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+    
+    [JsonPropertyName("codeName")]
+    public string? CodeName { get; set; }
+}

@@ -9,8 +9,9 @@ public class QuestionRepository(AppDbContext context) : IQuestionRepository
     public async Task<Question?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.Questions
             .Include(q => q.QuestionTranslates)
-            .Include(q => q.Answer)
-                .ThenInclude(a => a.AnswerTranslates).AsSplitQuery()
+            .Include(q => q.Answer!)
+                .ThenInclude(a => a.AnswerTranslates)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(q => q.Id == id, ct);
     
     public Task<List<Question>> GetBySubTopicIdAsync(int subTopicId, CancellationToken ct = default)

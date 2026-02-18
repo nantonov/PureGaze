@@ -1,5 +1,4 @@
 ﻿using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Notification.GetEmails;
@@ -11,6 +10,6 @@ public class GetEmailsHandler(IEmailRepository emailRepository)
     {
         var emails = await emailRepository.GetEmailsAsync(query.Page, query.PageSize, query.Status, ct);
 
-        return new GetEmailsResponse([.. emails.Select(x => x.ToDto())]);
+        return new GetEmailsResponse([.. emails.Select(EmailDto.ToDto)]);
     }
 }

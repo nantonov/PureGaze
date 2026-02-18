@@ -17,8 +17,7 @@ public class SubtopicScoreConfiguration : IEntityTypeConfiguration<SubtopicScore
             .HasMaxLength(2000);
 
         builder.HasOne(x => x.Stage)
-            .WithMany(x => x.Scores)
-            .IsRequired();
+            .WithMany(x => x.Scores);
 
         builder.HasOne(x => x.Subtopic)
             .WithMany()

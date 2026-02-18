@@ -15,7 +15,7 @@ public class UpdateEmployeeLanguageHandler(
         var employee = await employeeRepository.GetByEmailAsync(email, ct)
             ?? throw new KeyNotFoundException($"Employee with Email {email} not found.");
         
-        employee.EmployeeSettings.Language = request.Language;
+        employee.EmployeeSettings?.Language = request.Language;
 
         await employeeRepository.SaveChangesAsync(ct);
     }

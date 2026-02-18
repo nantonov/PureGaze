@@ -6,5 +6,5 @@ public class SubtopicTranslate
 {
     public int SubtopicId { get; set; }
     public Language Language { get; set; }
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; }
 }

@@ -1,6 +1,6 @@
 using PureGaze.Application.Contracts.Application;
-using PureGaze.Application.UseCases.Content.Questions.CreateQuestionWithAnswer;
-using PureGaze.Application.UseCases.Content.Questions.UpdateQuestion;
+using PureGaze.Application.UseCases.Admin.Questions.CreateQuestionWithAnswer;
+using PureGaze.Application.UseCases.Admin.Questions.UpdateQuestion;
 using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.Extensions;
@@ -15,7 +15,7 @@ public static class QuestionExtensions
             Translates = question.QuestionTranslates.Select(t => new QuestionTranslateInfoDto
             {
                 Language = t.Language,
-                Content = t.Content
+                Content = t.Content ?? ""
             }).ToList()
         };
 
@@ -27,9 +27,9 @@ public static class QuestionExtensions
             Translates = question.QuestionTranslates.Select(t => new QuestionTranslateInfoDto
             {
                 Language = t.Language,
-                Content = t.Content
+                Content = t.Content ?? ""
             }).ToList(),
-            Answer = question.Answer.ToDetailsDto()
+            Answer = question.Answer?.ToDetailsDto()
         };
         
     public static void Update(this Question question, IEnumerable<UpdateQuestionTranslateDto> translates, UpdateQuestionAnswerDto answerDto)
@@ -45,7 +45,7 @@ public static class QuestionExtensions
 
         foreach (var translateDto in answerDto.Translates)
         {
-            question.Answer.AnswerTranslates.SyncTranslate(
+            question.Answer?.AnswerTranslates.SyncTranslate(
                 translateDto.Language,
                 t => t.Content = translateDto.Content,
                 lang => new AnswerTranslate { AnswerId = question.Answer.Id, Language = lang, Content = translateDto.Content },

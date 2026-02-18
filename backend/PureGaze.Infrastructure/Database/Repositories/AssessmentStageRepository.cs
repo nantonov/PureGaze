@@ -17,7 +17,8 @@ public class AssessmentStageRepository(AppDbContext context)
         => await context.AssessmentStages
             .Include(x => x.Assessment)
             .Include(x => x.Assessor)
-            .Include(x => x.Topic).ThenInclude(x => x.Subtopics)
+            .Include(x => x.Topic!)
+                .ThenInclude(x => x.Subtopics)
             .Include(x => x.Scores)
             .AsSplitQuery()
             .FirstOrDefaultAsync(x => x.Id == id, ct);

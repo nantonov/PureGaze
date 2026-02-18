@@ -20,7 +20,7 @@ public class EmailSender(IOptions<SmtpOptions> options) : IEmailSender
             IsBodyHtml = false
         };
         
-        mailMessage.To.Add(email.To);
+        mailMessage.To.Add(email.To ?? "");
 
         using var client = new SmtpClient();
         client.Host = _options.Host;

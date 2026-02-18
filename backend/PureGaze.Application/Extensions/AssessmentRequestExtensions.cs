@@ -12,10 +12,10 @@ public static class AssessmentRequestExtensions
             Id = assessmentRequest.Id,
             EmployeeId = assessmentRequest.EmployeeId,
             EmployeeFullName =
-                $"{assessmentRequest.Employee.FirstNameEn} {assessmentRequest.Employee.LastNameEn}".Trim(),
+                $"{assessmentRequest.Employee?.FirstNameEn} {assessmentRequest.Employee?.LastNameEn}".Trim(),
             ManagerId = assessmentRequest.ManagerId,
-            ManagerFullName = $"{assessmentRequest.Manager.FirstNameEn} {assessmentRequest.Manager.LastNameEn}".Trim(),
-            Code = assessmentRequest.Code.Display,
+            ManagerFullName = $"{assessmentRequest.Manager?.FirstNameEn} {assessmentRequest.Manager?.LastNameEn}".Trim(),
+            Code = assessmentRequest.Code?.Display,
             Status = assessmentRequest.Status,
             RejectionReason = assessmentRequest.RejectionReason
         };
@@ -25,9 +25,9 @@ public static class AssessmentRequestExtensions
         {
             Id = assessmentRequest.Id,
             EmployeeFullName =
-                $"{assessmentRequest.Employee.FirstNameEn} {assessmentRequest.Employee.LastNameEn}".Trim(),
-            ManagerFullName = $"{assessmentRequest.Manager.FirstNameEn} {assessmentRequest.Manager.LastNameEn}".Trim(),
-            Code = assessmentRequest.Code.Display,
+                $"{assessmentRequest.Employee?.FirstNameEn} {assessmentRequest.Employee?.LastNameEn}".Trim(),
+            ManagerFullName = $"{assessmentRequest.Manager?.FirstNameEn} {assessmentRequest.Manager?.LastNameEn}".Trim(),
+            Code = assessmentRequest.Code?.Display,
             Status = assessmentRequest.Status,
         };
 
@@ -38,10 +38,10 @@ public static class AssessmentRequestExtensions
             CodeId = request.CodeId,
             TemplateId = template.Id,
             Status = AssessmentStatus.Created,
-            Stages = template.Topics.Select(topic => new AssessmentStage
+            Stages = [.. template.Topics.Select(topic => new AssessmentStage
             {
                 TopicId = topic.Id,
                 Status = StageStatus.Pending
-            }).ToList()
+            })]
         };
 }

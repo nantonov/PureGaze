@@ -15,7 +15,7 @@ public class UpdateEmployeeThemeHandler(
         var employee = await employeeRepository.GetByEmailAsync(email, ct)
                        ?? throw new KeyNotFoundException($"Employee with Email {email} not found.");
         
-        employee.EmployeeSettings.Theme = request.Theme;
+        employee.EmployeeSettings?.Theme = request.Theme;
 
         await employeeRepository.SaveChangesAsync(ct);
     }
