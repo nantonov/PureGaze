@@ -79,5 +79,5 @@ jobs:
         id: deploy
         uses: azure/webapps-deploy@v3
         with:
-          app-name: "puregaze2026-dev-webapp"
+          app-name: "puregaze2026-development-webapp"
           package: ./puregaze-api
