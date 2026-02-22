@@ -651,6 +651,28 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 name: "IX_Topics_TemplateId",
                 table: "Topics",
                 column: "TemplateId");
+            
+            migrationBuilder.Sql(@"
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_HeadId
+                        
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M1Id
+                        
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M2Id
+
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M3Id
+                  
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_M4Id  
+
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_ManagerId
+                        
+                        ALTER TABLE Employees NOCHECK
+                        CONSTRAINT FK_Employees_Employees_RMId");
         }
 
         /// <inheritdoc />

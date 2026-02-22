@@ -1,0 +1,44 @@
+resource "azurerm_service_plan" "app_plan" {
+  name                = "${var.azure_project_prefix}-dev-asp"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  os_type             = var.azure_service_plan_os_type
+  sku_name            = var.azure_app_service_sku
+
+  tags = {
+    environment = var.environment
+  }
+}
+
+resource "azurerm_linux_web_app" "app" {
+  name                = "${var.azure_project_prefix}-dev-webapp"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  service_plan_id     = azurerm_service_plan.app_plan.id
+
+  site_config {
+    application_stack {
+      dotnet_version = var.dotnet_version
+    }
+    always_on = var.azure_app_service_sku == "F1" ? false : true
+  }
+
+  app_settings = {
+    "ASPNETCORE_ENVIRONMENT"            = var.environment
+    "DatabaseOptions__ConnectionString" = "Server=tcp:${azurerm_mssql_server.sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.db.name};Persist Security Info=False;User ID=${var.sql_admin_login};Password=${var.sql_admin_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    "JwtOptions__Audience"              = var.jwt_audience
+    "JwtOptions__Issuer"                = var.jwt_issuer
+    "CorsOptions__Origins__0"           = "https://${azurerm_static_web_app.static_app.default_host_name}"
+  }
+
+  tags = {
+    environment = var.environment
+  }
+}
+
+resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
+  name             = "AllowAzureServices"
+  server_id        = azurerm_mssql_server.sqlserver.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
