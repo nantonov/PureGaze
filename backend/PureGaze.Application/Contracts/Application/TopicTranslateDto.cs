@@ -4,5 +4,5 @@ namespace PureGaze.Application.Contracts.Application;
 
 public sealed record TopicTranslateDto(
     int TopicId,
-    Language Languag,
+    Language Language,
     string? Name);
