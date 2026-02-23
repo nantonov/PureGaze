@@ -20,7 +20,7 @@ public sealed class TopicTranslatesController(IRequestDispatcher dispatcher) : C
     }
 
     [HttpPut]
-    public async Task<IActionResult> EditTopicTranslate(EditTopicTranslateCommand request, CancellationToken ct = default)
+    public async Task<IActionResult> EditTopicTranslate([FromBody] EditTopicTranslateCommand request, CancellationToken ct = default)
     {
         await dispatcher.SendAsync(request, ct);
 
