@@ -15,9 +15,9 @@ public class TopicTranslatesRepository(AppDbContext context) : ITopicTranslatesR
             .AsNoTracking()
             .ToListAsync(ct);
 
-    public async Task<TopicTranslate?> GetByTopicIdAndLanguageAsync(int TopicId, Language language, CancellationToken ct = default)
+    public async Task<TopicTranslate?> GetByTopicIdAndLanguageAsync(int topicId, Language language, CancellationToken ct = default)
         => await context.TopicTranslates
-            .FirstOrDefaultAsync(t => t.TopicId == TopicId && t.Language == language, ct);
+            .FirstOrDefaultAsync(t => t.TopicId == topicId && t.Language == language, ct);
 
     public async Task AddAsync(TopicTranslate topicTranslate, CancellationToken ct = default) =>
         await context.TopicTranslates.AddAsync(topicTranslate, ct);
