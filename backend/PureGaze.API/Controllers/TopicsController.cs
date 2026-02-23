@@ -2,6 +2,7 @@
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 using PureGaze.Application.UseCases.Admin.Topics.DeleteTopic;
+using PureGaze.Application.UseCases.Admin.TopicTranslates.GetTopicTranslates;
 
 namespace PureGaze.API.Controllers;
 
@@ -25,5 +26,18 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
         await dispatcher.SendAsync(new DeleteTopicCommand(topicId), ct);
 
         return Ok();
+    }
+
+    [HttpGet("{topicId}/translates")]
+    public async Task<IActionResult> GetTopicTranslates(
+        [FromRoute] int topicId,
+        [FromQuery] int page,
+        [FromQuery] int pageSize,
+        CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync<GetTopicTranslatesQuery, GetTopicTranslatesResult>(
+            new GetTopicTranslatesQuery(topicId, page, pageSize), ct);
+
+        return Ok(result);
     }
 }
