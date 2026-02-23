@@ -1,6 +1,7 @@
 ﻿using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace PureGaze.Application.UseCases.Admin.TopicTranslates.CreateTopicTranslate;
 
@@ -15,7 +16,7 @@ public sealed class CreateTopicTranslateHandler(
             throw new KeyNotFoundException($"Topic with Id `{request.TopicId}` was not found");
 
         if (await topicTranslatesRepository.GetByTopicIdAndLanguageAsync(request.TopicId, request.Language, ct) != null)
-            throw new KeyNotFoundException($"Topic translate for Topic `{request.TopicId}` and language `{request.Language}` already exists");
+            throw new ValidationException($"Topic translate for Topic `{request.TopicId}` and language `{request.Language}` already exists");
 
         var topicTranslate = new TopicTranslate
         {
