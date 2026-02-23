@@ -21,6 +21,7 @@ public sealed class GetTopicTranslatesHandler(
             ct);
 
         return new GetTopicTranslatesResult(
-            [.. topicTranslates.Select(x => new TopicTranslateDto(x.TopicId, x.Language, x.Name))]);
+            [.. topicTranslates.Select(x => 
+                new TopicTranslateDto {TopicId = x.TopicId, Language = x.Language, Name = x.Name})]);
     }
 }

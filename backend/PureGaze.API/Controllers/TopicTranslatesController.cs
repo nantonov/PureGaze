@@ -27,8 +27,8 @@ public sealed class TopicTranslatesController(IRequestDispatcher dispatcher) : C
         return Ok();
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteTopicTranslate([FromQuery] DeleteTopicTranslateCommand request, CancellationToken ct = default)
+    [HttpDelete("{topicId}/{language}")]
+    public async Task<IActionResult> DeleteTopicTranslate([FromRoute] DeleteTopicTranslateCommand request, CancellationToken ct = default)
     {
         await dispatcher.SendAsync(request, ct);
 
