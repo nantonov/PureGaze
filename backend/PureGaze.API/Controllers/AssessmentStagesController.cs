@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Evaluation.AssingAssesmentStage;
+using PureGaze.Application.UseCases.Evaluation.AssignAssessmentStage;
 using PureGaze.Application.UseCases.Evaluation.CompleteAssessmentStage;
 using PureGaze.Application.UseCases.Evaluation.StartAssessmentStage;
 

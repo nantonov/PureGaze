@@ -5,4 +5,5 @@ export interface Employee {
   email: string;
   managerLevelId?: string;
   role?: string;
+  language?: string;
 }

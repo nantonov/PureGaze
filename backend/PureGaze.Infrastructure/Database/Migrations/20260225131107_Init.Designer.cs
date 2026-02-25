@@ -12,7 +12,7 @@ using PureGaze.Infrastructure.Database;
 namespace PureGaze.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260217182633_Init")]
+    [Migration("20260225131107_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -373,9 +373,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Language")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Theme")
                         .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
