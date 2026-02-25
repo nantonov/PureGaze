@@ -7,6 +7,10 @@ class EmployeeApi extends BaseApi {
   public async getMe(): Promise<Employee> {
     return this.get<Employee>(`${this.baseUrl}/me`);
   }
+
+  public async updateLanguage(language: string): Promise<void> {
+    return this.put<void>(`${this.baseUrl}/language`, { language });
+  }
 }
 
 export const employeeApi = new EmployeeApi();

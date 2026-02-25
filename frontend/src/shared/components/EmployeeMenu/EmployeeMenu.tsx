@@ -4,6 +4,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ChevronDown, LogOut, Sun, Moon, Globe, Palette } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import styles from "./EmployeeMenu.module.css";
 
 export const EmployeeMenu = () => {
@@ -11,6 +12,7 @@ export const EmployeeMenu = () => {
   const { theme, toggle } = useTheme();
   const { language, setLanguage } = useLanguage();
   const { logout } = useAuth0();
+  const { t } = useTranslation("profile");
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -56,14 +58,14 @@ export const EmployeeMenu = () => {
 
       {isOpen && (
         <div className={styles.dropdown}>
-          <div className={styles.header}>Settings</div>
+          <div className={styles.header}>{t('profile')}</div>
 
           <div className={styles.divider} />
 
           {/* Language */}
           <div className={styles.row}>
             <span className={styles.label}>
-              <Globe size={16} /> Language
+              <Globe size={16} /> {t('language')}
             </span>
             <div className={styles.selectWrapper}>
               <select
@@ -80,13 +82,13 @@ export const EmployeeMenu = () => {
           {/* Theme */}
           <div className={`${styles.row} ${styles.rowTopMargin}`}>
             <span className={styles.label}>
-              <Palette size={16} /> Theme
+              <Palette size={16} /> {t('theme')}
             </span>
             <button
               type="button"
               className={styles.themeSwitch}
               onClick={toggle}
-              title="Toggle theme"
+              title={t('toggleTheme')}
             >
               <span
                 className={`${styles.themeIcon} ${theme === "light" ? styles.themeActive : ""}`}
@@ -104,7 +106,7 @@ export const EmployeeMenu = () => {
 
           <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
             <LogOut size={16} />
-            Logout
+            {t('logout')}
           </button>
         </div>
       )}
