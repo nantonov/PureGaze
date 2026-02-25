@@ -372,9 +372,6 @@ namespace PureGaze.Infrastructure.Database.Migrations
                     b.Property<int>("Language")
                         .HasColumnType("int");
 
-                    b.Property<int>("Theme")
-                        .HasColumnType("int");
-
                     b.HasKey("EmployeeId");
 
                     b.ToTable("EmployeeSettings", (string)null);

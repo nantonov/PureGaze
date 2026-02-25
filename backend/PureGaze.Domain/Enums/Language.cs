@@ -8,7 +8,7 @@ namespace PureGaze.Domain.Enums;
 public enum Language
 {
     [EnumMember(Value = "en")]
-    English = 1,
+    En = 1,
     [EnumMember(Value = "ru")]
-    Russian = 2
+    Ru = 2
 }

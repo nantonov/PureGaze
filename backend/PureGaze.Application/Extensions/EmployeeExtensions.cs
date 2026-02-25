@@ -6,9 +6,9 @@ namespace PureGaze.Application.Extensions;
 
 public static class EmployeeExtensions
 {
-    public static Employee ToEntity(this EmployeeDto dto) 
+    public static Employee ToEntity(this EmployeeDto dto)
         => new()
-        { 
+        {
             Id = dto.Id,
             UpdatedAt =  DateTime.UtcNow,
             FirstNameEn = dto.FirstNameEn,
@@ -29,11 +29,10 @@ public static class EmployeeExtensions
             LifecycleStatus =  dto.LifecycleStatus,
             EmployeeSettings = new EmployeeSettings
             {
-                Theme = Theme.Dark,
-                Language = Language.English
+                Language = Language.En
             }
         };
-    
+
     public static void Update(this Employee emp, EmployeeDto dto)
     {
         emp.Id = dto.Id;

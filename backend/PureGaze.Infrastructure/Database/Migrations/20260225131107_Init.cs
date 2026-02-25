@@ -299,8 +299,7 @@ namespace PureGaze.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    Theme = table.Column<int>(type: "int", nullable: false)
+                    Language = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

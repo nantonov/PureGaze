@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Staff.GetCurrentEmployee;
 using PureGaze.Application.UseCases.Staff.UpdateEmployeeLanguage;
-using PureGaze.Application.UseCases.Staff.UpdateEmployeeTheme;
 
 namespace PureGaze.API.Controllers;
 
@@ -20,15 +19,6 @@ public class EmployeeController(IRequestDispatcher dispatcher) : Controller
                 .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>(new GetCurrentEmployeeQuery(), ct);
 
         return Ok(response);
-    }
-
-    // TODO: Not currently called from frontend (theme is stored only in localStorage).
-    [HttpPut("theme")]
-    public async Task<IActionResult> UpdateTheme([FromBody] UpdateEmployeeThemeCommand command, CancellationToken ct)
-    {
-        await dispatcher.SendAsync(command, ct);
-
-        return Ok();
     }
 
     [HttpPut("language")]
