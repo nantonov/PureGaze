@@ -1,4 +1,4 @@
-﻿using PureGaze.Domain.Enums;
+using PureGaze.Domain.Enums;
 
 namespace PureGaze.Domain.Entities;
 

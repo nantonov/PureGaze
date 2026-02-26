@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Options;
 using PureGaze.Application.Abstractions.Infrastructure;
@@ -19,7 +19,7 @@ public class EmailSender(IOptions<SmtpOptions> options) : IEmailSender
             Body = email.Body,
             IsBodyHtml = false
         };
-        
+
         mailMessage.To.Add(email.To ?? "");
 
         using var client = new SmtpClient();
@@ -27,7 +27,7 @@ public class EmailSender(IOptions<SmtpOptions> options) : IEmailSender
         client.Port = _options.Port;
         client.Credentials = new NetworkCredential(_options.Email, _options.Password);
         client.EnableSsl = _options.EnableSsl;
-        
+
         await client.SendMailAsync(mailMessage, ct);
     }
 }

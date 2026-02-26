@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PureGaze.Domain.Entities;
 
@@ -11,7 +11,7 @@ public class EmployeeSettingsConfiguration : IEntityTypeConfiguration<EmployeeSe
         builder.ToTable("EmployeeSettings");
 
         builder.HasKey(x => x.EmployeeId);
-        
+
         builder.HasOne(x => x.Employee)
             .WithOne(x => x.EmployeeSettings)
             .HasForeignKey<EmployeeSettings>(x => x.EmployeeId);

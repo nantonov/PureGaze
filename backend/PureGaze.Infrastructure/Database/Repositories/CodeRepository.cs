@@ -4,7 +4,7 @@ using PureGaze.Domain.Entities;
 
 namespace PureGaze.Infrastructure.Database.Repositories;
 
-public class CodeRepository(AppDbContext context) 
+public class CodeRepository(AppDbContext context)
     : ICodeRepository
 {
     public async Task<Code?> GetByProfessionalLevelIdAsync(Guid professionalLevelId, CancellationToken ct = default)

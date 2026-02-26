@@ -13,7 +13,7 @@ public class AssessmentController(IRequestDispatcher dispatcher) : Controller
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
-        
+
         return Ok();
     }
 }

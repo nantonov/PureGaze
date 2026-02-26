@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Requests;
+using PureGaze.Application.Requests;
 
 namespace PureGaze.API.Configurations;
 
@@ -8,16 +8,16 @@ public static class RequestConfig
     {
         builder.Services.AddScoped<IRequestDispatcher, RequestDispatcher>();
 
-        builder.Services.Scan(scan => scan 
-            .FromApplicationDependencies() 
-            .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<>))) 
-            .AsImplementedInterfaces() 
-            .WithScopedLifetime() 
-            .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<,>))) 
-            .AsImplementedInterfaces() 
+        builder.Services.Scan(scan => scan
+            .FromApplicationDependencies()
+            .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime()
+            .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<,>)))
+            .AsImplementedInterfaces()
             .WithScopedLifetime()
         );
-        
+
         return builder;
     }
 }

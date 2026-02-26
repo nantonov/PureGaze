@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 using PureGaze.Application.UseCases.Admin.Topics.DeleteTopic;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PureGaze.Infrastructure.Database.Repositories;
 
-public class SubtopicRepository(AppDbContext context) 
+public class SubtopicRepository(AppDbContext context)
     : ISubtopicRepository
 {
     public async Task<Subtopic?> GetByIdAsync(int id, CancellationToken ct = default)
@@ -23,9 +23,9 @@ public class SubtopicRepository(AppDbContext context)
     public async Task AddAsync(Subtopic subtopic, CancellationToken ct = default)
         => await context.Subtopics.AddAsync(subtopic, ct);
 
-    public void Delete(Subtopic subtopic) 
+    public void Delete(Subtopic subtopic)
         => context.Subtopics.Remove(subtopic);
-    
+
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
 }

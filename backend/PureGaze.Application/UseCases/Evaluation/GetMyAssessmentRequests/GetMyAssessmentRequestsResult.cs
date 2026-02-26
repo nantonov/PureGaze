@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Contracts.Application;
+using PureGaze.Application.Contracts.Application;
 
 namespace PureGaze.Application.UseCases.Evaluation.GetMyAssessmentRequests;
 

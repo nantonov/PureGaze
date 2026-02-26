@@ -10,7 +10,7 @@ public class SubtopicScoreRepository(AppDbContext context)
     public async Task<SubtopicScore?> GetBySubtopicAndStageIdAsync(int subtopicId, int stageId, CancellationToken ct = default)
         => await context.SubtopicScores
             .FirstOrDefaultAsync(s => s.SubtopicId == subtopicId && s.StageId == stageId, ct);
-    
+
     public async Task AddAsync(SubtopicScore subtopic, CancellationToken ct = default)
         => await context.SubtopicScores.AddAsync(subtopic, ct);
 

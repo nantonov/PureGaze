@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using PureGaze.Application.Contracts.Integrations.Hrm;
 using PureGaze.Infrastructure.Helpers;
 
@@ -23,13 +23,13 @@ public class HrmEemployee
 
     [JsonPropertyName("lastNameEn")]
     public string? LastNameEn { get; set; }
-    
+
     [JsonPropertyName("professionalLevelId")]
     public Guid? ProfessionalLevelId { get; set; }
-    
+
     [JsonPropertyName("managerialLevelId")]
     public Guid? ManagerialLevelId { get; set; }
-    
+
     [JsonPropertyName("email")]
     public string? Email { get; set; }
 
@@ -38,34 +38,34 @@ public class HrmEemployee
 
     [JsonPropertyName("head")]
     public HrmManager? Head { get; set; }
-    
+
     [JsonPropertyName("resourceManager")]
     public HrmManager? RM { get; set; }
-    
+
     [JsonPropertyName("managerM1")]
     public HrmManager? M1 { get; set; }
-    
+
     [JsonPropertyName("managerM2")]
     public HrmManager? M2 { get; set; }
-    
+
     [JsonPropertyName("managerM3")]
     public HrmManager? M3 { get; set; }
-    
+
     [JsonPropertyName("managerM4")]
     public HrmManager? M4 { get; set; }
 
     [JsonPropertyName("hireDate")]
     public DateTime HireDate { get; set; }
-    
+
     [JsonPropertyName("terminationDate")]
     public DateTime? TerminationDate { get; set; }
 
     [JsonPropertyName("lifecycleStatus")]
     public string? LifecycleStatus { get; set; }
-    
+
     public static EmployeeDto ToDto(HrmEemployee employee)
     {
-        var dto = new  EmployeeDto
+        var dto = new EmployeeDto
         {
             Id = employee.Id,
             FirstNameEn = employee.FirstNameEn,
@@ -86,7 +86,7 @@ public class HrmEemployee
         };
 
         dto.Hash = HashCalculationHelper.CalculateHash(dto);
-        
+
         return dto;
     }
 }

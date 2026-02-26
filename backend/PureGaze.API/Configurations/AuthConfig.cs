@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PureGaze.API.Providers;
 using PureGaze.Application.Abstractions.Providers;
@@ -11,19 +11,19 @@ public static class AuthConfig
     public static WebApplicationBuilder AuthConfigBuild(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<ICurrentUserContextProvider, CurrentUserContextProvider>();
-        
+
         builder.Services.AddOptions<JwtOptions>()
             .Bind(builder.Configuration.GetSection(JwtOptions.SectionName));
-        
+
         builder.Services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 var jwtOptions = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
-                
+
                 options.Authority = jwtOptions.Issuer;
                 options.Audience = jwtOptions.Audience;
-                
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -32,7 +32,7 @@ public static class AuthConfig
                     ClockSkew = TimeSpan.FromMinutes(5),
                 };
             });
-        
+
         return builder;
     }
 }

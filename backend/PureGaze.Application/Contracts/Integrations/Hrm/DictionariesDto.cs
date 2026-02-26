@@ -1,11 +1,11 @@
-﻿namespace PureGaze.Application.Contracts.Integrations.Hrm;
+namespace PureGaze.Application.Contracts.Integrations.Hrm;
 
 public class DictionariesDto
 {
     public IList<BaseDictionaryDto> ManagerialLevels { get; set; } = [];
-    
+
     public IList<BaseDictionaryDto> ProfessionalLevels { get; set; } = [];
-    
+
     public IList<BaseDictionaryDto> ProcessConfirmationStatuses { get; set; } = [];
 }
 

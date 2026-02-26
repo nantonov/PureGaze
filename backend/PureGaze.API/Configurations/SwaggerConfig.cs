@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi;
+using Microsoft.OpenApi;
 
 namespace PureGaze.API.Configurations;
 
@@ -26,9 +26,9 @@ public static class SwaggerConfig
 
     public static void UseSwaggerForDevelopment(this WebApplication app)
     {
-        if (!app.Environment.IsDevelopment()) 
+        if (!app.Environment.IsDevelopment())
             return;
-        
+
         app.UseSwagger(x =>
         {
             x.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;

@@ -17,25 +17,25 @@ public class QuestionController(IRequestDispatcher dispatcher) : Controller
     {
         var result =
             await dispatcher.SendAsync<GetQuestionDetailsQuery, QuestionDetailsDto>(new GetQuestionDetailsQuery(id), ct);
-        
+
         return Ok(result);
     }
 
     [HttpGet("subtopic/{subTopicId}")]
     public async Task<IActionResult> GetBySubtopic([FromRoute] int subTopicId, CancellationToken ct = default)
     {
-        var result = 
+        var result =
             await dispatcher.SendAsync<GetQuestionsBySubtopicQuery, List<QuestionDto>>(new GetQuestionsBySubtopicQuery(subTopicId), ct);
-        
+
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateQuestionWithAnswerCommand command, CancellationToken ct = default)
     {
-        var result = 
+        var result =
             await dispatcher.SendAsync<CreateQuestionWithAnswerCommand, int>(command, ct);
-        
+
         return CreatedAtAction(nameof(Get), new { id = result }, new { Id = result });
     }
 
@@ -43,7 +43,7 @@ public class QuestionController(IRequestDispatcher dispatcher) : Controller
     public async Task<IActionResult> Update([FromBody] UpdateQuestionCommand command, CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
-        
+
         return Ok();
     }
 }

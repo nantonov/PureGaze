@@ -1,4 +1,4 @@
-﻿using System.Buffers;
+using System.Buffers;
 using System.Buffers.Text;
 using System.IO.Hashing;
 using System.Text;
@@ -10,7 +10,7 @@ public static class HashCalculationHelper
 {
     public static ulong CalculateHash(EmployeeDto e)
     {
-        var buffer = ArrayPool<byte>.Shared.Rent(4096); 
+        var buffer = ArrayPool<byte>.Shared.Rent(4096);
         try
         {
             int pos = 0;
@@ -46,12 +46,12 @@ public static class HashCalculationHelper
                 }
                 buffer[pos++] = (byte)'|';
             }
-            
+
             WriteString(e.FirstNameEn);
             WriteString(e.LastNameEn);
             WriteString(e.Email);
             WriteString(e.LifecycleStatus);
-            
+
             WriteGuid(e.ProfessionalLevelId);
             WriteGuid(e.ManagerialLevelId);
 
@@ -62,12 +62,12 @@ public static class HashCalculationHelper
             WriteInt(e.M2Id);
             WriteInt(e.M3Id);
             WriteInt(e.M4Id);
-            
+
             return XxHash64.HashToUInt64(buffer.AsSpan(0, pos));
         }
         finally
         {
             ArrayPool<byte>.Shared.Return(buffer);
         }
-    } 
+    }
 }

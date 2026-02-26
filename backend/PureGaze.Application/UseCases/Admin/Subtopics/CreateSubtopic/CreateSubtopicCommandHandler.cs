@@ -12,7 +12,7 @@ public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
     {
         ValidateInput(command);
         await ValidateUniquenessAsync(command, ct);
-        
+
         await subtopicRepository.AddAsync(command.ToEntity(), ct);
         await subtopicRepository.SaveChangesAsync(ct);
     }
@@ -25,13 +25,13 @@ public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
         if (command.Translates.Count == 0)
             throw new ArgumentException("At least one subtopic translate is required.");
     }
-    
+
     private async Task ValidateUniquenessAsync(CreateSubtopicCommand command, CancellationToken ct)
     {
         var names = command.Translates.Select(t => t.Name);
-        
-        if (await subtopicRepository.IsNameExistingAsync(command.TopicId, names, null, ct)) 
+
+        if (await subtopicRepository.IsNameExistingAsync(command.TopicId, names, null, ct))
             throw new ValidationException($"Subtopic with one of names already exists in topic '{command.TopicId}'.");
-        
+
     }
 }

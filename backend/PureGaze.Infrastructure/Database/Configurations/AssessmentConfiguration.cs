@@ -12,7 +12,7 @@ public class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        
+
         builder.HasOne<Employee>()
             .WithMany()
             .HasForeignKey(x => x.EmployeeId)

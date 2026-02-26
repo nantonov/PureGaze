@@ -11,12 +11,12 @@ public class SubtopicConfiguration : IEntityTypeConfiguration<Subtopic>
         builder.ToTable("Subtopics");
 
         builder.HasKey(o => o.Id);
-        
+
         builder.Property(o => o.Id)
             .ValueGeneratedOnAdd();
-        
+
         builder.HasOne(o => o.Topic)
-            .WithMany(o => o.Subtopics) 
+            .WithMany(o => o.Subtopics)
             .HasForeignKey(o => o.TopicId)
             .OnDelete(DeleteBehavior.Cascade);
     }

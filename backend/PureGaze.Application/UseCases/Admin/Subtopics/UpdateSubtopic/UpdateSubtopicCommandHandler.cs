@@ -40,7 +40,7 @@ public class UpdateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
 
         if (newNames.Count() > 0)
         {
-            if (await subtopicRepository.IsNameExistingAsync(subtopic.TopicId, newNames, subtopic.Id, ct)) 
+            if (await subtopicRepository.IsNameExistingAsync(subtopic.TopicId, newNames, subtopic.Id, ct))
                 throw new ValidationException($"Subtopic with name already exists in topic '{subtopic.TopicId}'.");
         }
     }

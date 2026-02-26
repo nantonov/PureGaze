@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Abstractions.Infrastructure;
+using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;

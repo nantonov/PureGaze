@@ -1,4 +1,4 @@
-﻿using PureGaze.Domain.Entities;
+using PureGaze.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace PureGaze.Infrastructure.Database;

@@ -1,4 +1,4 @@
-﻿namespace PureGaze.Infrastructure.Integrations.Hrm;
+namespace PureGaze.Infrastructure.Integrations.Hrm;
 
 public class HrmOptions
 {

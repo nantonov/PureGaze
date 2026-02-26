@@ -9,7 +9,7 @@ public class AnswerTranslateConfiguration : IEntityTypeConfiguration<AnswerTrans
     public void Configure(EntityTypeBuilder<AnswerTranslate> builder)
     {
         builder.ToTable("AnswerTranslates");
-        
+
         builder.HasKey(o => new { o.AnswerId, o.Language });
 
         builder.Property(o => o.Content)

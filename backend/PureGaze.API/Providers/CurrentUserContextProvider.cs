@@ -1,9 +1,9 @@
-﻿using PureGaze.Application.Abstractions.Providers;
+using PureGaze.Application.Abstractions.Providers;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace PureGaze.API.Providers;
 
-internal sealed class CurrentUserContextProvider(IHttpContextAccessor httpContextAccessor) 
+internal sealed class CurrentUserContextProvider(IHttpContextAccessor httpContextAccessor)
     : ICurrentUserContextProvider
 {
     public string GetUserEmail()

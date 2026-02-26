@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Templates.CreateTemplate;
 using PureGaze.Application.UseCases.Admin.Templates.DeleteTemplate;
@@ -19,7 +19,7 @@ public class TemplatesController(IRequestDispatcher dispatcher) : Controller
 
         return Ok(result);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand request,
         CancellationToken ct = default)

@@ -4,7 +4,7 @@ using PureGaze.Application.Abstractions.Infrastructure;
 
 namespace PureGaze.Infrastructure.Database.Repositories;
 
-public class AssessmentRequestRepository(AppDbContext context) 
+public class AssessmentRequestRepository(AppDbContext context)
     : IAssessmentRequestRepository
 {
     public async Task<IReadOnlyList<AssessmentRequest>> GetByEmployeeEmailAsync(string employeeEmail, int page, int pageSize, CancellationToken ct = default)
@@ -33,17 +33,17 @@ public class AssessmentRequestRepository(AppDbContext context)
     => await context.AssessmentRequests
             .Include(r => r.Employee)
             .FirstOrDefaultAsync(r => r.Id == id, ct);
-    
+
     public async Task<AssessmentRequest?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.AssessmentRequests
             .Include(x => x.Employee)
             .Include(x => x.Manager)
             .Include(x => x.Code)
             .FirstOrDefaultAsync(x => x.Id == id, ct);
-    
-    public async Task AddAsync(AssessmentRequest assessment, CancellationToken ct = default) 
+
+    public async Task AddAsync(AssessmentRequest assessment, CancellationToken ct = default)
         => await context.AssessmentRequests.AddAsync(assessment, ct);
-    
+
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
 }

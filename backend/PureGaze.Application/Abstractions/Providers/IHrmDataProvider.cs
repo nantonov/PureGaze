@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Contracts.Integrations.Hrm;
+using PureGaze.Application.Contracts.Integrations.Hrm;
 
 namespace PureGaze.Application.Abstractions.Providers;
 

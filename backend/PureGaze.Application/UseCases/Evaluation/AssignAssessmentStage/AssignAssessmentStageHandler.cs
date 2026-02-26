@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Abstractions.Infrastructure;
+using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
 using System.ComponentModel.DataAnnotations;
 using PureGaze.Domain.Enums;

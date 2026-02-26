@@ -1,4 +1,4 @@
-﻿namespace PureGaze.Application.Requests;
+namespace PureGaze.Application.Requests;
 
 public interface IRequest;
-public interface IRequest<TResult> : IRequest; 
+public interface IRequest<TResult> : IRequest;

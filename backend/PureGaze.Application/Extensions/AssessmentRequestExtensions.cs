@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Contracts.Application;
+using PureGaze.Application.Contracts.Application;
 using PureGaze.Domain.Entities;
 using PureGaze.Domain.Enums;
 

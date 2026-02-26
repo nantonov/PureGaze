@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Requests;
+using PureGaze.Application.Requests;
 using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Staff.UpdateEmployeeLanguage;

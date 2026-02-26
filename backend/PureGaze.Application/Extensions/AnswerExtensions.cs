@@ -17,7 +17,7 @@ public static class AnswerExtensions
                 Content = t.Content ?? ""
             }).ToList()
         };
-    
+
     public static AnswerDetailsDto ToDetailsDto(this Answer answer)
         => new()
         {
@@ -29,7 +29,7 @@ public static class AnswerExtensions
                 Content = t.Content ?? ""
             }).ToList()
         };
-    
+
     public static void Update(this Answer answer, IEnumerable<UpdateAnswerTranslateDto> translates)
     {
         foreach (var translateDto in translates)

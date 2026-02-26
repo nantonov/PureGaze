@@ -1,9 +1,9 @@
-﻿using PureGaze.Application.Abstractions.Infrastructure;
+using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Notification.GetEmails;
 
-public class GetEmailsHandler(IEmailRepository emailRepository) 
+public class GetEmailsHandler(IEmailRepository emailRepository)
     : IRequestHandler<GetEmailsQuery, GetEmailsResponse>
 {
     public async Task<GetEmailsResponse> Handle(GetEmailsQuery query, CancellationToken ct)

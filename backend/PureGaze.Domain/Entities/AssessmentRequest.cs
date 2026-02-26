@@ -12,7 +12,7 @@ public class AssessmentRequest : BaseEntity<int>
 
     public int CodeId { get; set; }
     public Code? Code { get; set; }
-    
+
     public AssessmentRequestStatus Status { get; set; }
     public string? RejectionReason { get; set; }
 }
