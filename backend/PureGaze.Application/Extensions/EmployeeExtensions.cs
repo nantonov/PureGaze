@@ -1,4 +1,4 @@
-﻿using PureGaze.Domain.Entities;
+using PureGaze.Domain.Entities;
 using PureGaze.Application.Contracts.Integrations.Hrm;
 using PureGaze.Domain.Enums;
 
@@ -10,10 +10,10 @@ public static class EmployeeExtensions
         => new()
         {
             Id = dto.Id,
-            UpdatedAt =  DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
             FirstNameEn = dto.FirstNameEn,
             LastNameEn = dto.LastNameEn,
-            ProfessionalLevelId =  dto.ProfessionalLevelId,
+            ProfessionalLevelId = dto.ProfessionalLevelId,
             ManagerialLevelId = dto.ManagerialLevelId,
             Email = dto.Email,
             ManagerId = dto.ManagerId,
@@ -26,7 +26,7 @@ public static class EmployeeExtensions
             Hash = dto.Hash,
             HireDate = dto.HireDate,
             TerminationDate = dto.TerminationDate,
-            LifecycleStatus =  dto.LifecycleStatus,
+            LifecycleStatus = dto.LifecycleStatus,
             EmployeeSettings = new EmployeeSettings
             {
                 Language = Language.En
@@ -36,7 +36,7 @@ public static class EmployeeExtensions
     public static void Update(this Employee emp, EmployeeDto dto)
     {
         emp.Id = dto.Id;
-        emp.UpdatedAt =  DateTime.UtcNow;
+        emp.UpdatedAt = DateTime.UtcNow;
         emp.FirstNameEn = dto.FirstNameEn;
         emp.LastNameEn = dto.LastNameEn;
         emp.ProfessionalLevelId = dto.ProfessionalLevelId;

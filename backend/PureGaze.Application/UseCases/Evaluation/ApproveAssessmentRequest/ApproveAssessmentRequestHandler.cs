@@ -17,15 +17,15 @@ public class ApproveAssessmentRequestHandler(
     {
         var request = await assessmentRequestRepository.GetByIdWithEmployeeAsync(command.Id, ct)
                       ?? throw new KeyNotFoundException($"Assessment request with Id {command.Id} not found.");
-        
-        if (request.Status == AssessmentRequestStatus.Approved) 
+
+        if (request.Status == AssessmentRequestStatus.Approved)
             throw new InvalidOperationException("Request is already approved.");
-        
+
         var template = await templateRepository.GetByCodeIdAsync(request.CodeId, ct)
             ?? throw new KeyNotFoundException($"Template for Code {request.CodeId} not found.");
 
         request.Status = AssessmentRequestStatus.Approved;
-        
+
         var email = emailFactory.CreateAssessmentApprovedEmail(
             request.Employee?.Email!, $"{request.Employee?.FirstNameEn} {request.Employee?.LastNameEn}");
 

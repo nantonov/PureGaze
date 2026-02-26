@@ -1,4 +1,4 @@
-﻿namespace PureGaze.Infrastructure.Cors;
+namespace PureGaze.Infrastructure.Cors;
 
 public class CorsOptions
 {

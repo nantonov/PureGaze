@@ -1,6 +1,6 @@
-﻿using PureGaze.Application.Requests;
+using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Evaluation.GetAssessmentRequestDetails;
 
-public sealed record GetAssessmentRequestDetailsQuery(int AssessmentRequestId) 
+public sealed record GetAssessmentRequestDetailsQuery(int AssessmentRequestId)
     : IRequest<GetAssessmentRequestDetailsResponse>;

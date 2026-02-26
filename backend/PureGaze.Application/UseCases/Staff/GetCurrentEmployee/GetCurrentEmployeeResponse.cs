@@ -1,4 +1,4 @@
-﻿using PureGaze.Domain.Entities;
+using PureGaze.Domain.Entities;
 using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Staff.GetCurrentEmployee;

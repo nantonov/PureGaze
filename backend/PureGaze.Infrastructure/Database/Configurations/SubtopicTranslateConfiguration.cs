@@ -9,7 +9,7 @@ public class SubtopicTranslateConfiguration : IEntityTypeConfiguration<SubtopicT
     public void Configure(EntityTypeBuilder<SubtopicTranslate> builder)
     {
         builder.ToTable("SubtopicTranslates");
-        
+
         builder.HasKey(o => new { o.SubtopicId, o.Language });
 
         builder.Property(o => o.Name)

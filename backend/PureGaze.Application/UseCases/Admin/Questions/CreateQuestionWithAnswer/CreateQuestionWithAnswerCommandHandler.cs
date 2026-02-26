@@ -13,7 +13,7 @@ public class CreateQuestionWithAnswerCommandHandler(
     public async Task<int> Handle(CreateQuestionWithAnswerCommand command, CancellationToken ct = default)
     {
         ValidateInput(command);
-        
+
         _ = await subtopicRepository.GetByIdAsync(command.SubTopicId, ct)
             ?? throw new KeyNotFoundException($"Subtopic with Id {command.SubTopicId} not found.");
 

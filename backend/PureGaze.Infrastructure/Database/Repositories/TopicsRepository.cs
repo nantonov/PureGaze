@@ -8,18 +8,18 @@ public class TopicsRepository(AppDbContext context) : ITopicsRepository
 {
     public async Task<IReadOnlyList<Topic>> GetTopicsByTemplateIdAsync(int templateId, int page, int pageSize, CancellationToken ct = default)
         => await context.Topics
-            .Include(x=> x.TopicTranslates)
+            .Include(x => x.TopicTranslates)
             .Where(x => x.TemplateId == templateId)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .AsNoTracking()
             .ToListAsync(ct);
-    
+
     public async Task<Topic?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.Topics
             .Include(x => x.TopicTranslates)
             .FirstOrDefaultAsync(t => t.Id == id, ct);
-    
+
     public async Task AddAsync(Topic topic, CancellationToken ct = default) =>
         await context.Topics.AddAsync(topic, ct);
 

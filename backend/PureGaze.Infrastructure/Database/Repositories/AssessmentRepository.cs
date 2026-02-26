@@ -10,7 +10,7 @@ public class AssessmentRepository(AppDbContext context) : IAssessmentRepository
         => await context.Assessments
             .Include(x => x.Stages)
             .FirstOrDefaultAsync(x => x.Id == id, ct);
-    
+
     public async Task AddAsync(Assessment assessment, CancellationToken ct = default)
         => await context.Assessments.AddAsync(assessment, ct);
 }

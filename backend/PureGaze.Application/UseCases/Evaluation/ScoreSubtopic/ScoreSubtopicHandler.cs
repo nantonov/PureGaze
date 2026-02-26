@@ -25,7 +25,7 @@ public class ScoreSubtopicHandler(
             throw new ValidationException($"Only assessor can set subtopic score");
 
         var subtopicScore = await subtopicScoreRepository.GetBySubtopicAndStageIdAsync(request.SubtopicId, request.StageId, ct);
-        
+
         subtopicScore ??= new SubtopicScore
         {
             SubtopicId = request.SubtopicId,
@@ -33,10 +33,10 @@ public class ScoreSubtopicHandler(
             Score = request.Score,
             Comment = request.Comment
         };
-            
-        if(subtopicScore.Id == 0) 
+
+        if (subtopicScore.Id == 0)
             await subtopicScoreRepository.AddAsync(subtopicScore, ct);
-        
+
         await subtopicScoreRepository.SaveChangesAsync(ct);
     }
 }

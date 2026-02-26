@@ -15,7 +15,7 @@ public class AnswerRepository(AppDbContext context) : IAnswerRepository
         => await context.Answers
             .Include(a => a.AnswerTranslates)
             .FirstOrDefaultAsync(a => a.QuestionId == questionId, ct);
-    
+
     public async Task AddAsync(Answer answer, CancellationToken ct = default)
         => await context.Answers.AddAsync(answer, ct);
 

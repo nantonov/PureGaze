@@ -9,11 +9,11 @@ public class GetTemplatesHandler(ITemplateRepository templateRepository)
 {
     public async Task<GetTemplatesQueryResult> Handle(GetTemplatesQuery request, CancellationToken ct)
     {
-        var templates = 
+        var templates =
             await templateRepository.GetTemplates(request.Page, request.PageSize, ct);
 
-        return 
+        return
             new GetTemplatesQueryResult(
-                [..templates.Select(template => new TemplateDto { Id = template.Id, CodeName = template.Code?.Display })]);
+                [.. templates.Select(template => new TemplateDto { Id = template.Id, CodeName = template.Code?.Display })]);
     }
 }

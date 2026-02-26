@@ -13,12 +13,12 @@ public class GetTopicsForTemplateHandler(
     {
         if (await templateRepository.GetByIdAsync(request.TemplateId, ct) == null)
             throw new KeyNotFoundException($"Template with Id `{request.TemplateId}` was not found");
-        
+
         var topics =
             await topicsRepository.GetTopicsByTemplateIdAsync(request.TemplateId, request.Page, request.PageSize, ct);
 
-        return 
+        return
             new GetTopicsForTemplateResult(
-                [.. topics.Select(topic => new TopicDto { Id = topic.Id, Name = topic.TopicTranslates.FirstOrDefault()?.Name})]);
+                [.. topics.Select(topic => new TopicDto { Id = topic.Id, Name = topic.TopicTranslates.FirstOrDefault()?.Name })]);
     }
 }

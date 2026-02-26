@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PureGaze.Infrastructure.Database;
 
 namespace PureGaze.API;

@@ -7,7 +7,7 @@ public class GlobalExceptionHandler : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
-        Exception exception, 
+        Exception exception,
         CancellationToken ct)
     {
         var problemDetails = new ProblemDetails

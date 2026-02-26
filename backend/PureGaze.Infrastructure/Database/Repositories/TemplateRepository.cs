@@ -7,13 +7,13 @@ namespace PureGaze.Infrastructure.Database.Repositories;
 public class TemplateRepository(AppDbContext context) : ITemplateRepository
 {
     public async Task<IReadOnlyList<Template>> GetTemplates(int page, int pageSize, CancellationToken ct = default)
-        => await context.Templates 
+        => await context.Templates
             .Include(t => t.Code)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .AsNoTracking()
             .ToListAsync(ct);
-    
+
     public async Task<Template?> GetByIdAsync(int id, CancellationToken ct = default)
         => await context.Templates
             .Include(t => t.Topics)
@@ -23,10 +23,10 @@ public class TemplateRepository(AppDbContext context) : ITemplateRepository
         => await context.Templates
             .Include(t => t.Topics)
             .FirstOrDefaultAsync(t => t.CodeId == codeId, ct);
-    
+
     public async Task AddAsync(Template template, CancellationToken ct = default) =>
         await context.Templates.AddAsync(template, ct);
-    
+
     public void Delete(Template template)
         => context.Templates.Remove(template);
 

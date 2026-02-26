@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Requests;
+using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Evaluation.CompleteAssessmentStage;
 

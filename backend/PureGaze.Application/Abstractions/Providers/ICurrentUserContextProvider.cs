@@ -1,4 +1,4 @@
-﻿namespace PureGaze.Application.Abstractions.Providers;
+namespace PureGaze.Application.Abstractions.Providers;
 
 public interface ICurrentUserContextProvider
 {

@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Abstractions.Infrastructure;
+using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
@@ -12,9 +12,9 @@ public class GetMyAssessmentRequestsHandler(
 {
     public async Task<GetMyAssessmentRequestsResult> Handle(GetMyAssessmentRequestsQuery requests, CancellationToken ct)
     {
-        var assessmentRequests = 
+        var assessmentRequests =
             await assessmentRequestRepository.GetByEmployeeEmailAsync(
-                currentUserContextProvider.GetUserEmail(), 
+                currentUserContextProvider.GetUserEmail(),
                 requests.Page,
                 requests.PageSize,
                 ct);

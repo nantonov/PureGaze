@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace PureGaze.Domain.Converters;
 
 public class EnumTypeConverter<T> : JsonConverter<T> where T : struct, Enum
-{ 
+{
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var type = typeof(T);
@@ -43,7 +43,7 @@ public class EnumTypeConverter<T> : JsonConverter<T> where T : struct, Enum
 
         throw new JsonException($"Unknown value for enum '{type.Name}'");
     }
-    
+
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         Type type = typeof(T);
@@ -58,7 +58,7 @@ public class EnumTypeConverter<T> : JsonConverter<T> where T : struct, Enum
 
         writer.WriteStringValue(attribute != null ? attribute.Value : value.ToString());
     }
-    
+
     private static (int? intResult, string? strResult) GetResults(ref Utf8JsonReader reader)
     {
         string? strResult = null;

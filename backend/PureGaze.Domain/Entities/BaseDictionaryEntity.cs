@@ -1,4 +1,4 @@
-﻿namespace PureGaze.Domain.Entities;
+namespace PureGaze.Domain.Entities;
 
 public class BaseDictionaryEntity : BaseEntity<Guid>
 {

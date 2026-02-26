@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Infrastructure.Database;
 using PureGaze.Infrastructure.Database.Repositories;

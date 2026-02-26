@@ -30,7 +30,7 @@ public static class SubtopicExtensions
                 t => t.Language == translateDto.Language);
         }
     }
-    
+
     public static Subtopic ToEntity(this CreateSubtopicCommand command)
         => new()
         {

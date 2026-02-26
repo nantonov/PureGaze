@@ -14,18 +14,18 @@ public class AnswerController(IRequestDispatcher dispatcher) : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] int id, CancellationToken ct = default)
     {
-        var result = 
+        var result =
             await dispatcher.SendAsync<GetAnswerDetailsQuery, AnswerDetailsDto>(new GetAnswerDetailsQuery(id), ct);
-        
+
         return Ok(result);
     }
 
     [HttpGet("question/{questionId}")]
     public async Task<IActionResult> GetByQuestion([FromRoute] int questionId, CancellationToken ct = default)
     {
-        var result = 
+        var result =
             await dispatcher.SendAsync<GetAnswersByQuestionQuery, AnswerDto?>(new GetAnswersByQuestionQuery(questionId), ct);
-        
+
         return Ok(result);
     }
 
@@ -33,7 +33,7 @@ public class AnswerController(IRequestDispatcher dispatcher) : Controller
     public async Task<IActionResult> Update([FromBody] UpdateAnswerCommand command, CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
-        
+
         return Ok();
     }
 }

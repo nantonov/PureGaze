@@ -3,9 +3,9 @@ using System.Net;
 namespace PureGaze.Infrastructure.Exceptions;
 
 public class BaseException(
-    string message, 
-    string title, 
-    HttpStatusCode statusCode = HttpStatusCode.InternalServerError) 
+    string message,
+    string title,
+    HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
     : Exception(message)
 {
     public string Title { get; set; } = title;

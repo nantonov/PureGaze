@@ -1,4 +1,4 @@
-﻿using PureGaze.Application.Abstractions.Providers;
+using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Infrastructure.Integrations.Hrm;
 
 namespace PureGaze.API.Configurations;
@@ -10,9 +10,9 @@ public static class HrmProviderConfig
         builder.Services.Configure<HrmOptions>(builder.Configuration.GetSection(key: HrmOptions.SectionName));
 
         var options = builder.Configuration.GetSection(HrmOptions.SectionName).Get<HrmOptions>();
-        
+
         builder.Services.AddScoped<IHrmDataProvider, HrmDataProvider>();
-        
+
         builder.Services.AddHttpClient(
             HrmOptions.EmployeeClientName,
             client =>

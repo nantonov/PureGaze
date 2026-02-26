@@ -11,7 +11,7 @@ public class UpdateQuestionCommandHandler(IQuestionRepository questionRepository
     public async Task Handle(UpdateQuestionCommand command, CancellationToken ct = default)
     {
         ValidateInput(command);
-        
+
         var question = await questionRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Question with Id {command.Id} not found.");
 

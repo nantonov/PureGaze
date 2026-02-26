@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Staff.GetCurrentEmployee;

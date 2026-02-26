@@ -9,9 +9,9 @@ public class AssessmentRequestConfiguration : IEntityTypeConfiguration<Assessmen
     public void Configure(EntityTypeBuilder<AssessmentRequest> builder)
     {
         builder.ToTable("AssessmentRequests");
-        
+
         builder.HasKey(o => o.Id);
-        
+
         builder.Property(o => o.Id)
             .ValueGeneratedOnAdd();
 

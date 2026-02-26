@@ -31,7 +31,7 @@ public static class QuestionExtensions
             }).ToList(),
             Answer = question.Answer?.ToDetailsDto()
         };
-        
+
     public static void Update(this Question question, IEnumerable<UpdateQuestionTranslateDto> translates, UpdateQuestionAnswerDto answerDto)
     {
         foreach (var translateDto in translates)

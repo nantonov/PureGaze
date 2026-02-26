@@ -26,7 +26,7 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher) : Contro
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
-        
+
         return Ok();
     }
 
@@ -66,7 +66,7 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher) : Contro
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
-        
+
         return Ok();
     }
 }

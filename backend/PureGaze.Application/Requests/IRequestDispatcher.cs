@@ -1,10 +1,10 @@
-﻿namespace PureGaze.Application.Requests;
+namespace PureGaze.Application.Requests;
 
-public interface IRequestDispatcher 
+public interface IRequestDispatcher
 {
-    Task SendAsync<TRequest>(TRequest request, CancellationToken ct) 
+    Task SendAsync<TRequest>(TRequest request, CancellationToken ct)
         where TRequest : IRequest;
 
-    Task<TRequestResult> SendAsync<TRequest, TRequestResult>(TRequest request,  CancellationToken ct) 
+    Task<TRequestResult> SendAsync<TRequest, TRequestResult>(TRequest request, CancellationToken ct)
         where TRequest : IRequest<TRequestResult>;
 }
