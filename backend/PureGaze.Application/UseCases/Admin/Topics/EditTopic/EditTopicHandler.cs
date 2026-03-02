@@ -12,13 +12,12 @@ public sealed class EditTopicHandler(
 {
     public async Task Handle(EditTopicCommand request, CancellationToken ct)
     {
-        if (await topicsRepository.GetByIdAsync(request.TopicId, ct) == null)
+        var topic = await topicsRepository.GetByIdAsync(request.TopicId, ct);
+        if (topic == null)
             throw new KeyNotFoundException($"Topic with id `{request.TopicId}` was not found");
 
-        var topicTranslates = await topicTranslatesRepository.GetTopicTranslatesAsync(request.TopicId, ct);
-
-        var enTopicTranslate = topicTranslates.FirstOrDefault(x => x.Language == Language.En);
-        var ruTopicTranslate = topicTranslates.FirstOrDefault(x => x.Language == Language.Ru);
+        var enTopicTranslate = topic.TopicTranslates.FirstOrDefault(x => x.Language == Language.En);
+        var ruTopicTranslate = topic.TopicTranslates.FirstOrDefault(x => x.Language == Language.Ru);
         if (enTopicTranslate == null || ruTopicTranslate == null)
         {
             throw new ValidationException($"Russian and english translates for topic `{request.TopicId}` are not found");
