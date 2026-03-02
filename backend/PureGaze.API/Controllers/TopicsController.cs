@@ -20,7 +20,7 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
     }
 
     [HttpPut]
-    public async Task<IActionResult> EditTopic(EditTopicCommand editTopicCommand,
+    public async Task<IActionResult> EditTopic([FromBody] EditTopicCommand editTopicCommand,
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(editTopicCommand, ct);
