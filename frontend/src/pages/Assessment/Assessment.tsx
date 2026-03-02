@@ -1,3 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 export default function Assessment() {
-  return <h1>Assessment</h1>;
+  const { t } = useTranslation("assessments");
+
+  return <h1>{t("title")}</h1>;
 }

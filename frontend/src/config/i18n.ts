@@ -10,8 +10,12 @@ i18n
     .init({
         fallbackLng: "en",
         supportedLngs: ["en", "ru"],
-        ns: ["profile"],
+        ns: ["profile", "dashboard", "employees", "assessmentRequests", "assessments"],
         defaultNS: "profile",
+        detection: {
+            order: ['localStorage', 'navigator'],
+            caches: ['localStorage']
+        },
         preload: ["en", "ru"],
         debug: false,
         interpolation: {

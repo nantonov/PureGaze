@@ -3,4 +3,5 @@ export interface MenuItem {
   path: string;
   roles?: string[];
   icon?: React.ReactNode;
+  namespace: string;
 }
