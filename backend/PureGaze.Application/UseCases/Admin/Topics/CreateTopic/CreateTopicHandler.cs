@@ -22,14 +22,12 @@ public sealed class CreateTopicHandler(
 
         topic.TopicTranslates.Add(new TopicTranslate
         {
-            TopicId = topic.Id,
             Language = Language.Ru,
             Name = request.NameRu
         });
 
         topic.TopicTranslates.Add(new TopicTranslate
         {
-            TopicId = topic.Id,
             Language = Language.En,
             Name = request.NameEn
         });
