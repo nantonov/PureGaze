@@ -7,8 +7,7 @@ namespace PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 
 public sealed class CreateTopicHandler(
     ITemplateRepository templateRepository,
-    ITopicsRepository topicsRepository,
-    ITopicTranslatesRepository topicTranslatesRepository)
+    ITopicsRepository topicsRepository)
     : IRequestHandler<CreateTopicCommand, CreateTopicResult>
 {
     public async Task<CreateTopicResult> Handle(CreateTopicCommand request, CancellationToken ct)
@@ -18,27 +17,25 @@ public sealed class CreateTopicHandler(
 
         var topic = new Topic
         {
-            TemplateId = request.TemplateId
+            TemplateId = request.TemplateId,
         };
 
-        await topicsRepository.AddAsync(topic, ct);
-        await topicsRepository.SaveChangesAsync(ct);
-
-        await topicTranslatesRepository.AddAsync(new TopicTranslate
+        topic.TopicTranslates.Add(new TopicTranslate
         {
             TopicId = topic.Id,
             Language = Language.Ru,
             Name = request.NameRu
-        }, ct);
+        });
 
-        await topicTranslatesRepository.AddAsync(new TopicTranslate
+        topic.TopicTranslates.Add(new TopicTranslate
         {
             TopicId = topic.Id,
             Language = Language.En,
             Name = request.NameEn
-        }, ct);
+        });
 
-        await topicTranslatesRepository.SaveChangesAsync(ct);
+        await topicsRepository.AddAsync(topic, ct);
+        await topicsRepository.SaveChangesAsync(ct);
 
         return new CreateTopicResult(topic.Id);
     }
