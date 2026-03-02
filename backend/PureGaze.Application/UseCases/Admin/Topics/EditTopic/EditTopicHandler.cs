@@ -15,11 +15,11 @@ public sealed class EditTopicHandler(
         if (await topicsRepository.GetByIdAsync(request.TopicId, ct) == null)
             throw new KeyNotFoundException($"Topic with id `{request.TopicId}` was not found");
 
-        var topicTranslates = await topicTranslatesRepository.GetTopicsTranslatesAsync(request.TopicId);
+        var topicTranslates = await topicTranslatesRepository.GetTopicTranslatesAsync(request.TopicId);
 
-        if (topicTranslates is not [
-            { Language: Language.En } enTopicTranslate,
-            { Language: Language.Ru } ruTopicTranslate])
+        var enTopicTranslate = topicTranslates.FirstOrDefault(x => x.Language == Language.En);
+        var ruTopicTranslate = topicTranslates.FirstOrDefault(x => x.Language == Language.Ru);
+        if (enTopicTranslate == null || ruTopicTranslate == null)
         {
             throw new ValidationException($"Russian and english translates for topic `{request.TopicId}` are not found");
         }

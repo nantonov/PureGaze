@@ -29,13 +29,15 @@ public sealed class CreateTopicHandler(
             TopicId = topic.Id,
             Language = Language.Ru,
             Name = request.NameRu
-        });
+        }, ct);
+
         await topicTranslatesRepository.AddAsync(new TopicTranslate
         {
             TopicId = topic.Id,
             Language = Language.En,
             Name = request.NameEn
-        });
+        }, ct);
+
         await topicTranslatesRepository.SaveChangesAsync();
 
         return new CreateTopicResult(topic.Id);

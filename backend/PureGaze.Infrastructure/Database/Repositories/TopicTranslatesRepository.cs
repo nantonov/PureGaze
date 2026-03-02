@@ -6,7 +6,7 @@ namespace PureGaze.Infrastructure.Database.Repositories;
 
 public class TopicTranslatesRepository(AppDbContext context) : ITopicTranslatesRepository
 {
-    public async Task<IReadOnlyList<TopicTranslate>> GetTopicsTranslatesAsync(int topicId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<TopicTranslate>> GetTopicTranslatesAsync(int topicId, CancellationToken ct = default)
         => await context.TopicTranslates
             .Where(x => x.TopicId == topicId)
             .ToListAsync(ct);
