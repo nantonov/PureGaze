@@ -5,10 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.EditTopic;
 
-public sealed class EditTopicHandler(
-    ITopicsRepository topicsRepository,
-    ITopicTranslatesRepository topicTranslatesRepository
-    ) : IRequestHandler<EditTopicCommand>
+public sealed class EditTopicHandler(ITopicsRepository topicsRepository) : IRequestHandler<EditTopicCommand>
 {
     public async Task Handle(EditTopicCommand request, CancellationToken ct)
     {
@@ -26,6 +23,6 @@ public sealed class EditTopicHandler(
         enTopicTranslate.Name = request.NameEn;
         ruTopicTranslate.Name = request.NameRu;
 
-        await topicTranslatesRepository.SaveChangesAsync();
+        await topicsRepository.SaveChangesAsync();
     }
 }
