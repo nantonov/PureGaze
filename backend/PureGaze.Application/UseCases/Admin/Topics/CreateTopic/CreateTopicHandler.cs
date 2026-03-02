@@ -1,12 +1,14 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
+using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 
 public sealed class CreateTopicHandler(
     ITemplateRepository templateRepository,
-    ITopicsRepository topicsRepository)
+    ITopicsRepository topicsRepository,
+    ITopicTranslatesRepository topicTranslatesRepository)
     : IRequestHandler<CreateTopicCommand, CreateTopicResult>
 {
     public async Task<CreateTopicResult> Handle(CreateTopicCommand request, CancellationToken ct)
@@ -21,6 +23,20 @@ public sealed class CreateTopicHandler(
 
         await topicsRepository.AddAsync(topic, ct);
         await topicsRepository.SaveChangesAsync(ct);
+
+        await topicTranslatesRepository.AddAsync(new TopicTranslate
+        {
+            TopicId = topic.Id,
+            Language = Language.Ru,
+            Name = request.NameRu
+        });
+        await topicTranslatesRepository.AddAsync(new TopicTranslate
+        {
+            TopicId = topic.Id,
+            Language = Language.En,
+            Name = request.NameEn
+        });
+        await topicTranslatesRepository.SaveChangesAsync();
 
         return new CreateTopicResult(topic.Id);
     }

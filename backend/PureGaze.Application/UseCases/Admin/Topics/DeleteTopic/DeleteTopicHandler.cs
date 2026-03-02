@@ -3,7 +3,9 @@ using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.DeleteTopic;
 
-public sealed class DeleteTopicHandler(ITopicsRepository topicsRepository)
+public sealed class DeleteTopicHandler(
+    ITopicsRepository topicsRepository,
+    ITopicTranslatesRepository topicTranslatesRepository)
     : IRequestHandler<DeleteTopicCommand>
 {
     public async Task Handle(DeleteTopicCommand request, CancellationToken ct)
@@ -11,6 +13,8 @@ public sealed class DeleteTopicHandler(ITopicsRepository topicsRepository)
         var topic = await topicsRepository.GetByIdAsync(request.Id, ct);
         if (topic == null)
             throw new KeyNotFoundException($"Topic with id `{request.Id}` was not found");
+
+        await topicTranslatesRepository.DeleteTranslatesForTopicAsync(request.Id, ct);
 
         topicsRepository.Delete(topic);
         await topicsRepository.SaveChangesAsync(ct);
