@@ -15,7 +15,7 @@ public sealed class EditTopicHandler(
         if (await topicsRepository.GetByIdAsync(request.TopicId, ct) == null)
             throw new KeyNotFoundException($"Topic with id `{request.TopicId}` was not found");
 
-        var topicTranslates = await topicTranslatesRepository.GetTopicTranslatesAsync(request.TopicId);
+        var topicTranslates = await topicTranslatesRepository.GetTopicTranslatesAsync(request.TopicId, ct);
 
         var enTopicTranslate = topicTranslates.FirstOrDefault(x => x.Language == Language.En);
         var ruTopicTranslate = topicTranslates.FirstOrDefault(x => x.Language == Language.Ru);
