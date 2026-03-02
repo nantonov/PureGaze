@@ -15,14 +15,13 @@ public sealed class EditTopicHandler(ITopicsRepository topicsRepository) : IRequ
 
         var enTopicTranslate = topic.TopicTranslates.FirstOrDefault(x => x.Language == Language.En);
         var ruTopicTranslate = topic.TopicTranslates.FirstOrDefault(x => x.Language == Language.Ru);
+
         if (enTopicTranslate == null || ruTopicTranslate == null)
-        {
             throw new ValidationException($"Russian and english translates for topic `{request.TopicId}` are not found");
-        }
 
         enTopicTranslate.Name = request.NameEn;
         ruTopicTranslate.Name = request.NameRu;
 
-        await topicsRepository.SaveChangesAsync();
+        await topicsRepository.SaveChangesAsync(ct);
     }
 }

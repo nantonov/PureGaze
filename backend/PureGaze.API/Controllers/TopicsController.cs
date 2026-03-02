@@ -29,7 +29,7 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
     }
 
     [HttpDelete("{topicId}")]
-    public async Task<IActionResult> DeleteTopic(int topicId,
+    public async Task<IActionResult> DeleteTopic([FromRoute] int topicId,
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(new DeleteTopicCommand(topicId), ct);
