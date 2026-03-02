@@ -38,7 +38,7 @@ public sealed class CreateTopicHandler(
             Name = request.NameEn
         }, ct);
 
-        await topicTranslatesRepository.SaveChangesAsync();
+        await topicTranslatesRepository.SaveChangesAsync(ct);
 
         return new CreateTopicResult(topic.Id);
     }
