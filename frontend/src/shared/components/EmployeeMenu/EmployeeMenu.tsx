@@ -11,7 +11,7 @@ export const EmployeeMenu = () => {
   const { employee, setEmployee } = useEmployee();
   const { theme, toggle } = useTheme();
   const { language, setLanguage } = useLanguage();
-  const { logout } = useAuth0();
+  const { user, logout } = useAuth0();
   const { t } = useTranslation("profile");
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -42,7 +42,18 @@ export const EmployeeMenu = () => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className={styles.avatar}>
-          <span>{initials}</span>
+          {user?.picture ? (
+            <img
+              src={user.picture}
+              alt={initials}
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).style.display = "none";
+                e.currentTarget.nextElementSibling?.removeAttribute("style");
+              }}
+            />
+          ) : null}
+          <span style={user?.picture ? { display: "none" } : undefined}>{initials}</span>
         </div>
         <div className={styles.info}>
           <span className={styles.name}>

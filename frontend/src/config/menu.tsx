@@ -8,20 +8,24 @@ export const menuItems: MenuItem[] = [
     label: "Dashboard",
     path: ROUTES.DASHBOARD,
     icon: <LuLayoutDashboard size={25} />,
+    namespace: "dashboard",
   },
   {
     label: "Assessment Requests",
     path: ROUTES.ASSESSMENT_REQUESTS,
     icon: <LuNotebookPen size={25} />,
+    namespace: "assessmentRequests",
   },
   {
     label: "Assessments",
     path: ROUTES.ASSESSMENTS,
     icon: <PiVideoConference size={25} style={{ transform: "scale(1.15)" }} />,
+    namespace: "assessments",
   },
   {
     label: "Employees",
     path: ROUTES.EMPLOYEES,
     roles: ["admin"],
+    namespace: "employees",
   },
 ];

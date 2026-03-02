@@ -32,7 +32,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     if (employee.language !== i18n.resolvedLanguage) {
       i18n.changeLanguage(employee.language);
     }
-  }, [employee, i18n]);
+  }, [employee]);
 
   const setLanguage = async (l: Language) => {
     i18n.changeLanguage(l);

@@ -4,8 +4,10 @@ import { useState, useMemo } from "react";
 import { useEmployee } from "@/contexts/EmployeeContext";
 import styles from "./SideBar.module.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function SideBar() {
+  const { t } = useTranslation(["dashboard", "assessmentRequests", "assessments", "employees"]);
   const [collapsed, setCollapsed] = useState(false);
   const { employee } = useEmployee();
   const filteredMenuItems = useMemo(() => {
@@ -30,11 +32,11 @@ export default function SideBar() {
             className={({ isActive }) =>
               `${styles.link} ${isActive ? styles.active : ""} ${collapsed ? styles.linkCollapsed : ""}`
             }
-            title={collapsed ? item.label : ""}
+            title={collapsed ? t(`${item.namespace}:title`, item.label) : ""}
           >
             <span className={styles.iconWrapper}>{item.icon}</span>
 
-            {!collapsed && <span className={styles.linkLabel}>{item.label}</span>}
+            {!collapsed && <span className={styles.linkLabel}>{t(`${item.namespace}:title`, item.label)}</span>}
           </NavLink>
         ))}
       </nav>
