@@ -1,6 +1,7 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
+using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 
@@ -16,12 +17,24 @@ public sealed class CreateTopicHandler(
 
         var topic = new Topic
         {
-            TemplateId = request.TemplateId
+            TemplateId = request.TemplateId,
         };
+
+        topic.TopicTranslates.Add(new TopicTranslate
+        {
+            Language = Language.Ru,
+            Name = request.NameRu
+        });
+
+        topic.TopicTranslates.Add(new TopicTranslate
+        {
+            Language = Language.En,
+            Name = request.NameEn
+        });
 
         await topicsRepository.AddAsync(topic, ct);
         await topicsRepository.SaveChangesAsync(ct);
 
-        return new CreateTopicResult(topic.Id);
+        return new CreateTopicResult {TopicId = topic.Id};
     }
 }

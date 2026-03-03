@@ -1,5 +1,9 @@
-using PureGaze.Application.Requests;
+using System.Text.Json.Serialization;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 
-public sealed record CreateTopicResult(int TopicId) : IRequest;
+public sealed class CreateTopicResult
+{
+    [JsonPropertyName("topicId")]
+    public int TopicId { get; init; }
+}

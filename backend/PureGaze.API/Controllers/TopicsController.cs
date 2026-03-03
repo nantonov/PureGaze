@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 using PureGaze.Application.UseCases.Admin.Topics.DeleteTopic;
+using PureGaze.Application.UseCases.Admin.Topics.EditTopic;
 
 namespace PureGaze.API.Controllers;
 
@@ -18,8 +19,17 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
         return Ok(result);
     }
 
+    [HttpPut]
+    public async Task<IActionResult> EditTopic([FromBody] EditTopicCommand editTopicCommand,
+        CancellationToken ct = default)
+    {
+        await dispatcher.SendAsync(editTopicCommand, ct);
+
+        return Ok();
+    }
+
     [HttpDelete("{topicId}")]
-    public async Task<IActionResult> DeleteTopic(int topicId,
+    public async Task<IActionResult> DeleteTopic([FromRoute] int topicId,
         CancellationToken ct = default)
     {
         await dispatcher.SendAsync(new DeleteTopicCommand(topicId), ct);
