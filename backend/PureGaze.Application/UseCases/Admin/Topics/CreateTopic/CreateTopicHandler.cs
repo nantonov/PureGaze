@@ -35,6 +35,6 @@ public sealed class CreateTopicHandler(
         await topicsRepository.AddAsync(topic, ct);
         await topicsRepository.SaveChangesAsync(ct);
 
-        return new CreateTopicResult {TopicId = topic.Id};
+        return new CreateTopicResult { TopicId = topic.Id };
     }
 }
