@@ -29,7 +29,7 @@ resource "azurerm_linux_web_app" "app" {
     "JwtOptions__Audience"              = var.jwt_audience
     "JwtOptions__Issuer"                = var.jwt_issuer
     "CorsOptions__Origins__0"           = "https://${azurerm_static_web_app.static_app.default_host_name}"
-    "Smtp__Password"                    = "{smtp_password}"
+    "Smtp__Password"                    = var.smtp_password
     "Smtp__Enabled"                     = "true"
   }
 
