@@ -29,7 +29,7 @@ public static class EmailWorkersConfig
             return new EmailWorker(scopeFactory, options, logger);
         });
 
-        builder.Services.AddScoped<IEmailSender, EmailSender>();
+        builder.Services.AddSingleton<IEmailSender, EmailSender>();
         builder.Services.AddScoped<IEmailFactory, EmailFactory>();
 
         return builder;
