@@ -12,7 +12,7 @@ public class EmailSender : IEmailSender, IDisposable
 {
     private readonly ILogger<EmailSender> logger;
     private readonly bool enabled;
-    private readonly MailAddress Email;
+    private readonly MailAddress email;
     private readonly SmtpClient smtpClient;
 
     public EmailSender(IOptions<SmtpOptions> options, ILogger<EmailSender> logger)
@@ -20,7 +20,7 @@ public class EmailSender : IEmailSender, IDisposable
         this.logger = logger;
 
         enabled = options.Value.Enabled;
-        Email = new MailAddress(options.Value.Email);
+        email = new MailAddress(options.Value.Email);
 
         smtpClient = new SmtpClient
         {
@@ -46,7 +46,7 @@ public class EmailSender : IEmailSender, IDisposable
 
         var mailMessage = new MailMessage
         {
-            From = Email,
+            From = this.email,
             Subject = email.Subject,
             Body = email.Body,
             IsBodyHtml = false
