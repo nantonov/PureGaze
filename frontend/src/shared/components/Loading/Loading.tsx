@@ -1,10 +1,17 @@
 import styles from "./Loading.module.css";
 
-export const Loading = ({ message = "Loading..." }: { message?: string }) => {
+interface LoadingProps {
+  message?: string;
+  fullScreen?: boolean;
+}
+
+export const Loading = ({ message = "", fullScreen = true }: LoadingProps) => {
+  const containerClass = fullScreen ? styles.overlay : styles.local;
+
   return (
-    <div className={styles.loading}>
-      <div className={styles.spinner}></div>
-      <p className={styles.message}>{message}</p>
+    <div className={containerClass}>
+      <div className={styles.orbitSpinner}></div>
+      {message && <p className={styles.message}>{message}</p>}
     </div>
   );
 };

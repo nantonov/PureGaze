@@ -46,6 +46,8 @@ body {
   --text-color-secondary: #383838;
   --text-color-during-hover: #444;
   --text-color-negative: rgb(252, 62, 46);
+  --font-size-sm: 14px;
+  --text-shadow-glow: 0 1px 2px rgba(255, 255, 255, 0.7);
   --border-color: #c1c1c1;
   --border-color-secondary: #9d9d9d;
   --border-color-secondary-active: #969696;
@@ -77,6 +79,8 @@ body {
   --board-header-background-color: #f9f9f9;
   --board-column-background-color: #f9f9f9;
   --board-task-background-color: #ffffff;
+  --font-weight-medium: 500;
+  --overlay-background: rgba(0, 0, 0, 0.15);
 
   --mat-sys-inverse-on-surface: #f2f0f4;
   --mat-sys-inverse-primary: #abc7ff;
@@ -360,6 +364,7 @@ body {
   --text-color-during-hover: rgb(52, 52, 52);
   --text-color-negative: rgb(252, 62, 46);
   --text-color-accent: rgb(255, 163, 163);
+  --text-shadow-glow: 0 1px 2px rgba(0, 0, 0, 0.8);
   --border-color: #444444;
   --border-color-secondary: #6e6e6e;
   --border-color-secondary-active: #747474;
@@ -389,6 +394,7 @@ body {
   --board-header-background-color: #393939;
   --board-column-background-color: #393939;
   --board-task-background-color: #3f3f3f;
+  --overlay-background: rgba(0, 0, 0, 0.5);
 
   --bs-custom-btn-color: #e2e7f7 !important;
   --bs-custom-btn-bg: #da7b3c !important;
