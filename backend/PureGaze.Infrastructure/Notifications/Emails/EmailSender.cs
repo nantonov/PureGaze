@@ -1,33 +1,62 @@
-using System.Net;
-using System.Net.Mail;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Mail;
 
 namespace PureGaze.Infrastructure.Notifications.Emails;
 
-public class EmailSender(IOptions<SmtpOptions> options) : IEmailSender
+public class EmailSender : IEmailSender, IDisposable
 {
-    private readonly SmtpOptions _options = options.Value;
+    private readonly ILogger<EmailSender> logger;
+    private readonly bool enabled;
+    private readonly MailAddress email;
+    private readonly SmtpClient smtpClient;
+
+    public EmailSender(IOptions<SmtpOptions> options, ILogger<EmailSender> logger)
+    {
+        this.logger = logger;
+
+        enabled = options.Value.Enabled;
+        email = new MailAddress(options.Value.Email);
+
+        smtpClient = new SmtpClient
+        {
+            Host = options.Value.Host,
+            Port = options.Value.Port,
+            Credentials = new NetworkCredential(options.Value.Email, options.Value.Password),
+            EnableSsl = true,
+        };
+    }
+
+    public void Dispose()
+    {
+        smtpClient.Dispose();
+    }
 
     public async Task SendAsync(Email email, CancellationToken ct = default)
     {
+        if (!enabled)
+        {
+            logger.LogWarning("Email sending is disabled for development. If you want to enable it check Smtp__Enabled option.");
+            return;
+        }
+
         var mailMessage = new MailMessage
         {
-            From = new MailAddress(_options.Email),
+            From = this.email,
             Subject = email.Subject,
             Body = email.Body,
             IsBodyHtml = false
         };
 
-        mailMessage.To.Add(email.To ?? "");
+        if (email.To == null)
+            throw new ValidationException("Target email address is required");
 
-        using var client = new SmtpClient();
-        client.Host = _options.Host;
-        client.Port = _options.Port;
-        client.Credentials = new NetworkCredential(_options.Email, _options.Password);
-        client.EnableSsl = _options.EnableSsl;
+        mailMessage.To.Add(email.To);
 
-        await client.SendMailAsync(mailMessage, ct);
+        await smtpClient.SendMailAsync(mailMessage, ct);
     }
 }
