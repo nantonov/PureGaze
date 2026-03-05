@@ -15,7 +15,7 @@ export default function ProtectedRoute({ children }: Props) {
   const { loading } = useBootstrapEmployee();
 
   if (isLoading || loading) {
-    return <Loading message="Loading auth..." />;
+    return <Loading />;
   }
 
   if (!isAuthenticated) {
@@ -23,7 +23,7 @@ export default function ProtectedRoute({ children }: Props) {
   }
 
   if (!employee) {
-    return <Loading message="Loading user..." />;
+    return <Loading />;
   }
 
   return <>{children}</>;

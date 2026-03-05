@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import MainLayout from "@/layouts/MainLayout/MainLayout";
 import Dashboard from "@/pages/Dashboard/Dashboard";
@@ -14,27 +14,32 @@ export const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    element: (
-      <ProtectedRoute>
-        <MainLayout />
-      </ProtectedRoute>
-    ),
+    element: <MainLayout />,
     children: [
       {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: "assessment-requests",
-        element: <AssessmentRequest />,
-      },
-      {
-        path: "assessments",
-        element: <Assessment />,
-      },
-      {
-        path: "employees",
-        element: <Employee />,
+        element: (
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: "assessment-requests",
+            element: <AssessmentRequest />,
+          },
+          {
+            path: "assessments",
+            element: <Assessment />,
+          },
+          {
+            path: "employees",
+            element: <Employee />,
+          },
+        ],
       },
     ],
   },
