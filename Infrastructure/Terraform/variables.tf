@@ -139,3 +139,9 @@ variable "swa_sku_size" {
   type = string 
   default = "Free"
 }
+
+variable "smtp_password" {
+  type        = string
+  description = "SMTP password"
+  sensitive   = true
+}
