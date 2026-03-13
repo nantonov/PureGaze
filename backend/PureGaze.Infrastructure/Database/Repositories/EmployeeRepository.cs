@@ -27,6 +27,11 @@ public class EmployeeRepository(AppDbContext dbContext)
             .Include(x => x.ManagerialLevel)
             .Include(x => x.EmployeeSettings)
             .Include(x => x.ProfessionalLevel)
+            .Include(x => x.M1)
+            .Include(x => x.M2)
+            .Include(x => x.M3)
+            .Include(x => x.M4)
+            .Include(x => x.Manager)
             .FirstOrDefaultAsync(x => x.Email == email, ct);
 
     public async Task AddAsync(Employee employee, CancellationToken ct = default)
