@@ -10,15 +10,16 @@ public class GetMyAssessmentRequestsHandler(
     ICurrentUserContextProvider currentUserContextProvider)
     : IRequestHandler<GetMyAssessmentRequestsQuery, GetMyAssessmentRequestsResult>
 {
-    public async Task<GetMyAssessmentRequestsResult> Handle(GetMyAssessmentRequestsQuery requests, CancellationToken ct)
+    public async Task<GetMyAssessmentRequestsResult> Handle(GetMyAssessmentRequestsQuery query, CancellationToken ct)
     {
+        var email = currentUserContextProvider.GetUserEmail();
+
         var assessmentRequests =
             await assessmentRequestRepository.GetByEmployeeEmailAsync(
-                currentUserContextProvider.GetUserEmail(),
-                requests.Page,
-                requests.PageSize,
-                ct);
+                email, query.Page, query.PageSize, ct);
 
-        return new GetMyAssessmentRequestsResult([.. assessmentRequests.Select(x => x.ToDto())]);
+        var count = await assessmentRequestRepository.GetCountByEmployeeEmailAsync(email, ct);
+
+        return new GetMyAssessmentRequestsResult(count, [.. assessmentRequests.Select(x => x.ToDto())]);
     }
 }

@@ -12,13 +12,14 @@ public class GetAssignedToMeRequestsHandler(
 {
     public async Task<GetAssignedToMeRequestsResult> Handle(GetAssignedToMeRequestsQuery query, CancellationToken ct)
     {
+        var email = currentUserContextProvider.GetUserEmail();
+
         var assessmentRequests =
             await assessmentRequestRepository.GetByManagerEmailAsync(
-                currentUserContextProvider.GetUserEmail(),
-                query.Page,
-                query.PageSize,
-                ct);
+                email, query.Page, query.PageSize, ct);
 
-        return new GetAssignedToMeRequestsResult([.. assessmentRequests.Select(x => x.ToDto())]);
+        var count = await assessmentRequestRepository.GetCountByManagerEmailAsync(email, ct);
+
+        return new GetAssignedToMeRequestsResult(count,[.. assessmentRequests.Select(x => x.ToDto())]);
     }
 }

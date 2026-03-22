@@ -16,7 +16,7 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher) : Contro
     [HttpPost]
     public async Task<IActionResult> Create(CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(new CreateAssessmentRequestCommand(888), ct);
+        await dispatcher.SendAsync(new CreateAssessmentRequestCommand(), ct);
 
         return Ok();
     }
@@ -41,8 +41,8 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher) : Contro
         return Ok(result);
     }
 
-    [HttpGet("my")]
-    public async Task<IActionResult> GetMy(GetMyAssessmentRequestsQuery query, CancellationToken ct = default)
+    [HttpPost("my")]
+    public async Task<IActionResult> GetMy([FromBody]GetMyAssessmentRequestsQuery query, CancellationToken ct = default)
     {
         var result =
             await dispatcher
@@ -51,8 +51,8 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher) : Contro
         return Ok(result);
     }
 
-    [HttpGet("assigned-to-me")]
-    public async Task<IActionResult> GetAssignedToMe(GetAssignedToMeRequestsQuery query, CancellationToken ct = default)
+    [HttpPost("assigned-to-me")]
+    public async Task<IActionResult> GetAssignedToMe([FromBody]GetAssignedToMeRequestsQuery query, CancellationToken ct = default)
     {
         var result =
             await dispatcher
