@@ -15,7 +15,7 @@ public class TemplateConfiguration : IEntityTypeConfiguration<Template>
         builder.Property(o => o.Id)
             .ValueGeneratedOnAdd();
 
-        builder.HasOne<Code>()
+        builder.HasOne(o => o.Code)
             .WithOne()
             .HasForeignKey<Template>(o => o.CodeId)
             .OnDelete(DeleteBehavior.Cascade);
