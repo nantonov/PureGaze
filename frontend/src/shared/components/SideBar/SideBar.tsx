@@ -13,10 +13,10 @@ export default function SideBar() {
   const filteredMenuItems = useMemo(() => {
     return menuItems.filter((item) => {
       if (!item.roles) return true;
-      if (!employee?.managerLevelId) return false;
-      return item.roles.includes(employee.managerLevelId);
+      if (!employee?.managerLevel) return false;
+      return item.roles.includes(employee.managerLevel);
     });
-  }, [employee?.managerLevelId]);
+  }, [employee?.managerLevel]);
 
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>

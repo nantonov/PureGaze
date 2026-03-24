@@ -2,6 +2,7 @@ import type { MenuItem } from "@/types/MenuItem";
 import { ROUTES } from "@/shared/constants";
 import { LuLayoutDashboard, LuNotebookPen } from "react-icons/lu";
 import { PiVideoConference } from "react-icons/pi";
+import { LuCode } from "react-icons/lu";
 
 export const menuItems: MenuItem[] = [
   {
@@ -25,7 +26,13 @@ export const menuItems: MenuItem[] = [
   {
     label: "Employees",
     path: ROUTES.EMPLOYEES,
-    roles: ["admin"],
     namespace: "employees",
+  },
+  {
+    label: "Codes",
+    path: ROUTES.CODES,
+    icon: <LuCode size={25} />,
+    namespace: "codes",
+    roles: ["M3", "M4", "M5"],
   },
 ];
