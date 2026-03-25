@@ -3,4 +3,4 @@ using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Admin.Codes.GetAllCodes;
 
-public record GetAllCodesQuery : IRequest<List<CodeDto>>;
+public record GetAllCodesQuery : IRequest<IReadOnlyList<CodeDto>>;

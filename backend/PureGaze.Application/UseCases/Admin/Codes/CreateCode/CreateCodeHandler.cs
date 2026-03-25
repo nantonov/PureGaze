@@ -25,5 +25,6 @@ public class CreateCodeHandler(ICodeRepository codeRepository)
         };
 
         await codeRepository.AddAsync(code, ct);
+        await codeRepository.SaveChangesAsync(ct);
     }
 }

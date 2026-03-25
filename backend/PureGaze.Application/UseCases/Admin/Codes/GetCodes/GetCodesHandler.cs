@@ -9,7 +9,7 @@ public class GetCodesHandler(ICodeRepository codeRepository) : IRequestHandler<G
 {
     public async Task<CodeDto> Handle(GetCodesQuery query, CancellationToken ct)
     {
-        var code = await codeRepository.GetByIdAsync(query.Id)
+        var code = await codeRepository.GetByIdAsync(query.Id, ct)
                    ?? throw new KeyNotFoundException($"Code with id: {query.Id} not found");
         return code.ToDto();
     }

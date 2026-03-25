@@ -8,7 +8,7 @@ public class DictionaryRepository<T>(AppDbContext dbContext)
     : IDictionaryRepository<T>
     where T : BaseDictionaryEntity
 {
-    public async Task<List<T>> GetAllAsync(CancellationToken ct = default)
+    public async Task<IReadOnlyList<T>> GetAllAsync(CancellationToken ct = default)
         => await dbContext.Set<T>().ToListAsync(ct);
 
     public async Task<IDictionary<Guid, T>> GetByIdsAsync(IReadOnlyList<Guid> ids, CancellationToken ct = default)

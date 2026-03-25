@@ -11,6 +11,7 @@ public class DeleteCodeHandler(ICodeRepository codeRepository)
         var code = await codeRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Code with Id {command.Id} not found.");
 
-        await codeRepository.DeleteAsync(code, ct);
+        codeRepository.Delete(code);
+        await codeRepository.SaveChangesAsync(ct);
     }
 }

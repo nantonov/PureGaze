@@ -19,11 +19,11 @@ public class EditCodeHandler(ICodeRepository codeRepository)
         existing.DiffEx = command.DiffEx;
 
         var ruTranslate = existing.CodeTranslates.FirstOrDefault(t => t.Language == Language.Ru);
-        if (ruTranslate != null) ruTranslate.LevelVision = command.LevelVisionRu;
+        ruTranslate?.LevelVision = command.LevelVisionRu;
 
         var enTranslate = existing.CodeTranslates.FirstOrDefault(t => t.Language == Language.En);
-        if (enTranslate != null) enTranslate.LevelVision = command.LevelVisionEn;
+        enTranslate?.LevelVision = command.LevelVisionEn;
 
-        await codeRepository.UpdateAsync(existing, ct);
+        await codeRepository.SaveChangesAsync(ct);
     }
 }

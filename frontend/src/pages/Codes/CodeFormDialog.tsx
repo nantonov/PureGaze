@@ -24,10 +24,10 @@ interface Props {
 
 export default function CodeFormDialog({ open, code, onClose, onCreate, onUpdate }: Props) {
     const isEdit = code !== null;
-    const { form, levels, handleChange, setField, diffExError } = useCodeForm(code, open);
+    const { form, levels, handleChange, setField, diffExError, gradeError } = useCodeForm(code, open);
 
     const handleSave = async () => {
-        if (diffExError) return;
+        if (diffExError || gradeError) return;
         if (isEdit) {
             await onUpdate({ ...form, id: code.id });
         } else {
@@ -42,8 +42,21 @@ export default function CodeFormDialog({ open, code, onClose, onCreate, onUpdate
             <DialogContent>
                 <Stack spacing={2} sx={{ mt: 1 }}>
                     <TextField label="Display" value={form.display} onChange={handleChange("display")} />
-                    <GradeSelect label="From Grade" value={form.gradeId} levels={levels} onChange={(v) => setField("gradeId", v)} />
-                    <GradeSelect label="To Grade" value={form.toGradeId} levels={levels} onChange={(v) => setField("toGradeId", v)} />
+                    <GradeSelect
+                        label="From Grade *"
+                        value={form.gradeId}
+                        levels={levels}
+                        onChange={(v) => setField("gradeId", v)}
+                        error={!form.gradeId}
+                    />
+                    <GradeSelect
+                        label="To Grade *"
+                        value={form.toGradeId}
+                        levels={levels}
+                        onChange={(v) => setField("toGradeId", v)}
+                        error={!form.toGradeId}
+                    />
+                    {gradeError && <FormHelperText error>{gradeError}</FormHelperText>}
                     <TextField label="Total Expirience" type="number" value={form.totalEx} onChange={handleChange("totalEx")} inputProps={{ min: 0, step: 1 }} />
                     <TextField
                         label="Diff Expirience"
@@ -60,7 +73,7 @@ export default function CodeFormDialog({ open, code, onClose, onCreate, onUpdate
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button variant="contained" onClick={handleSave} disabled={!!diffExError}>
+                <Button variant="contained" onClick={handleSave} disabled={!!diffExError || !!gradeError}>
                     {isEdit ? "Save" : "Create"}
                 </Button>
             </DialogActions>

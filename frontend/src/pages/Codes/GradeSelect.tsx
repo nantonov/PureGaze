@@ -6,11 +6,12 @@ interface Props {
     value: string;
     levels: ProfessionalLevel[];
     onChange: (value: string) => void;
+    error?: boolean;
 }
 
-export default function GradeSelect({ label, value, levels, onChange }: Props) {
+export default function GradeSelect({ label, value, levels, onChange, error }: Props) {
     return (
-        <FormControl fullWidth>
+        <FormControl fullWidth error={error}>
             <InputLabel>{label}</InputLabel>
             <Select label={label} value={value} onChange={(e) => onChange(e.target.value)}>
                 {levels.map((l) => (

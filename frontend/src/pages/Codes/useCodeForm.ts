@@ -48,5 +48,19 @@ export function useCodeForm(code: Code | null, open: boolean) {
         ? "Diff Experience cannot exceed Total Experience"
         : null;
 
-    return { form, levels, handleChange, setField, diffExError };
+    const gradeError = (() => {
+        if (!form.gradeId) return "From Grade is required";
+        if (!form.toGradeId) return "To Grade is required";
+        const fromLevel = levels.find(l => l.id === form.gradeId);
+        const toLevel = levels.find(l => l.id === form.toGradeId);
+        if (fromLevel && toLevel) {
+            const from = fromLevel.orderValue ?? 0;
+            const to = toLevel.orderValue ?? 0;
+            if (to <= from) return "To Grade must be strictly higher than From Grade";
+            if (to !== from + 1) return "To Grade must be exactly one level above From Grade";
+        }
+        return null;
+    })();
+
+    return { form, levels, handleChange, setField, diffExError, gradeError };
 }

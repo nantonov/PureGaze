@@ -19,7 +19,7 @@ public class AdminController(IRequestDispatcher dispatcher) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllCodes(CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetAllCodesQuery, List<CodeDto>>(new GetAllCodesQuery(), ct);
+        var result = await dispatcher.SendAsync<GetAllCodesQuery, IReadOnlyList<CodeDto>>(new GetAllCodesQuery(), ct);
         return Ok(result);
     }
 
@@ -54,7 +54,7 @@ public class AdminController(IRequestDispatcher dispatcher) : ControllerBase
     [HttpGet("/professional-levels")]
     public async Task<IActionResult> GetProfessionalLevels(CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetProfessionalLevelsQuery, List<ProfessionalLevelDto>>(
+        var result = await dispatcher.SendAsync<GetProfessionalLevelsQuery, IReadOnlyList<ProfessionalLevelDto>>(
             new GetProfessionalLevelsQuery(), ct);
         return Ok(result);
     }
