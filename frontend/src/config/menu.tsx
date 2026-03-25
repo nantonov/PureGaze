@@ -1,7 +1,8 @@
 import type { MenuItem } from "@/types/MenuItem";
 import { ROUTES } from "@/shared/constants";
-import { LuLayoutDashboard, LuNotebookPen } from "react-icons/lu";
+import { LuLayoutDashboard, LuNotebookPen, LuCode, LuUsers } from "react-icons/lu";
 import { PiVideoConference } from "react-icons/pi";
+import { MdManageAccounts } from "react-icons/md";
 
 export const menuItems: MenuItem[] = [
   {
@@ -23,9 +24,23 @@ export const menuItems: MenuItem[] = [
     namespace: "assessments",
   },
   {
-    label: "Employees",
-    path: ROUTES.EMPLOYEES,
-    roles: ["admin"],
-    namespace: "employees",
+    label: "Management",
+    namespace: "management",
+    icon: <MdManageAccounts size={25} />,
+    roles: ["M3", "M4", "M5"],
+    children: [
+      {
+        label: "Employees",
+        path: ROUTES.EMPLOYEES,
+        icon: <LuUsers size={25} />,
+        namespace: "employees",
+      },
+      {
+        label: "Codes",
+        path: ROUTES.CODES,
+        icon: <LuCode size={25} />,
+        namespace: "codes",
+      },
+    ],
   },
 ];

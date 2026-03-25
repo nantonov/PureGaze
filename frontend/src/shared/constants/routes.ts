@@ -4,4 +4,5 @@ export const ROUTES = {
   ASSESSMENT_REQUESTS: "/assessment-requests",
   ASSESSMENTS: "/assessments",
   EMPLOYEES: "/employees",
+  CODES: "/codes",
 } as const;

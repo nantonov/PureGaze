@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PureGaze.API.Providers;
@@ -11,6 +12,7 @@ public static class AuthConfig
     public static WebApplicationBuilder AuthConfigBuild(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<ICurrentUserContextProvider, CurrentUserContextProvider>();
+        builder.Services.AddScoped<IClaimsTransformation, DbRoleClaimsTransformation>();
 
         builder.Services.AddOptions<JwtOptions>()
             .Bind(builder.Configuration.GetSection(JwtOptions.SectionName));

@@ -1,7 +1,8 @@
 export interface MenuItem {
   label: string;
-  path: string;
+  path?: string;
   roles?: string[];
   icon?: React.ReactNode;
   namespace: string;
+  children?: MenuItem[];
 }

@@ -3,7 +3,6 @@ export interface Employee {
   firstName: string;
   lastName: string;
   email: string;
-  managerLevelId?: string;
-  role?: string;
+  managerLevel?: string;
   language?: string;
 }
