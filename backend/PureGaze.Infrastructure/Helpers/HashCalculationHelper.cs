@@ -8,7 +8,7 @@ namespace PureGaze.Infrastructure.Helpers;
 
 public static class HashCalculationHelper
 {
-    public static ulong CalculateHash(EmployeeDto e)
+    public static ulong CalculateHash(HrmEmployeeDto e)
     {
         var buffer = ArrayPool<byte>.Shared.Rent(4096);
         try

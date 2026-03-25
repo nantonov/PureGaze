@@ -1,6 +1,6 @@
 namespace PureGaze.Application.Contracts.Application;
 
-public record CodeDto(
+public sealed record CodeDto(
     int Id,
     Guid GradeId,
     Guid ToGradeId,

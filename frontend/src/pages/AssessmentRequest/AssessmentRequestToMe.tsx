@@ -2,10 +2,10 @@
 import { DataGrid, type GridColDef, type GridPaginationModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { assessmentRequestApi } from "@/api/assessmentRequestApi.ts";
-import type { GetAssessment } from "@/types/AssessmentRequest/GetAssessment.ts";
-import type { GetAssessmentRequest } from "@/types/AssessmentRequest/GetAssessmentRequest.ts";
+import type { AssessmentRequest } from "@/types/AssessmentRequest/AssessmentRequest.ts";
+import type { GetAssessmentRequestsQuery } from "@/types/AssessmentRequest/GetAssessmentRequestsQuery.ts";
 
-const columns: GridColDef<GetAssessment>[] = [
+const columns: GridColDef<AssessmentRequest>[] = [
     { field: "id", headerName: "ID", width: 90 },
     {
         field: "employeeFullName",
@@ -68,7 +68,7 @@ const columns: GridColDef<GetAssessment>[] = [
     },
 ];
 export default function AssessmentRequestToMe() {
-    const [rows, setRows] = useState<GetAssessment[]>([]);
+    const [rows, setRows] = useState<AssessmentRequest[]>([]);
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(false);
     const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
@@ -80,12 +80,12 @@ export default function AssessmentRequestToMe() {
         const fetchData = async () => {
             setLoading(true);
 
-            const request: GetAssessmentRequest = {
+            const query: GetAssessmentRequestsQuery = {
                 page: paginationModel.page + 1,
                 pageSize: paginationModel.pageSize,
             };
 
-            const response = await assessmentRequestApi.getAssignedToMe(request);
+            const response = await assessmentRequestApi.getAssignedToMe(query);
 
             setRows(response?.assessmentRequests ?? []);
             setTotal(response?.total ?? 0);

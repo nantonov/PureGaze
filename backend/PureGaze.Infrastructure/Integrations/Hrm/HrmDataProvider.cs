@@ -18,7 +18,7 @@ public class HrmDataProvider(
 {
     private readonly HrmOptions _options = options.Value;
 
-    public async IAsyncEnumerable<IReadOnlyList<EmployeeDto>> GetEmployeesAsync([EnumeratorCancellation] CancellationToken ct)
+    public async IAsyncEnumerable<IReadOnlyList<HrmEmployeeDto>> GetEmployeesAsync([EnumeratorCancellation] CancellationToken ct)
     {
         var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
 
@@ -64,7 +64,7 @@ public class HrmDataProvider(
         }
     }
 
-    public async Task<DictionariesDto?> GetDictionariesAsync(CancellationToken ct)
+    public async Task<HrmDictionariesDto?> GetDictionariesAsync(CancellationToken ct)
     {
         var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
 
@@ -90,7 +90,7 @@ public class HrmDataProvider(
 
         var result = JsonSerializer.Deserialize<GetDictionariesResponse>(content);
 
-        return new DictionariesDto
+        return new HrmDictionariesDto
         {
             ManagerialLevels = [.. result?.ManagerialLevels.Select(BaseDictionary.ToDto)!],
             ProfessionalLevels = [.. result?.ProfessionalLevels.Select(BaseDictionary.ToDto)!],

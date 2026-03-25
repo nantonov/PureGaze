@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace PureGaze.Application.Contracts.Integrations.Hrm;
 
-public class EmployeeDto
+public class HrmEmployeeDto
 {
     [JsonPropertyName("id")]
     public int Id { get; set; }

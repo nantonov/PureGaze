@@ -15,7 +15,7 @@ public class UploadDictionariesHandler(
 {
     public async Task Handle(UploadDictionariesCommand command, CancellationToken ct)
     {
-        DictionariesDto? dictionaries = await hrmDataProvider.GetDictionariesAsync(ct);
+        HrmDictionariesDto? dictionaries = await hrmDataProvider.GetDictionariesAsync(ct);
 
         if (dictionaries == null)
             return;

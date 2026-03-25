@@ -4,6 +4,6 @@ namespace PureGaze.Application.Abstractions.Providers;
 
 public interface IHrmDataProvider
 {
-    IAsyncEnumerable<IReadOnlyList<EmployeeDto>> GetEmployeesAsync(CancellationToken ct);
-    Task<DictionariesDto?> GetDictionariesAsync(CancellationToken ct);
+    IAsyncEnumerable<IReadOnlyList<HrmEmployeeDto>> GetEmployeesAsync(CancellationToken ct);
+    Task<HrmDictionariesDto?> GetDictionariesAsync(CancellationToken ct);
 }
