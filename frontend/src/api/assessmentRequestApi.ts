@@ -1,6 +1,6 @@
 import { BaseApi } from "./baseApi";
-import type { GetAssessmentResponse } from "@/types/AssessmentRequest/GetAssessmentResponse.ts";
-import type { GetAssessmentRequest } from "@/types/AssessmentRequest/GetAssessmentRequest.ts";
+import type { GetAssessmentRequestsResponse } from "@/types/AssessmentRequest/GetAssessmentRequestsResponse.ts";
+import type { GetAssessmentRequestsQuery } from "@/types/AssessmentRequest/GetAssessmentRequestsQuery.ts";
 
 class AssessmentRequestApi extends BaseApi {
   private readonly baseUrl = "/assessment-requests";
@@ -9,12 +9,12 @@ class AssessmentRequestApi extends BaseApi {
    await this.post(`${this.baseUrl}`);
   }
   
-  public async getAssignedToMe(request: GetAssessmentRequest): Promise<GetAssessmentResponse> {
-    return this.post<GetAssessmentResponse>(`${this.baseUrl}/assigned-to-me`, request);
+  public async getAssignedToMe(query: GetAssessmentRequestsQuery): Promise<GetAssessmentRequestsResponse> {
+    return this.post<GetAssessmentRequestsResponse>(`${this.baseUrl}/assigned-to-me`, query);
   }
 
-  public async getMyRequests(request: GetAssessmentRequest): Promise<GetAssessmentResponse> {
-    return this.post<GetAssessmentResponse>(`${this.baseUrl}/my`, request);
+  public async getMyRequests(query: GetAssessmentRequestsQuery): Promise<GetAssessmentRequestsResponse> {
+    return this.post<GetAssessmentRequestsResponse>(`${this.baseUrl}/my`, query);
   }
 }
 

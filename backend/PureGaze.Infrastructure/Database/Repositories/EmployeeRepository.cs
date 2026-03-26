@@ -7,6 +7,17 @@ namespace PureGaze.Infrastructure.Database.Repositories;
 public class EmployeeRepository(AppDbContext dbContext)
     : IEmployeeRepository
 {
+    public async Task<IReadOnlyList<Employee>> GetEmployeesAsync(int page, int pageSize, CancellationToken ct = default)
+        => await dbContext.Employees
+            .Include(x => x.ManagerialLevel)
+            .Include(x => x.M1)
+            .Include(x => x.M2)
+            .Include(x => x.M3)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .AsNoTracking()
+            .ToListAsync(ct);
+
     public async Task<IDictionary<int, Employee>> GetByIdsAsync(IReadOnlyList<int> ids, CancellationToken ct = default)
         => await dbContext
             .Employees
@@ -36,6 +47,9 @@ public class EmployeeRepository(AppDbContext dbContext)
 
     public async Task AddAsync(Employee employee, CancellationToken ct = default)
         => await dbContext.Employees.AddAsync(employee, ct);
+
+    public async Task<int> GetCountAsync(CancellationToken ct = default)
+        => await dbContext.Employees.CountAsync(ct);
 
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await dbContext.SaveChangesAsync(ct);

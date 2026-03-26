@@ -1,4 +1,4 @@
-﻿export interface GetAssessment {
+﻿export interface AssessmentRequest {
     id: number;
     employeeFullName: string;
     managerFullName: string;

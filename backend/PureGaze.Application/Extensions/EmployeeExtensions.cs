@@ -1,3 +1,4 @@
+using PureGaze.Application.Contracts.Application;
 using PureGaze.Domain.Entities;
 using PureGaze.Application.Contracts.Integrations.Hrm;
 using PureGaze.Domain.Enums;
@@ -6,7 +7,7 @@ namespace PureGaze.Application.Extensions;
 
 public static class EmployeeExtensions
 {
-    public static Employee ToEntity(this EmployeeDto dto)
+    public static Employee ToEntity(this HrmEmployeeDto dto)
         => new()
         {
             Id = dto.Id,
@@ -33,7 +34,7 @@ public static class EmployeeExtensions
             }
         };
 
-    public static void Update(this Employee emp, EmployeeDto dto)
+    public static void Update(this Employee emp, HrmEmployeeDto dto)
     {
         emp.Id = dto.Id;
         emp.UpdatedAt = DateTime.UtcNow;
@@ -54,4 +55,16 @@ public static class EmployeeExtensions
         emp.TerminationDate = dto.TerminationDate;
         emp.LifecycleStatus = dto.LifecycleStatus;
     }
+
+    public static EmployeeDto ToDto(this Employee emp)
+        => new()
+        {
+            Id = emp.Id,
+            FullName = $"{emp.FirstNameEn} {emp.LastNameEn}",
+            Email = emp.Email,
+            ManagerLevel = emp.ManagerialLevel?.Value,
+            M1 = $"{emp.M1?.FirstNameEn} {emp.M1?.LastNameEn}",
+            M2 = $"{emp.M2?.FirstNameEn} {emp.M2?.LastNameEn}",
+            M3 = $"{emp.M3?.FirstNameEn} {emp.M3?.LastNameEn}",
+        };
 }

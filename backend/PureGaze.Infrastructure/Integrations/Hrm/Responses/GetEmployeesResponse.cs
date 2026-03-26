@@ -63,9 +63,9 @@ public class HrmEemployee
     [JsonPropertyName("lifecycleStatus")]
     public string? LifecycleStatus { get; set; }
 
-    public static EmployeeDto ToDto(HrmEemployee employee)
+    public static HrmEmployeeDto ToDto(HrmEemployee employee)
     {
-        var dto = new EmployeeDto
+        var dto = new HrmEmployeeDto
         {
             Id = employee.Id,
             FirstNameEn = employee.FirstNameEn,

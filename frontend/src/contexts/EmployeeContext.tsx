@@ -1,15 +1,15 @@
 import { createContext, useContext, useState } from "react";
-import type { Employee } from "@/types/Employee";
+import type { CurrentEmployee } from "@/types/Employees/CurrentEmployee.ts";
 
 interface EmployeeContextValue {
-  employee: Employee | null;
-  setEmployee: (e: Employee | null) => void;
+  employee: CurrentEmployee | null;
+  setEmployee: (e: CurrentEmployee | null) => void;
 }
 
 const EmployeeContext = createContext<EmployeeContextValue | undefined>(undefined);
 
 export const EmployeeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [employee, setEmployee] = useState<Employee | null>(null);
+  const [employee, setEmployee] = useState<CurrentEmployee | null>(null);
 
   return (
     <EmployeeContext.Provider value={{ employee, setEmployee }}>

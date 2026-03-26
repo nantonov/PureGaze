@@ -1,6 +1,6 @@
 namespace PureGaze.Application.Contracts.Integrations.Hrm;
 
-public class DictionariesDto
+public class HrmDictionariesDto
 {
     public IList<BaseDictionaryDto> ManagerialLevels { get; set; } = [];
 

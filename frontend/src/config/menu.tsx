@@ -26,21 +26,21 @@ export const menuItems: MenuItem[] = [
   {
     label: "Management",
     namespace: "management",
-    icon: <MdManageAccounts size={25} />,
+    icon: <MdManageAccounts size={25}/>,
     roles: ["M3", "M4", "M5"],
     children: [
       {
         label: "Employees",
         path: ROUTES.EMPLOYEES,
-        icon: <LuUsers size={25} />,
+        icon: <LuUsers size={25}/>,
         namespace: "employees",
       },
       {
         label: "Codes",
         path: ROUTES.CODES,
-        icon: <LuCode size={25} />,
+        icon: <LuCode size={25}/>,
         namespace: "codes",
       },
-    ],
-  },
+    ]
+  }
 ];

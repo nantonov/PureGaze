@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useEmployee } from "@/contexts/EmployeeContext";
 import { Loading } from "@/shared/components/Loading/Loading";
 import { useBootstrapEmployee } from "@/shared/hooks/useBootstrapEmployee";
+import { ROUTES } from "@/shared/constants";
 
 interface Props {
   children: ReactNode;
@@ -19,7 +20,7 @@ export default function ProtectedRoute({ children }: Props) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  return <Navigate to={ROUTES.LOGIN} replace />;
   }
 
   if (!employee) {
