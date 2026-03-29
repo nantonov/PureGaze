@@ -71,7 +71,6 @@ export default function MyAssessmentRequest(){
                 justifyContent: "flex-end",}}>
                 <Button
                     variant="contained"
-                    color="success"
                     onClick={handleCreteAssessmentRequest}>
                     New Request</Button>
             </Box>

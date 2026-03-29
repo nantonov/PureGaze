@@ -31,11 +31,11 @@ const columns: GridColDef<AssessmentRequest>[] = [
         renderCell: (params) => {
             const { row } = params;
             
-            const handleApprove = () => {
+            const handleApprove = async () => {
                 console.log("Approve", row.id);
             };
 
-            const handleReject = () => {
+            const handleReject = async () => {
                 console.log("Reject", row.id);
             };
             
@@ -49,7 +49,7 @@ const columns: GridColDef<AssessmentRequest>[] = [
                         size="small"
                         variant="contained"
                         color="success"
-                        onClick={handleApprove}
+                        onClick={()=> handleApprove}
                     >
                         Approve
                     </Button>
@@ -58,7 +58,7 @@ const columns: GridColDef<AssessmentRequest>[] = [
                         size="small"
                         variant="outlined"
                         color="error"
-                        onClick={handleReject}
+                        onClick={()=> handleReject}
                     >
                         Reject
                     </Button>

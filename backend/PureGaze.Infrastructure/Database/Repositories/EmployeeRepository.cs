@@ -7,16 +7,26 @@ namespace PureGaze.Infrastructure.Database.Repositories;
 public class EmployeeRepository(AppDbContext dbContext)
     : IEmployeeRepository
 {
-    public async Task<IReadOnlyList<Employee>> GetEmployeesAsync(int page, int pageSize, CancellationToken ct = default)
-        => await dbContext.Employees
+    public async Task<IReadOnlyList<Employee>> GetEmployeesAsync(string search, int page, int pageSize, CancellationToken ct = default)
+    {
+        var query = dbContext.Employees.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            query = query.Where(x => x.Email != null && x.Email.Contains(search));
+        }
+
+        return await query
             .Include(x => x.ManagerialLevel)
             .Include(x => x.M1)
             .Include(x => x.M2)
             .Include(x => x.M3)
+            .OrderBy(x => x.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .AsNoTracking()
             .ToListAsync(ct);
+    }
 
     public async Task<IDictionary<int, Employee>> GetByIdsAsync(IReadOnlyList<int> ids, CancellationToken ct = default)
         => await dbContext

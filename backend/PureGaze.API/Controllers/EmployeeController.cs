@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Admin.Employees.GetEmployees;
 using PureGaze.Application.UseCases.Staff.GetCurrentEmployee;
 using PureGaze.Application.UseCases.Staff.UpdateEmployeeLanguage;
 
@@ -28,14 +27,5 @@ public class EmployeeController(IRequestDispatcher dispatcher) : Controller
         await dispatcher.SendAsync(command, ct);
 
         return Ok();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> GetEmployees([FromBody] GetEmployeesQuery query, CancellationToken ct)
-    {
-        var result =
-            await dispatcher.SendAsync<GetEmployeesQuery, GetEmployeesResult>(query, ct);
-
-        return Ok(result);
     }
 }
