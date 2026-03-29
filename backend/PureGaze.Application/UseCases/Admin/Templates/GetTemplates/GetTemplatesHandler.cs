@@ -14,6 +14,6 @@ public class GetTemplatesHandler(ITemplateRepository templateRepository)
 
         return
             new GetTemplatesQueryResult(
-                [.. templates.Select(template => new TemplateDto { Id = template.Id, CodeName = template.Code?.Display })]);
+                [.. templates.Select(template => new TemplateDto { Id = template.Id, CodeName = template.Code?.Name })]);
     }
 }

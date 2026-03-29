@@ -15,7 +15,15 @@ public class CodeConfiguration : IEntityTypeConfiguration<Code>
         builder.Property(o => o.Id)
             .ValueGeneratedOnAdd();
 
-        builder.Property(o => o.Display)
+        builder.Property(o => o.Name)
             .HasMaxLength(128);
+
+        builder.HasOne(o => o.Grade)
+            .WithMany()
+            .HasForeignKey(o => o.GradeId);
+
+        builder.HasOne(o => o.ToGrade)
+            .WithMany()
+            .HasForeignKey(o => o.ToGradeId);
     }
 }

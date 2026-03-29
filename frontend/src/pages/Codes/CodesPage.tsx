@@ -7,11 +7,12 @@ import type { CreateCodeRequest } from "@/types/Code/CreateCodeRequest";
 import type { UpdateCodeRequest } from "@/types/Code/UpdateCodeRequest";
 import CodeFormDialog from "@/pages/Codes/CodeFormDialog";
 import { useMuiTheme } from "@/shared/hooks/useMuiTheme";
+import type {GetCode} from "@/types/Code/GetCode.ts";
 
 export default function CodesPage() {
     const muiTheme = useMuiTheme();
 
-    const [rows, setRows] = useState<Code[]>([]);
+    const [rows, setRows] = useState<GetCode[]>([]);
     const [loading, setLoading] = useState(false);
     const [editCode, setEditCode] = useState<Code | null>(null);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -32,23 +33,22 @@ export default function CodesPage() {
         setRows((prev) => prev.map((r) => r.id === req.id ? { ...r, ...req } : r));
     };
 
+    const openEdit = async (id: number) => 
+    {
+        const code = await codeApi.getById(id);
+        setEditCode(code);
+        setDialogOpen(true);
+    };
+    
     const openCreate = () => {
         setEditCode(null);
         setDialogOpen(true);
     };
 
-    const openEdit = (code: Code) => {
-        setEditCode(code);
-        setDialogOpen(true);
-    };
-
-    const columns: GridColDef<Code>[] = [
-        { field: "id", headerName: "ID", width: 70 },
-        { field: "display", headerName: "Code", width: 80 },
-        { field: "totalEx", headerName: "Total Ex", flex: 1 },
-        { field: "diffEx", headerName: "Diff Ex", flex: 1 },
-        { field: "levelVisionRu", headerName: "Level Vision (RU)", flex: 2 },
-        { field: "levelVisionEn", headerName: "Level Vision (EN)", flex: 2 },
+    const columns: GridColDef<GetCode>[] = [
+        { field: "id", headerName: "ID", flex: 1 },
+        { field: "name", headerName: "Name", flex: 1 },
+        { field: "display", headerName: "Display", flex: 1 },
         {
             field: "actions",
             headerName: "Actions",
@@ -59,7 +59,7 @@ export default function CodesPage() {
             headerAlign: "center",
             renderCell: (params) => (
                 <Stack direction="row" spacing={1} alignItems="center" height="100%">
-                    <Button size="small" variant="contained" onClick={() => openEdit(params.row)}>
+                    <Button size="small" variant="contained" onClick={() => openEdit(params.row.id)}>
                         Edit
                     </Button>
                     <Button size="small" variant="outlined" color="error" onClick={() => handleDelete(params.row.id)}>

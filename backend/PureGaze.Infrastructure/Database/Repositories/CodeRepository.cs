@@ -15,12 +15,12 @@ public class CodeRepository(AppDbContext context)
     public async Task<Code?> GetByIdAsync(int codeId, CancellationToken ct = default)
         => await context
             .Codes
-            .Include(r => r.CodeTranslates)
             .FirstOrDefaultAsync(c => c.Id == codeId, ct);
 
     public async Task<IReadOnlyList<Code>> GetAllAsync(CancellationToken ct = default)
         => await context.Codes
-            .Include(c => c.CodeTranslates)
+            .Include(x => x.Grade)
+            .Include(x => x.ToGrade)
             .AsNoTracking()
             .ToListAsync(ct);
 

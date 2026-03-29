@@ -6,7 +6,7 @@ public sealed record EditCodeCommand(
     int Id,
     Guid GradeId,
     Guid ToGradeId,
-    string? Display,
+    string? Name,
     int TotalEx,
     int DiffEx,
     string? LevelVisionRu,

@@ -6,7 +6,7 @@ using PureGaze.Application.UseCases.Admin.Codes.CreateCode;
 using PureGaze.Application.UseCases.Admin.Codes.DeleteCode;
 using PureGaze.Application.UseCases.Admin.Codes.EditCode;
 using PureGaze.Application.UseCases.Admin.Codes.GetAllCodes;
-using PureGaze.Application.UseCases.Admin.Codes.GetCodes;
+using PureGaze.Application.UseCases.Admin.Codes.GetCode;
 using PureGaze.Application.UseCases.Admin.ProfessionalLevels.GetProfessionalLevels;
 
 namespace PureGaze.API.Controllers;
@@ -26,7 +26,7 @@ public class AdminController(IRequestDispatcher dispatcher) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdCodes([FromRoute] int id, CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetCodesQuery, CodeDto>(new GetCodesQuery(id), ct);
+        var result = await dispatcher.SendAsync<GetCodesQuery, GetCodeResult>(new GetCodesQuery(id), ct);
         return Ok(result);
     }
 

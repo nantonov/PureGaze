@@ -7,11 +7,9 @@ import { professionalLevelApi } from "@/api/professionalLevelApi";
 const emptyForm: CreateCodeRequest = {
     gradeId: "",
     toGradeId: "",
-    display: "",
+    name: "",
     totalEx: 0,
-    diffEx: 0,
-    levelVisionRu: null,
-    levelVisionEn: null,
+    diffEx: 0
 };
 
 const intFields: Set<string> = new Set(["totalEx", "diffEx"]);
@@ -28,11 +26,9 @@ export function useCodeForm(code: Code | null, open: boolean) {
         setForm(code ? {
             gradeId: code.gradeId,
             toGradeId: code.toGradeId,
-            display: code.display,
+            name: code.name,
             totalEx: code.totalEx,
             diffEx: code.diffEx,
-            levelVisionRu: code.levelVisionRu,
-            levelVisionEn: code.levelVisionEn,
         } : emptyForm);
     }, [code, open]);
 
