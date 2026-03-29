@@ -41,7 +41,7 @@ export default function CodeFormDialog({ open, code, onClose, onCreate, onUpdate
             <DialogTitle>{isEdit ? "Edit Code" : "Create Code"}</DialogTitle>
             <DialogContent>
                 <Stack spacing={2} sx={{ mt: 1 }}>
-                    <TextField label="Display" value={form.display} onChange={handleChange("display")} />
+                    <TextField label="Name" value={form.name} onChange={handleChange("name")} />
                     <GradeSelect
                         label="From Grade *"
                         value={form.gradeId}
@@ -67,8 +67,6 @@ export default function CodeFormDialog({ open, code, onClose, onCreate, onUpdate
                         inputProps={{ min: 0, step: 1 }}
                     />
                     {diffExError && <FormHelperText error>{diffExError}</FormHelperText>}
-                    <TextField label="Level Vision (RU)" value={form.levelVisionRu ?? ""} onChange={handleChange("levelVisionRu")} multiline rows={2} />
-                    <TextField label="Level Vision (EN)" value={form.levelVisionEn ?? ""} onChange={handleChange("levelVisionEn")} multiline rows={2} />
                 </Stack>
             </DialogContent>
             <DialogActions>

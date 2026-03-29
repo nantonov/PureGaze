@@ -15,7 +15,7 @@ public static class AssessmentRequestExtensions
                 $"{assessmentRequest.Employee?.FirstNameEn} {assessmentRequest.Employee?.LastNameEn}".Trim(),
             ManagerId = assessmentRequest.ManagerId,
             ManagerFullName = $"{assessmentRequest.Manager?.FirstNameEn} {assessmentRequest.Manager?.LastNameEn}".Trim(),
-            Code = assessmentRequest.Code?.Display,
+            Code = assessmentRequest.Code?.Name,
             Status = assessmentRequest.Status,
             RejectionReason = assessmentRequest.RejectionReason
         };
@@ -27,7 +27,7 @@ public static class AssessmentRequestExtensions
             EmployeeFullName =
                 $"{assessmentRequest.Employee?.FirstNameEn} {assessmentRequest.Employee?.LastNameEn}".Trim(),
             ManagerFullName = $"{assessmentRequest.Manager?.FirstNameEn} {assessmentRequest.Manager?.LastNameEn}".Trim(),
-            Code = assessmentRequest.Code?.Display,
+            Code = assessmentRequest.Code?.Name,
             Status = assessmentRequest.Status,
         };
 

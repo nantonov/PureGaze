@@ -1,7 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
-using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Admin.Codes.CreateCode;
 
@@ -14,14 +13,9 @@ public class CreateCodeHandler(ICodeRepository codeRepository)
         {
             GradeId = command.GradeId,
             ToGradeId = command.ToGradeId,
-            Display = command.Display,
+            Name = command.Name,
             TotalEx = command.TotalEx,
-            DiffEx = command.DiffEx,
-            CodeTranslates =
-            [
-                new CodeTranslate { Language = Language.Ru, LevelVision = command.LevelVisionRu },
-                new CodeTranslate { Language = Language.En, LevelVision = command.LevelVisionEn }
-            ]
+            DiffEx = command.DiffEx
         };
 
         await codeRepository.AddAsync(code, ct);

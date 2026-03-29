@@ -31,5 +31,4 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<SubtopicTranslate> SubtopicTranslates { get; set; }
     public DbSet<QuestionTranslate> QuestionTranslates { get; set; }
     public DbSet<AnswerTranslate> AnswerTranslates { get; set; }
-    public DbSet<CodeTranslate> CodeTranslates { get; set; }
 }
