@@ -10,7 +10,7 @@ public class GetEmployeesHandler(IEmployeeRepository repository)
     public async Task<GetEmployeesResult> Handle(GetEmployeesQuery query, CancellationToken ct)
     {
         var employees =
-            await repository.GetEmployeesAsync(query.Page, query.PageSize, ct);
+            await repository.GetEmployeesAsync(query.Search, query.Page, query.PageSize, ct);
 
         var count = await repository.GetCountAsync(ct);
 

@@ -12,9 +12,9 @@ using PureGaze.Application.UseCases.Admin.ProfessionalLevels.GetProfessionalLeve
 namespace PureGaze.API.Controllers;
 
 [ApiController]
-[Route("codes")]
+[Route("admin-codes")]
 [Authorize(Roles = "M3,M4,M5")]
-public class AdminController(IRequestDispatcher dispatcher) : ControllerBase
+public class AdminCodeController(IRequestDispatcher dispatcher) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllCodes(CancellationToken ct = default)

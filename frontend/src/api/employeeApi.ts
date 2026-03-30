@@ -1,7 +1,5 @@
 import { BaseApi } from "./baseApi";
 import type { CurrentEmployee } from "@/types/Employees/CurrentEmployee.ts";
-import type {GetEmployeesQuery} from "@/types/Employees/GetEmployeesQuery.ts";
-import type {GetEmployeesResponse} from "@/types/Employees/GetEmployeesResponse.ts";
 
 class EmployeeApi extends BaseApi {
   private readonly baseUrl = "/employees";
@@ -12,10 +10,6 @@ class EmployeeApi extends BaseApi {
 
   public async updateLanguage(language: string): Promise<void> {
     return this.put<void>(`${this.baseUrl}/language`, { language });
-  }
-  
-  public async getEmployees(query: GetEmployeesQuery): Promise<GetEmployeesResponse> {
-    return this.post<GetEmployeesResponse>(`${this.baseUrl}`, query);
   }
 }
 

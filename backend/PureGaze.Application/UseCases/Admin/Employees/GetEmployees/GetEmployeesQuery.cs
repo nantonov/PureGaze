@@ -2,5 +2,5 @@
 
 namespace PureGaze.Application.UseCases.Admin.Employees.GetEmployees;
 
-public sealed record GetEmployeesQuery(int Page, int PageSize)
+public sealed record GetEmployeesQuery(string Search, int Page, int PageSize)
     : IRequest<GetEmployeesResult>;

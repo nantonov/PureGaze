@@ -1,7 +1,7 @@
 import { Button, Paper, Stack, Box, Typography, ThemeProvider } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { codeApi } from "@/api/codeApi";
+import { codeApi } from "@/api/adminCodeApi.ts";
 import type { Code } from "@/types/Code/Code";
 import type { CreateCodeRequest } from "@/types/Code/CreateCodeRequest";
 import type { UpdateCodeRequest } from "@/types/Code/UpdateCodeRequest";
@@ -84,7 +84,7 @@ export default function CodesPage() {
         <ThemeProvider theme={muiTheme}>
             <Box>
                 <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-                    <Typography variant="h5">Codes</Typography>
+                    <Typography variant="h4">Codes</Typography>
                     <Button variant="contained" onClick={openCreate}>Create</Button>
                 </Stack>
 

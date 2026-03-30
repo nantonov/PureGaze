@@ -5,7 +5,7 @@ using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
 
-namespace PureGaze.Application.UseCases.Management.UploadEmployee;
+namespace PureGaze.Application.UseCases.Admin.Employees.UploadEmployee;
 
 public class UploadEmployeeHandler(
     IServiceScopeFactory scopeFactory,

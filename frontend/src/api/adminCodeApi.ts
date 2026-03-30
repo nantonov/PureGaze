@@ -4,8 +4,8 @@ import type { UpdateCodeRequest } from "@/types/Code/UpdateCodeRequest";
 import type { GetCode } from "@/types/Code/GetCode.ts";
 import type { Code } from "@/types/Code/Code.ts";
 
-class CodeApi extends BaseApi {
-    private readonly baseUrl = "/codes";
+class AdminCodeApi extends BaseApi {
+    private readonly baseUrl = "/admin-codes";
 
     getAll(): Promise<GetCode[]> {
         return this.get<GetCode[]>(this.baseUrl);
@@ -28,4 +28,4 @@ class CodeApi extends BaseApi {
     }
 }
 
-export const codeApi = new CodeApi();
+export const codeApi = new AdminCodeApi();
