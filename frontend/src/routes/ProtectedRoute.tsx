@@ -13,17 +13,16 @@ interface Props {
 export default function ProtectedRoute({ children }: Props) {
   const { isAuthenticated, isLoading } = useAuth0();
   const { employee } = useEmployee();
-  const { loading } = useBootstrapEmployee();
-
+  const { loading, error } = useBootstrapEmployee();
   if (isLoading || loading) {
     return <Loading />;
   }
 
   if (!isAuthenticated) {
-  return <Navigate to={ROUTES.LOGIN} replace />;
+    return <Navigate to={ROUTES.LOGIN} replace />;
   }
 
-  if (!employee) {
+  if (!employee || error) {
     return <Loading />;
   }
 
