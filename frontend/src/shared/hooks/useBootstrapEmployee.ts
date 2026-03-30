@@ -7,21 +7,30 @@ export function useBootstrapEmployee() {
   const { isAuthenticated, isLoading } = useAuth0();
   const { employee, setEmployee } = useEmployee();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
 
     if (isLoading) return;
-    if (!isAuthenticated) return;
-    if (employee) return;
 
+    if (!isAuthenticated) {
+      setLoading(false);
+      return;
+    }
+
+    if (employee) {
+      setLoading(false);
+      return;
+    }
+    
     setLoading(true);
 
     loadCurrentEmployee()
       .then(setEmployee)
-      .catch(() => setEmployee(null))
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [isAuthenticated, isLoading, employee, setEmployee]);
 
-  return { loading };
+  return { loading, error };
 }

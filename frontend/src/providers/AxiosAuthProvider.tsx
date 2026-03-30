@@ -1,21 +1,39 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { httpClient } from "@/api/httpClient";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function AxiosAuthProvider({ children }: { children: React.ReactNode }) {
-  const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+    const [isInterceptorReady, setIsInterceptorReady] = useState(false);
 
-  useEffect(() => {
-    const interceptorId = httpClient.interceptors.request.use(async (config) => {
-      const token = await getAccessTokenSilently();
-      config.headers.Authorization = `Bearer ${token}`;
-      return config;
-    });
+    useEffect(() => {
+        if (isLoading) return;
 
-    return () => {
-      httpClient.interceptors.request.eject(interceptorId);
-    };
-  }, [getAccessTokenSilently]);
+        if (!isAuthenticated) {
+            setIsInterceptorReady(true);
+            return;
+        }
 
-  return <>{children}</>;
+        const interceptorId = httpClient.interceptors.request.use(async (config) => {
+            try {
+                const token = await getAccessTokenSilently();
+                config.headers.Authorization = `Bearer ${token}`;
+                return config;
+            } catch (error) {
+                await loginWithRedirect();
+                throw new Error(`Error fetching token: ${error}`);
+            }
+        });
+
+        setIsInterceptorReady(true);
+
+        return () => {
+            httpClient.interceptors.request.eject(interceptorId);
+            setIsInterceptorReady(false);
+        };
+    }, [getAccessTokenSilently, isAuthenticated, isLoading]);
+
+    if (!isInterceptorReady) return null;
+
+    return <>{children}</>;
 }
