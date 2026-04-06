@@ -1,9 +1,9 @@
 ﻿import {Button, Paper, Stack, Box } from "@mui/material";
 import { DataGrid, type GridColDef, type GridPaginationModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { assessmentRequestApi } from "@/api/assessmentRequestApi.ts";
-import type { AssessmentRequest } from "@/types/AssessmentRequest/AssessmentRequest.ts";
-import type { GetAssessmentRequestsQuery } from "@/types/AssessmentRequest/GetAssessmentRequestsQuery.ts";
+import { assessmentRequestApi } from "@/shared/api/assessmentRequestApi";
+import type { GetAssessmentRequestsQuery } from "@/entities/assessmentRequest/GetAssessmentRequestsQuery.ts";
+import type { AssessmentRequest } from "@/entities/assessmentRequest/AssessmentRequest.ts";
 
 const columns: GridColDef<AssessmentRequest>[] = [
     { field: "id", headerName: "ID", width: 90 },

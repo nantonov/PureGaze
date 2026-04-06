@@ -1,13 +1,13 @@
 import { Button, Paper, Stack, Box, Typography, ThemeProvider } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { codeApi } from "@/api/adminCodeApi.ts";
-import type { Code } from "@/types/Code/Code";
-import type { CreateCodeRequest } from "@/types/Code/CreateCodeRequest";
-import type { UpdateCodeRequest } from "@/types/Code/UpdateCodeRequest";
-import CodeFormDialog from "@/pages/Codes/CodeFormDialog";
+import { codeApi } from "@/shared/api/adminCodeApi.ts";
+import type { Code } from "@/entities/code/Code.ts";
+import type { CreateCodeRequest } from "@/entities/code/CreateCodeRequest.ts";
+import type { UpdateCodeRequest } from "@/entities/code/UpdateCodeRequest.ts";
+import CodeFormDialog from "@/pages/codes/CodeFormDialog";
 import { useMuiTheme } from "@/shared/hooks/useMuiTheme";
-import type {GetCode} from "@/types/Code/GetCode.ts";
+import type {GetCode} from "@/entities/code/GetCode.ts";
 
 export default function CodesPage() {
     const muiTheme = useMuiTheme();

@@ -1,9 +1,10 @@
 ﻿import { Paper, Button, Box } from "@mui/material";
-import { DataGrid, type GridColDef, type GridPaginationModel } from "@mui/x-data-grid";
+import { type GridColDef, type GridPaginationModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { assessmentRequestApi } from "@/api/assessmentRequestApi.ts";
-import type { AssessmentRequest } from "@/types/AssessmentRequest/AssessmentRequest.ts";
-import type { GetAssessmentRequestsQuery } from "@/types/AssessmentRequest/GetAssessmentRequestsQuery.ts";
+import { assessmentRequestApi } from "@/shared/api/assessmentRequestApi.ts";
+import type { AssessmentRequest } from "@/entities/assessmentRequest/AssessmentRequest.ts";
+import type { GetAssessmentRequestsQuery } from "@/entities/assessmentRequest/GetAssessmentRequestsQuery.ts";
+import {PaginationTable} from "@/shared/ui/table/pagination/PaginationTable.tsx";
 
 const columns: GridColDef<AssessmentRequest>[] = [
     { field: "id", headerName: "ID", width: 90 },
@@ -75,7 +76,7 @@ export default function MyAssessmentRequest(){
                     New Request</Button>
             </Box>
             <Box sx={{ flex: 1 }}>
-                <DataGrid
+                <PaginationTable
                     rows={rows}
                     columns={columns}
                     rowCount={total}

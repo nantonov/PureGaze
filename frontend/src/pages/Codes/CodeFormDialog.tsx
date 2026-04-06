@@ -8,11 +8,11 @@ import {
     Stack,
     FormHelperText,
 } from "@mui/material";
-import type { Code } from "@/types/Code/Code";
-import type { CreateCodeRequest } from "@/types/Code/CreateCodeRequest";
-import type { UpdateCodeRequest } from "@/types/Code/UpdateCodeRequest";
-import GradeSelect from "@/pages/Codes/GradeSelect";
-import { useCodeForm } from "@/pages/Codes/useCodeForm";
+import type { Code } from "@/entities/code/Code.ts";
+import type { CreateCodeRequest } from "@/entities/code/CreateCodeRequest.ts";
+import type { UpdateCodeRequest } from "@/entities/code/UpdateCodeRequest.ts";
+import GradeSelect from "@/pages/codes/GradeSelect";
+import { useCodeForm } from "@/pages/codes/useCodeForm";
 
 interface Props {
     open: boolean;

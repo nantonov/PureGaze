@@ -2,10 +2,10 @@ import { Paper, Box, Typography, TextField, ThemeProvider, Stack, Button } from 
 import { DataGrid, type GridColDef, type GridPaginationModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { adminEmployeeApi } from "@/api/adminEmployeeApi.ts";
+import { adminEmployeeApi } from "@/shared/api/adminEmployeeApi.ts";
 import { useMuiTheme } from "@/shared/hooks/useMuiTheme.ts";
-import type { Employee } from "@/types/Employees/Employee.ts";
-import type { GetEmployeesQuery } from "@/types/Employees/GetEmployeesQuery.ts";
+import type { Employee } from "@/entities/employees/Employee.ts";
+import type { GetEmployeesQuery } from "@/entities/employees/GetEmployeesQuery.ts";
 
 const columns: GridColDef<Employee>[] = [
     { field: "id", headerName: "ID", width: 90 },

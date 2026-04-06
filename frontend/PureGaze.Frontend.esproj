@@ -7,4 +7,7 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
     <ShouldRunBuildScript>false</ShouldRunBuildScript>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\widgets\" />
+  </ItemGroup>
 </Project>

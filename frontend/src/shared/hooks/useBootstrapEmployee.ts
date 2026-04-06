@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { loadCurrentEmployee } from "@/services/auth/authBootstrap";
-import { useEmployee } from "@/contexts/EmployeeContext";
+import { loadCurrentEmployee } from "@/shared/api/authBootstrap.ts";
+import { useEmployee } from "@/app/providers/employee/EmployeeProvider.tsx";
 
 export function useBootstrapEmployee() {
   const { isAuthenticated, isLoading } = useAuth0();

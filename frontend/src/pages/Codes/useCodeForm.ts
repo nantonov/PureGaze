@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import type { Code } from "@/types/Code/Code";
-import type { CreateCodeRequest } from "@/types/Code/CreateCodeRequest";
-import type { ProfessionalLevel } from "@/types/ProfessionalLevel";
-import { professionalLevelApi } from "@/api/professionalLevelApi";
+import type { Code } from "@/entities/code/Code.ts";
+import type { CreateCodeRequest } from "@/entities/code/CreateCodeRequest.ts";
+import type { ProfessionalLevel } from "@/entities/ProfessionalLevel.ts";
+import { professionalLevelApi } from "@/shared/api/professionalLevelApi";
 
 const emptyForm: CreateCodeRequest = {
     gradeId: "",

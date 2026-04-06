@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import type { ProfessionalLevel } from "@/types/ProfessionalLevel";
+import type { ProfessionalLevel } from "@/entities/ProfessionalLevel";
 
 interface Props {
     label: string;

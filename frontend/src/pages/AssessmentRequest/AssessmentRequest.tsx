@@ -1,8 +1,8 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import AssessmentRequestToMe from "@/pages/AssessmentRequest/AssessmentRequestToMe.tsx";
-import MyAssessmentRequest from "@/pages/AssessmentRequest/MyAssessmentRequest.tsx";
+import AssessmentRequestToMe from "@/pages/assessmentRequest/AssessmentRequestToMe";
+import MyAssessmentRequest from "@/pages/assessmentRequest/MyAssessmentRequest";
 
 export default function AssessmentRequest() {
   const { t } = useTranslation("assessmentRequests");

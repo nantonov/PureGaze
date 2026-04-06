@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/app/providers/theme/ThemeProvider.tsx";
 
 export function useMuiTheme() {
     const { theme } = useTheme();
