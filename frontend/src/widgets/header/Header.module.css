@@ -1,0 +1,27 @@
+.header {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-height: 56px;
+  background-color: var(--background-secondary);
+  border-bottom: var(--border-color) solid 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
