@@ -12,6 +12,13 @@ public class SubtopicRepository(AppDbContext context)
             .Include(s => s.SubtopicTranslates)
             .FirstOrDefaultAsync(s => s.Id == id, ct);
 
+    public async Task<IReadOnlyList<Subtopic>> GetByTopicIdAsync(int topicId, CancellationToken ct = default)
+        => await context.Subtopics
+            .Include(s => s.SubtopicTranslates)
+            .Where(s => s.TopicId == topicId)
+            .AsNoTracking()
+            .ToListAsync(ct);
+
     public async Task<bool> IsNameExistingAsync(int topicId, IEnumerable<string> names,
         int? excludeSubtopicId = null, CancellationToken ct = default)
         => await context.Subtopics

@@ -9,4 +9,7 @@ public class TemplateDto
 
     [JsonPropertyName("codeName")]
     public string? CodeName { get; set; }
+
+    [JsonPropertyName("codeDisplay")]
+    public string? CodeDisplay { get; set; }
 }

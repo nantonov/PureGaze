@@ -14,6 +14,11 @@ public class GetTemplatesHandler(ITemplateRepository templateRepository)
 
         return
             new GetTemplatesQueryResult(
-                [.. templates.Select(template => new TemplateDto { Id = template.Id, CodeName = template.Code?.Name })]);
+                [.. templates.Select(template => new TemplateDto
+                {
+                    Id = template.Id,
+                    CodeName = template.Code?.Name,
+                    CodeDisplay = $"{template.Code?.Grade?.Translation} -> {template.Code?.ToGrade?.Translation}"
+                })]);
     }
 }

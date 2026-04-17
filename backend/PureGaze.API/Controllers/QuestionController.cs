@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
-using PureGaze.Application.UseCases.Admin.Questions.GetQuestionDetails;
-using PureGaze.Application.UseCases.Admin.Questions.UpdateQuestion;
-using PureGaze.Application.UseCases.Admin.Questions.GetQuestionsBySubtopic;
 using PureGaze.Application.UseCases.Admin.Questions.CreateQuestionWithAnswer;
+using PureGaze.Application.UseCases.Admin.Questions.DeleteQuestion;
+using PureGaze.Application.UseCases.Admin.Questions.GetQuestionDetails;
+using PureGaze.Application.UseCases.Admin.Questions.GetQuestionsBySubtopic;
+using PureGaze.Application.UseCases.Admin.Questions.UpdateQuestion;
 
 namespace PureGaze.API.Controllers;
 
@@ -43,6 +44,14 @@ public class QuestionController(IRequestDispatcher dispatcher) : Controller
     public async Task<IActionResult> Update([FromBody] UpdateQuestionCommand command, CancellationToken ct = default)
     {
         await dispatcher.SendAsync(command, ct);
+
+        return Ok();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken ct = default)
+    {
+        await dispatcher.SendAsync(new DeleteQuestionCommand(id), ct);
 
         return Ok();
     }
