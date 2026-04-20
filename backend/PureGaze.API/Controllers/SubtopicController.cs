@@ -15,8 +15,8 @@ public class SubtopicController(IRequestDispatcher dispatcher) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateSubtopicCommand command, CancellationToken ct = default)
     {
-        await dispatcher.SendAsync(command, ct);
-        return Ok();
+        var result = await dispatcher.SendAsync<CreateSubtopicCommand, CreateSubtopicResult>(command, ct);
+        return Ok(result);
     }
 
     [HttpGet("{id}")]

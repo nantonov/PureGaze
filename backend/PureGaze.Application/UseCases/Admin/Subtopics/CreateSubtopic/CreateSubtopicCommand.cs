@@ -6,7 +6,7 @@ namespace PureGaze.Application.UseCases.Admin.Subtopics.CreateSubtopic;
 public sealed record CreateSubtopicCommand(
     int TopicId,
     List<SubtopicTranslateDto> Translates,
-    List<CreateQuestionDto> Questions) : IRequest;
+    List<CreateQuestionDto> Questions) : IRequest<CreateSubtopicResult>;
 
 public sealed record SubtopicTranslateDto(Language Language, string Name);
 
