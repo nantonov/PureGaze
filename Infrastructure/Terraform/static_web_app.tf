@@ -4,7 +4,6 @@ resource "azurerm_static_web_app" "static_app" {
   location            = var.swa_location
   sku_tier            = var.swa_sku_tier
   sku_size            = var.swa_sku_size
-
   tags = {
     environment = var.environment
   }

@@ -145,3 +145,8 @@ variable "smtp_password" {
   description = "SMTP password"
   sensitive   = true
 }
+
+variable "notifications_storage_account_name" {
+  type        = string
+  description = "notifications_storage_account_name"
+}
