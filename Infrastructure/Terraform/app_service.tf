@@ -31,6 +31,7 @@ resource "azurerm_linux_web_app" "app" {
     "CorsOptions__Origins__0"           = "https://${azurerm_static_web_app.static_app.default_host_name}"
     "Smtp__Password"                    = var.smtp_password
     "Smtp__Enabled"                     = "true"
+    "NotificationsQueue__ConnectionString" = azurerm_storage_account.notifications_sa.primary_connection_string
   }
 
   tags = {

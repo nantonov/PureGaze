@@ -1,7 +1,10 @@
 terraform {
-  # place for keeping terraform state file
-  # backend "azurerm" {
-  # }
+  backend "azurerm" {
+    resource_group_name  = "pure_gaze_rg"
+    storage_account_name = "puregaze2026notifsa"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 
   required_providers {
     azurerm = {
