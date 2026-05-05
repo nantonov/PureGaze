@@ -22,7 +22,7 @@ class AssessmentRequestApi extends BaseApi {
   }
 
   public async reject(id: number, reason?: string): Promise<void> {
-    return this.post<void>(`${this.baseUrl}/reject`, { id, reason: reason ?? null });
+    return this.post<void>(`${this.baseUrl}/reject`, { id, reason: reason });
   }
 }
 

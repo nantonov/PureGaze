@@ -14,7 +14,8 @@ interface AssessmentRequestActionDialogProps {
 
 export function AssessmentRequestActionDialog({ open, action, code, employeeFullName, onConfirm, onClose }: AssessmentRequestActionDialogProps) {
     const [reason, setReason] = useState("");
-
+    const [isDisabled, setIsDisabled] = useState(true);
+    
     const handleConfirm = () => {
         onConfirm(action === "reject" ? reason : undefined);
         setReason("");
@@ -25,6 +26,11 @@ export function AssessmentRequestActionDialog({ open, action, code, employeeFull
         onClose();
     };
 
+    const handleReasonChange = (value:string) => {
+        setReason(value);
+        setIsDisabled(value.length === 0);
+    };
+    
     return (
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
             <DialogTitle>
@@ -44,19 +50,20 @@ export function AssessmentRequestActionDialog({ open, action, code, employeeFull
                         margin="normal"
                         label="Rejection reason"
                         value={reason}
-                        onChange={(e) => setReason(e.target.value)}
+                        onChange={(e) => handleReasonChange(e.target.value)}
                     />
                 )}
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
                 <Button
                     variant="contained"
                     color={action === "approve" ? "success" : "error"}
                     onClick={handleConfirm}
+                    disabled={action === "reject" && isDisabled}
                 >
                     {action === "approve" ? "Approve" : "Reject"}
                 </Button>
+                <Button onClick={handleClose}>Cancel</Button>
             </DialogActions>
         </Dialog>
     );
