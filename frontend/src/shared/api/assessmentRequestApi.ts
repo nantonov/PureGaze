@@ -16,6 +16,14 @@ class AssessmentRequestApi extends BaseApi {
   public async getMyRequests(query: GetAssessmentRequestsQuery): Promise<GetAssessmentRequestsResponse> {
     return this.post<GetAssessmentRequestsResponse>(`${this.baseUrl}/my`, query);
   }
+
+  public async approve(id: number): Promise<void> {
+    return this.post<void>(`${this.baseUrl}/approve`, { id });
+  }
+
+  public async reject(id: number, reason?: string): Promise<void> {
+    return this.post<void>(`${this.baseUrl}/reject`, { id, reason: reason ?? null });
+  }
 }
 
 export const assessmentRequestApi = new AssessmentRequestApi();

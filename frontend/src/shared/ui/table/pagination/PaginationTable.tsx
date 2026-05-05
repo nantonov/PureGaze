@@ -1,4 +1,4 @@
-﻿import { DataGrid, type GridColDef, type GridPaginationModel } from "@mui/x-data-grid";
+﻿import { DataGrid, type DataGridProps, type GridColDef, type GridPaginationModel } from "@mui/x-data-grid";
 
 type PaginationTableProps = {
     rows: any[];
@@ -9,6 +9,7 @@ type PaginationTableProps = {
     paginationModel: GridPaginationModel;
     onPaginationModelChange: (model: GridPaginationModel) => void;
     pageSizeOptions: number[] | [5, 10, 20, 50];
+    sx?: DataGridProps["sx"];
 }
 
 export function PaginationTable(props : PaginationTableProps){
@@ -22,6 +23,7 @@ export function PaginationTable(props : PaginationTableProps){
             paginationModel={props.paginationModel}
             onPaginationModelChange={props.onPaginationModelChange}
             pageSizeOptions={props.pageSizeOptions}
-        />  
+            sx={props.sx}
+        />
     );
 }
