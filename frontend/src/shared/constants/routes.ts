@@ -5,4 +5,5 @@ export const ROUTES = {
   ASSESSMENTS: "/assessments",
   EMPLOYEES: "/employees",
   CODES: "/codes",
+  ASSESSMENT_TEMPLATES: "/assessment-templates",
 } as const;

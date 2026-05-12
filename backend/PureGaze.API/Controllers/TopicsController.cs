@@ -5,6 +5,7 @@ using PureGaze.Application.UseCases.Admin.Subtopics.GetSubtopicsByTopic;
 using PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
 using PureGaze.Application.UseCases.Admin.Topics.DeleteTopic;
 using PureGaze.Application.UseCases.Admin.Topics.EditTopic;
+using PureGaze.Application.UseCases.Admin.Topics.GetTopicDetails;
 
 namespace PureGaze.API.Controllers;
 
@@ -37,6 +38,14 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
         await dispatcher.SendAsync(new DeleteTopicCommand(topicId), ct);
 
         return Ok();
+    }
+
+    [HttpGet("{topicId}")]
+    public async Task<IActionResult> GetTopicDetails([FromRoute] int topicId, CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync<GetTopicDetailsQuery, TopicDetailsDto>(
+            new GetTopicDetailsQuery(topicId), ct);
+        return Ok(result);
     }
 
     [HttpGet("{topicId}/subtopics")]

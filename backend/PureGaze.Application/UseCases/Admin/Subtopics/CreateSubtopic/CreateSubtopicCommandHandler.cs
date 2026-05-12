@@ -23,7 +23,6 @@ public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
     private void ValidateInput(CreateSubtopicCommand command)
     {
         ArgumentNullException.ThrowIfNull(command.Translates);
-        ArgumentNullException.ThrowIfNull(command.Questions);
 
         if (command.Translates.Count == 0)
             throw new ArgumentException("At least one subtopic translate is required.");
