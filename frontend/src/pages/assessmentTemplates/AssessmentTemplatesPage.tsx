@@ -430,7 +430,9 @@ export default function AssessmentTemplatesPage() {
                   onTopicFilterChange={setSubtopicsTopicFilter}
                   onAdd={() => {
                     setEditSubtopicId(null);
-                    setFixedTopicId(null);
+                    setFixedTopicId(
+                      subtopicsTopicFilter !== "" ? (subtopicsTopicFilter as number) : null,
+                    );
                     setSubtopicCreateContext("pick-topic");
                     setSubtopicDialogOpen(true);
                   }}
@@ -507,6 +509,7 @@ export default function AssessmentTemplatesPage() {
         questionFormOpen={questionFormOpen}
         editQuestionId={editQuestionId}
         questionCreateSubtopicId={questionCreateSubtopicId ?? undefined}
+        questionSubtopics={editQuestionId === null ? subtopicOptions : undefined}
         onQuestionFormClose={() => {
           setQuestionFormOpen(false);
           setEditQuestionId(null);

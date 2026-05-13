@@ -40,6 +40,7 @@ interface Props {
   questionFormOpen: boolean;
   editQuestionId: number | null;
   questionCreateSubtopicId: number | undefined;
+  questionSubtopics: { id: number; name: string }[] | undefined;
   onQuestionFormClose: () => void;
   onCreateQuestion: (
     subtopicId: number,
@@ -80,6 +81,7 @@ export default function AssessmentTemplateDialogs({
   questionFormOpen,
   editQuestionId,
   questionCreateSubtopicId,
+  questionSubtopics,
   onQuestionFormClose,
   onCreateQuestion,
   onUpdateQuestion,
@@ -119,6 +121,7 @@ export default function AssessmentTemplateDialogs({
         open={questionFormOpen}
         questionId={editQuestionId}
         defaultSubtopicId={questionCreateSubtopicId}
+        subtopics={questionSubtopics}
         onClose={onQuestionFormClose}
         onCreate={onCreateQuestion}
         onUpdate={onUpdateQuestion}

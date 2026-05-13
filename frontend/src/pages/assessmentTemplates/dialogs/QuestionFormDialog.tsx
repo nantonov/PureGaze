@@ -4,6 +4,10 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -13,10 +17,16 @@ import { useEffect, useState } from "react";
 import { questionApi } from "@/shared/api/questionApi.ts";
 import type { Translate } from "@/entities/question/QuestionDetails.ts";
 
+interface SubtopicOption {
+  id: number;
+  name: string;
+}
+
 interface Props {
   open: boolean;
   questionId: number | null;
   defaultSubtopicId?: number;
+  subtopics?: SubtopicOption[];
   onClose: () => void;
   onCreate: (
     subtopicId: number,
@@ -34,11 +44,15 @@ export default function QuestionFormDialog({
   open,
   questionId,
   defaultSubtopicId,
+  subtopics,
   onClose,
   onCreate,
   onUpdate,
 }: Props) {
   const isEdit = questionId !== null;
+  const showSubtopicSelector = !isEdit && Array.isArray(subtopics);
+
+  const [subtopicId, setSubtopicId] = useState<number | "">("");
   const [contentRu, setContentRu] = useState("");
   const [contentEn, setContentEn] = useState("");
   const [answerRu, setAnswerRu] = useState("");
@@ -49,6 +63,7 @@ export default function QuestionFormDialog({
 
     if (questionId === null) {
       const timer = window.setTimeout(() => {
+        setSubtopicId(defaultSubtopicId ?? "");
         setContentRu("");
         setContentEn("");
         setAnswerRu("");
@@ -68,11 +83,12 @@ export default function QuestionFormDialog({
     return () => {
       canceled = true;
     };
-  }, [open, questionId]);
+  }, [open, questionId, defaultSubtopicId]);
 
   const hasContent = contentRu.trim() !== "" || contentEn.trim() !== "";
   const hasAnswer = answerRu.trim() !== "" || answerEn.trim() !== "";
-  const isValid = hasContent && hasAnswer;
+  const hasSubtopic = isEdit || subtopicId !== "";
+  const isValid = hasContent && hasAnswer && hasSubtopic;
 
   const handleSave = async () => {
     if (!isValid) return;
@@ -87,7 +103,7 @@ export default function QuestionFormDialog({
     if (isEdit) {
       await onUpdate(questionId, translates, answerTranslates);
     } else {
-      await onCreate(defaultSubtopicId as number, translates, answerTranslates);
+      await onCreate(subtopicId as number, translates, answerTranslates);
     }
     onClose();
   };
@@ -97,6 +113,22 @@ export default function QuestionFormDialog({
       <DialogTitle>{isEdit ? "Edit Question" : "Create Question"}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
+          {showSubtopicSelector && (
+            <FormControl fullWidth required>
+              <InputLabel>Subtopic *</InputLabel>
+              <Select
+                value={subtopicId}
+                label="Subtopic *"
+                onChange={(e) => setSubtopicId(e.target.value as number)}
+              >
+                {subtopics!.map((s) => (
+                  <MenuItem key={s.id} value={s.id}>
+                    {s.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
           <Typography variant="overline" sx={{ color: "var(--brand-color)", fontWeight: 600 }}>
             Question
           </Typography>
