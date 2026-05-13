@@ -40,7 +40,7 @@ public static class SubtopicExtensions
                 Language = t.Language,
                 Name = t.Name
             }).ToList(),
-            Questions = command.Questions.Select(qDto => new Question
+            Questions = (command.Questions ?? []).Select(qDto => new Question
             {
                 QuestionTranslates = qDto.Translates.Select(t => new QuestionTranslate
                 {

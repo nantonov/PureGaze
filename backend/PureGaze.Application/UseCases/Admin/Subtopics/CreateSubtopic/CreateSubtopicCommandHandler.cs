@@ -6,21 +6,23 @@ using PureGaze.Application.Requests;
 namespace PureGaze.Application.UseCases.Admin.Subtopics.CreateSubtopic;
 
 public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository)
-    : IRequestHandler<CreateSubtopicCommand>
+    : IRequestHandler<CreateSubtopicCommand, CreateSubtopicResult>
 {
-    public async Task Handle(CreateSubtopicCommand command, CancellationToken ct = default)
+    public async Task<CreateSubtopicResult> Handle(CreateSubtopicCommand command, CancellationToken ct = default)
     {
         ValidateInput(command);
         await ValidateUniquenessAsync(command, ct);
 
-        await subtopicRepository.AddAsync(command.ToEntity(), ct);
+        var entity = command.ToEntity();
+        await subtopicRepository.AddAsync(entity, ct);
         await subtopicRepository.SaveChangesAsync(ct);
+
+        return new CreateSubtopicResult { SubtopicId = entity.Id };
     }
 
     private void ValidateInput(CreateSubtopicCommand command)
     {
         ArgumentNullException.ThrowIfNull(command.Translates);
-        ArgumentNullException.ThrowIfNull(command.Questions);
 
         if (command.Translates.Count == 0)
             throw new ArgumentException("At least one subtopic translate is required.");
