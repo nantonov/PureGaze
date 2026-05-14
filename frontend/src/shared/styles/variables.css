@@ -41,6 +41,9 @@ body {
   --box-shadow-color-active: #c4c4c4;
   --icon-active-color: #c63031;
   --brand-color: rgb(198, 48, 49);
+  --brand-color-hover: rgba(198, 48, 49, 0.85);
+  --brand-color-tint: rgba(198, 48, 49, 0.08);
+  --row-stripe-bg: rgba(0, 0, 0, 0.015);
   --text-color: #333;
   --text-color-opposite: #e2e7f7;
   --text-color-secondary: #383838;

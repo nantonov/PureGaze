@@ -6,5 +6,6 @@ public interface IAssessmentStageRepository
 {
     Task<AssessmentStage?> GetByIdAsync(int id, CancellationToken ct = default);
     Task<AssessmentStage?> GetByIdWithScoresAndTopicAsync(int id, CancellationToken ct = default);
+    Task<bool> HasAssessorInAssessmentAsync(int assessmentId, int assessorId, CancellationToken ct = default);
     Task SaveChangesAsync(CancellationToken ct = default);
 }

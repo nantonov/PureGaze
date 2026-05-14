@@ -6,14 +6,18 @@ class AssessmentRequestApi extends BaseApi {
   private readonly baseUrl = "/assessment-requests";
 
   public async CreateAssessmentRequest(): Promise<void> {
-   await this.post(`${this.baseUrl}`);
+    await this.post(`${this.baseUrl}`);
   }
-  
-  public async getAssignedToMe(query: GetAssessmentRequestsQuery): Promise<GetAssessmentRequestsResponse> {
+
+  public async getAssignedToMe(
+    query: GetAssessmentRequestsQuery,
+  ): Promise<GetAssessmentRequestsResponse> {
     return this.post<GetAssessmentRequestsResponse>(`${this.baseUrl}/assigned-to-me`, query);
   }
 
-  public async getMyRequests(query: GetAssessmentRequestsQuery): Promise<GetAssessmentRequestsResponse> {
+  public async getMyRequests(
+    query: GetAssessmentRequestsQuery,
+  ): Promise<GetAssessmentRequestsResponse> {
     return this.post<GetAssessmentRequestsResponse>(`${this.baseUrl}/my`, query);
   }
 
