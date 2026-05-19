@@ -1,6 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11512.155 d18.3
+VisualStudioVersion = 18.3.11512.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{B1E4F4C1-5A5E-4B8A-9C3D-1234567890AB}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,8 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".global", ".global", "{A0D9
 	ProjectSection(SolutionItems) = preProject
 		backend\.editorconfig = backend\.editorconfig
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PureGaze.Notifications", "backend\PureGaze.Notifications\PureGaze.Notifications.csproj", "{FB07D4BC-7FEF-4357-A6AA-1E3C78BFCFCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,10 +51,6 @@ Global
 		{7E82A98F-B519-4D1A-B847-74B94076A929}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E82A98F-B519-4D1A-B847-74B94076A929}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E82A98F-B519-4D1A-B847-74B94076A929}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB07D4BC-7FEF-4357-A6AA-1E3C78BFCFCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB07D4BC-7FEF-4357-A6AA-1E3C78BFCFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB07D4BC-7FEF-4357-A6AA-1E3C78BFCFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB07D4BC-7FEF-4357-A6AA-1E3C78BFCFCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,7 +62,6 @@ Global
 		{1CC3CFF9-C564-4B85-925C-B3405075B3E1} = {B1E4F4C1-5A5E-4B8A-9C3D-1234567890AB}
 		{7E82A98F-B519-4D1A-B847-74B94076A929} = {B1E4F4C1-5A5E-4B8A-9C3D-1234567890AB}
 		{A0D90216-ED3F-4ED6-9C04-4C1428C60762} = {B1E4F4C1-5A5E-4B8A-9C3D-1234567890AB}
-		{FB07D4BC-7FEF-4357-A6AA-1E3C78BFCFCE} = {B1E4F4C1-5A5E-4B8A-9C3D-1234567890AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8780AC97-B746-4F68-AB78-2A429ED0777D}

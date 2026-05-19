@@ -11,8 +11,7 @@ public sealed class AssignAssessmentStageHandler(
     IAssessmentStageRepository assessmentStageRepository,
     IEmailFactory emailFactory,
     IEmailRepository emailRepository,
-    ICurrentUserContextProvider currentUserContextProvider,
-    IEmailQueuePublisher? queuePublisher = null)
+    ICurrentUserContextProvider currentUserContextProvider)
     : IRequestHandler<AssignAssessmentStageCommand>
 {
     public async Task Handle(AssignAssessmentStageCommand request, CancellationToken ct)
@@ -47,8 +46,5 @@ public sealed class AssignAssessmentStageHandler(
             topicName ?? "");
         await emailRepository.AddAsync(email, ct);
         await emailRepository.SaveChangesAsync(ct);
-
-        if (queuePublisher is not null)
-            await queuePublisher.PublishAsync(email.Id, ct);
     }
 }
