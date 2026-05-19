@@ -7,8 +7,7 @@ namespace PureGaze.Application.UseCases.Evaluation.RejectAssessmentRequest;
 public class RejectAssessmentRequestHandler(
     IAssessmentRequestRepository assessmentRequestRepository,
     IEmailFactory emailFactory,
-    IEmailRepository emailRepository,
-    IEmailQueuePublisher? queuePublisher = null)
+    IEmailRepository emailRepository)
     : IRequestHandler<RejectAssessmentRequestCommand>
 {
     public async Task Handle(RejectAssessmentRequestCommand command, CancellationToken ct = default)
@@ -27,8 +26,5 @@ public class RejectAssessmentRequestHandler(
 
         await emailRepository.AddAsync(email, ct);
         await assessmentRequestRepository.SaveChangesAsync(ct);
-
-        if (queuePublisher is not null)
-            await queuePublisher.PublishAsync(email.Id, ct);
     }
 }

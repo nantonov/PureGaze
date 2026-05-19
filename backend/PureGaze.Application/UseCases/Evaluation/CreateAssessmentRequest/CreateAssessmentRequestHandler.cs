@@ -13,8 +13,7 @@ public class CreateAssessmentRequestHandler(
     IEmailFactory emailFactory,
     IEmailRepository emailRepository,
     IAssessmentRequestRepository assessmentRequestRepository,
-    ICurrentUserContextProvider currentUserContextProvider,
-    IEmailQueuePublisher? queuePublisher = null)
+    ICurrentUserContextProvider currentUserContextProvider)
     : IRequestHandler<CreateAssessmentRequestCommand>
 {
     public async Task Handle(CreateAssessmentRequestCommand assessmentRequestCommand, CancellationToken ct = default)
@@ -55,8 +54,5 @@ public class CreateAssessmentRequestHandler(
 
         await emailRepository.AddAsync(notification, ct);
         await emailRepository.SaveChangesAsync(ct);
-
-        if (queuePublisher is not null)
-            await queuePublisher.PublishAsync(notification.Id, ct);
     }
 }

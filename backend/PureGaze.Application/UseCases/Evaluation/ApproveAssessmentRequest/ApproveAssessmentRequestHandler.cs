@@ -10,8 +10,7 @@ public class ApproveAssessmentRequestHandler(
     IAssessmentRepository assessmentRepository,
     ITemplateRepository templateRepository,
     IEmailFactory emailFactory,
-    IEmailRepository emailRepository,
-    IEmailQueuePublisher? queuePublisher = null)
+    IEmailRepository emailRepository)
     : IRequestHandler<ApproveAssessmentRequestCommand>
 {
     public async Task Handle(ApproveAssessmentRequestCommand command, CancellationToken ct = default)
@@ -33,8 +32,5 @@ public class ApproveAssessmentRequestHandler(
         await assessmentRepository.AddAsync(request.ToAssessment(template), ct);
         await emailRepository.AddAsync(email, ct);
         await assessmentRequestRepository.SaveChangesAsync(ct);
-
-        if (queuePublisher is not null)
-            await queuePublisher.PublishAsync(email.Id, ct);
     }
 }

@@ -12,8 +12,7 @@ public class CreateDirectAssessmentHandler(
     ITemplateRepository templateRepository,
     IAssessmentRepository assessmentRepository,
     IEmailFactory emailFactory,
-    IEmailRepository emailRepository,
-    IEmailQueuePublisher? queuePublisher = null)
+    IEmailRepository emailRepository)
     : IRequestHandler<CreateDirectAssessmentCommand>
 {
     public async Task Handle(CreateDirectAssessmentCommand command, CancellationToken ct = default)
@@ -55,8 +54,5 @@ public class CreateDirectAssessmentHandler(
 
         await emailRepository.AddAsync(email, ct);
         await emailRepository.SaveChangesAsync(ct);
-
-        if (queuePublisher is not null)
-            await queuePublisher.PublishAsync(email.Id, ct);
     }
 }
