@@ -630,7 +630,7 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PureGaze.Domain.Entities.Employee", null)
+                    b.HasOne("PureGaze.Domain.Entities.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -643,6 +643,8 @@ namespace PureGaze.Infrastructure.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Code");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("PureGaze.Domain.Entities.AssessmentRequest", b =>

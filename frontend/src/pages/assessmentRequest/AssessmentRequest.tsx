@@ -19,36 +19,37 @@ export default function AssessmentRequest() {
     await assessmentRequestApi.CreateAssessmentRequest();
     setMyRequestsRefresh((n) => n + 1);
   };
-  
+
   return (
-      <PageContentBox>
-          <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              paddingTop={1}
-              sx={{ flexShrink: 0, width: "100%", minWidth: 0, boxSizing: "border-box" }}>
-              <Typography variant="h4">
-                  {t("title")}
-              </Typography>
+    <PageContentBox>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        paddingTop={1}
+        sx={{ flexShrink: 0, width: "100%", minWidth: 0, boxSizing: "border-box" }}
+      >
+        <Typography variant="h4">{t("title")}</Typography>
 
-              {tab === 1 &&
-                  <Stack direction="row" spacing={2} alignItems="center" sx={{ flexShrink: 0 }}>
-                      <Button variant="contained" onClick={handleCreateAssessmentRequest}>New Request</Button>
-                  </Stack>
-              }
+        {tab === 1 && (
+          <Stack direction="row" spacing={2} alignItems="center" sx={{ flexShrink: 0 }}>
+            <Button variant="contained" onClick={handleCreateAssessmentRequest}>
+              New Request
+            </Button>
           </Stack>
-          
-          <Tabs value={tab} onChange={handleChange}>
-              <Tab label={t("tabs.requestsToMe", { defaultValue: "Requests to me" })} />
-              <Tab label={t("tabs.myRequests", { defaultValue: "My requests" })} />
-          </Tabs>
+        )}
+      </Stack>
 
-          {tab === 0 ? (
-            <AssessmentRequestToMe />
-          ) : (
-            <MyAssessmentRequest refreshTrigger={myRequestsRefresh} />
-          )}
-      </PageContentBox>
+      <Tabs value={tab} onChange={handleChange}>
+        <Tab label={t("tabs.requestsToMe", { defaultValue: "Requests to me" })} />
+        <Tab label={t("tabs.myRequests", { defaultValue: "My requests" })} />
+      </Tabs>
+
+      {tab === 0 ? (
+        <AssessmentRequestToMe />
+      ) : (
+        <MyAssessmentRequest refreshTrigger={myRequestsRefresh} />
+      )}
+    </PageContentBox>
   );
 }

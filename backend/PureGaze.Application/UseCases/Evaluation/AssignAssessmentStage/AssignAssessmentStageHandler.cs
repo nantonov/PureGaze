@@ -8,6 +8,7 @@ namespace PureGaze.Application.UseCases.Evaluation.AssignAssessmentStage;
 
 public sealed class AssignAssessmentStageHandler(
     IEmployeeRepository employeeRepository,
+    IAssessmentRepository assessmentRepository,
     IAssessmentStageRepository assessmentStageRepository,
     IEmailFactory emailFactory,
     IEmailRepository emailRepository,
@@ -27,16 +28,29 @@ public sealed class AssignAssessmentStageHandler(
         if (manager.ProfessionalLevel == null)
             throw new ValidationException($"Current Professional Level for Manager with Id {manager.Id} is not set.");
 
-        var employee = await employeeRepository.GetByIdAsync(assessmentStage.Assessment?.EmployeeId ?? 0, ct)
-            ?? throw new KeyNotFoundException($"Employee with Id {assessmentStage.Assessment?.EmployeeId} not found.");
-        if (employee.ProfessionalLevel == null)
-            throw new ValidationException($"Current Professional Level for Employee with Id {assessmentStage.Assessment?.EmployeeId} is not set.");
+        var targetGradeOrder = assessmentStage.Assessment?.Code?.ToGrade?.OrderValue
+            ?? throw new ValidationException("Assessment target grade is not set.");
 
-        if (manager.ProfessionalLevel.OrderValue <= employee.ProfessionalLevel.OrderValue)
-            throw new ValidationException("Professional Level for Manager in not enough for this assigment");
+        if (manager.ProfessionalLevel.OrderValue <= targetGradeOrder)
+            throw new ValidationException("Professional Level for Manager in not enough for this assigment.");
+
+        var employee = await employeeRepository.GetByIdAsync(assessmentStage.Assessment!.EmployeeId, ct)
+            ?? throw new KeyNotFoundException($"Employee with Id {assessmentStage.Assessment.EmployeeId} not found.");
+
+        var alreadyAssigned = await assessmentStageRepository
+            .HasAssessorInAssessmentAsync(assessmentStage.AssessmentId, manager.Id, ct);
+        if (alreadyAssigned)
+            throw new ValidationException("You are already assigned to a topic in this assessment.");
 
         assessmentStage.AssessorId = manager.Id;
         await assessmentStageRepository.SaveChangesAsync(ct);
+
+        var assessment = await assessmentRepository.GetByIdAsync(assessmentStage.AssessmentId, ct);
+        if (assessment!.Stages.All(s => s.AssessorId != null))
+        {
+            assessment.Status = AssessmentStatus.InProgress;
+            await assessmentRepository.SaveChangesAsync(ct);
+        }
 
         var topicName = assessmentStage.Topic?.TopicTranslates
             .FirstOrDefault(x => x.Language == Language.En)?.Name;
