@@ -1,18 +1,19 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Staff.GetCurrentEmployee;
 
 public class GetCurrentEmployeeHandler(IEmployeeRepository repository, ICurrentUserContextProvider currentUserContextProvider)
-    : IRequestHandler<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>
+    : IRequestHandler<GetCurrentEmployeeQuery, GetCurrentEmployeeResult>
 {
-    public async Task<GetCurrentEmployeeResponse> Handle(GetCurrentEmployeeQuery request, CancellationToken ct)
+    public async Task<GetCurrentEmployeeResult> Handle(GetCurrentEmployeeQuery request, CancellationToken ct)
     {
-        var email = currentUserContextProvider.GetUserEmail();
-        var employee = await repository.GetByEmailAsync(email, ct)
-            ?? throw new NullReferenceException($"Employee with email {email} not found");
+        string email = currentUserContextProvider.GetUserEmail();
+        Employee employee = await repository.GetByEmailAsync(email, ct)
+            ?? throw new KeyNotFoundException($"Employee with email {email} not found");
 
-        return GetCurrentEmployeeResponse.ToResult(employee);
+        return GetCurrentEmployeeResult.ToResult(employee);
     }
 }

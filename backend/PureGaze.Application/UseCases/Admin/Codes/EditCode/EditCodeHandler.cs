@@ -1,5 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Codes.EditCode;
 
@@ -8,7 +9,7 @@ public class EditCodeHandler(ICodeRepository codeRepository)
 {
     public async Task Handle(EditCodeCommand command, CancellationToken ct = default)
     {
-        var existing = await codeRepository.GetByIdAsync(command.Id, ct)
+        Code existing = await codeRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Code with Id {command.Id} not found.");
 
         existing.GradeId = command.GradeId;
@@ -16,6 +17,8 @@ public class EditCodeHandler(ICodeRepository codeRepository)
         existing.Name = command.Name;
         existing.TotalEx = command.TotalEx;
         existing.DiffEx = command.DiffEx;
+
+        //TODO: update languages version
 
         await codeRepository.SaveChangesAsync(ct);
     }

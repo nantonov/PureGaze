@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { MenuItem } from "@/entities/MenuItem";
+import type { MenuItem } from "@/shared/model/MenuItem";
 import styles from "./SideBar.module.css";
 
 interface Props {
@@ -15,9 +15,7 @@ export default function SideBarLink({ item, collapsed }: Props) {
   return (
     <NavLink
       to={item.path!}
-      className={({ isActive }) =>
-        `${styles.link} ${isActive ? styles.active : ""}`
-      }
+      className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ""}`}
       title={collapsed ? label : ""}
     >
       <span className={styles.iconWrapper}>{item.icon}</span>

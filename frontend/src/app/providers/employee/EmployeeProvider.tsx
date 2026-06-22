@@ -1,10 +1,10 @@
 import { createContext, useContext, useState } from "react";
-import type { CurrentEmployee } from "@/entities/employees/CurrentEmployee.ts";
+import type { CurrentEmployee } from "@/features/employee/model/CurrentEmployee.ts";
 
 type EmployeeContext = {
   employee: CurrentEmployee | null;
   setEmployee: (e: CurrentEmployee | null) => void;
-}
+};
 
 const EmployeeContext = createContext<EmployeeContext | undefined>(undefined);
 

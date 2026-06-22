@@ -9,16 +9,16 @@ public class EnumTypeConverter<T> : JsonConverter<T> where T : struct, Enum
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var type = typeof(T);
-        var max = Enum.GetValues(typeof(T)).Cast<int>().Max();
-        var min = Enum.GetValues(typeof(T)).Cast<int>().Min();
-        var (intResult, strResult) = GetResults(ref reader);
+        Type type = typeof(T);
+        int max = Enum.GetValues(typeof(T)).Cast<int>().Max();
+        int min = Enum.GetValues(typeof(T)).Cast<int>().Min();
+        (int? intResult, string? strResult) = GetResults(ref reader);
 
         if (!string.IsNullOrEmpty(strResult))
         {
-            foreach (var field in type.GetFields())
+            foreach (FieldInfo field in type.GetFields())
             {
-                var attribute = field.GetCustomAttribute<EnumMemberAttribute>();
+                EnumMemberAttribute? attribute = field.GetCustomAttribute<EnumMemberAttribute>();
                 if (attribute != null && attribute.Value == strResult)
                 {
                     return (T)field.GetValue(null)!;
@@ -47,12 +47,12 @@ public class EnumTypeConverter<T> : JsonConverter<T> where T : struct, Enum
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         Type type = typeof(T);
-        var field = type.GetField(value.ToString());
+        FieldInfo? field = type.GetField(value.ToString());
 
         if (field == null)
             throw new JsonException($"Unknown enum type '{type.Name}'");
 
-        var attribute = (EnumMemberAttribute?)field
+        EnumMemberAttribute? attribute = (EnumMemberAttribute?)field
             .GetCustomAttributes(typeof(EnumMemberAttribute), false)
             .FirstOrDefault();
 
@@ -66,7 +66,7 @@ public class EnumTypeConverter<T> : JsonConverter<T> where T : struct, Enum
 
         if (reader.TokenType == JsonTokenType.String)
             strResult = reader.GetString();
-        else if (reader.TryGetInt32(out var value))
+        else if (reader.TryGetInt32(out int value))
             intResult = value;
 
         return (intResult, strResult);

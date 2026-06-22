@@ -11,7 +11,7 @@ public static class CorsConfig
 
         builder.Services.AddCors(options =>
         {
-            var corsOptions =
+            CorsOptions corsOptions =
                 builder.Configuration.GetSection(CorsOptions.SectionName)
                     .Get<CorsOptions>()!;
 

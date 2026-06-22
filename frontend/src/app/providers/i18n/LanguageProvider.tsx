@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { employeeApi } from "@/shared/api/employeeApi";
+import { employeeApi } from "@/features/employee/api/employeeApi";
 import { useEmployee } from "@/app/providers/employee/EmployeeProvider.tsx";
 
 export type Language = "en" | "ru";
@@ -12,7 +12,7 @@ export interface LanguageContext {
 
 const LanguageContext = createContext<LanguageContext>({
   language: "en",
-  setLanguage: () => { },
+  setLanguage: () => {},
 });
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
@@ -20,13 +20,15 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const { employee, setEmployee } = useEmployee();
 
   const [language, setLanguageState] = useState<Language>(
-    (i18n.resolvedLanguage as Language) || "en"
+    (i18n.resolvedLanguage as Language) || "en",
   );
 
   useEffect(() => {
     const sync = (lng: string) => setLanguageState(lng as Language);
     i18n.on("languageChanged", sync);
-    return () => { i18n.off("languageChanged", sync); };
+    return () => {
+      i18n.off("languageChanged", sync);
+    };
   }, [i18n]);
 
   useEffect(() => {

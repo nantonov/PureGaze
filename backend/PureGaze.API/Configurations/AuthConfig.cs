@@ -21,7 +21,7 @@ public static class AuthConfig
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                var jwtOptions = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
+                JwtOptions jwtOptions = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
 
                 options.Authority = jwtOptions.Issuer;
                 options.Audience = jwtOptions.Audience;

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import type { MenuItem } from "@/entities/MenuItem";
+import type { MenuItem } from "@/shared/model/MenuItem";
 import SideBarLink from "./SideBarLink";
 import styles from "./SideBar.module.css";
 

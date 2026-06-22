@@ -1,18 +1,17 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Contracts.Application;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.GetTopicDetails;
 
 public class GetTopicDetailsHandler(ITopicsRepository topicsRepository)
-    : IRequestHandler<GetTopicDetailsQuery, TopicDetailsDto>
+    : IRequestHandler<GetTopicDetailsQuery, GetTopicDetailsResult>
 {
-    public async Task<TopicDetailsDto> Handle(GetTopicDetailsQuery query, CancellationToken ct = default)
+    public async Task<GetTopicDetailsResult> Handle(GetTopicDetailsQuery query, CancellationToken ct = default)
     {
-        var topic = await topicsRepository.GetByIdAsync(query.Id, ct)
+        Topic topic = await topicsRepository.GetByIdAsync(query.Id, ct)
             ?? throw new KeyNotFoundException($"Topic with Id {query.Id} not found.");
 
-        return topic.ToDetailsDto();
+        return GetTopicDetailsResult.ToResult(topic);
     }
 }

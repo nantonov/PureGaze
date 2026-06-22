@@ -33,9 +33,9 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher) : Contro
     [HttpGet("details/{id}")]
     public async Task<IActionResult> GetDetails([FromRoute] int id, CancellationToken ct = default)
     {
-        var result =
+        GetAssessmentRequestDetailsResult result =
             await dispatcher
-                .SendAsync<GetAssessmentRequestDetailsQuery, GetAssessmentRequestDetailsResponse>(
+                .SendAsync<GetAssessmentRequestDetailsQuery, GetAssessmentRequestDetailsResult>(
                     new GetAssessmentRequestDetailsQuery(id), ct);
 
         return Ok(result);
@@ -44,17 +44,17 @@ public class AssessmentRequestController(IRequestDispatcher dispatcher) : Contro
     [HttpPost("my")]
     public async Task<IActionResult> GetMy([FromBody]GetMyAssessmentRequestsQuery query, CancellationToken ct = default)
     {
-        var result =
+        GetMyAssessmentRequestsResult response =
             await dispatcher
                 .SendAsync<GetMyAssessmentRequestsQuery, GetMyAssessmentRequestsResult>(query, ct);
 
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpPost("assigned-to-me")]
     public async Task<IActionResult> GetAssignedToMe([FromBody]GetAssignedToMeRequestsQuery query, CancellationToken ct = default)
     {
-        var result =
+        GetAssignedToMeRequestsResult result =
             await dispatcher
                 .SendAsync<GetAssignedToMeRequestsQuery, GetAssignedToMeRequestsResult>(query, ct);
 

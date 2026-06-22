@@ -17,7 +17,7 @@ public class CreateDirectAssessmentHandler(
 {
     public async Task Handle(CreateDirectAssessmentCommand command, CancellationToken ct = default)
     {
-        var employee = await employeeRepository.GetByIdAsync(command.EmployeeId, ct)
+        Employee employee = await employeeRepository.GetByIdAsync(command.EmployeeId, ct)
             ?? throw new KeyNotFoundException($"Employee with Id {command.EmployeeId} not found.");
 
         if (employee.M1Id != command.ManagerId && employee.M3Id != command.ManagerId)
@@ -27,28 +27,28 @@ public class CreateDirectAssessmentHandler(
         if (employee.ProfessionalLevelId == null)
             throw new ValidationException($"Professional Level for Employee with Id {command.EmployeeId} is not set.");
 
-        var code = await codeRepository.GetByProfessionalLevelIdAsync(employee.ProfessionalLevelId.Value, ct)
+        Code code = await codeRepository.GetByProfessionalLevelIdAsync(employee.ProfessionalLevelId.Value, ct)
             ?? throw new KeyNotFoundException($"Code for Employee with Id {command.EmployeeId} not found.");
 
-        var template = await templateRepository.GetByCodeIdAsync(code.Id, ct)
+        Template template = await templateRepository.GetByCodeIdAsync(code.Id, ct)
             ?? throw new KeyNotFoundException($"Template for Code {code.Id} not found.");
 
-        var assessment = new Assessment
+        Assessment assessment = new Assessment
         {
             EmployeeId = command.EmployeeId,
             CodeId = code.Id,
             TemplateId = template.Id,
             Status = AssessmentStatus.Created,
-            Stages = template.Topics.Select(topic => new AssessmentStage
+            Stages = [..template.Topics.Select(topic => new AssessmentStage
             {
                 TopicId = topic.Id,
                 Status = StageStatus.Pending
-            }).ToList()
+            })]
         };
 
         await assessmentRepository.AddAsync(assessment, ct);
 
-        var email = emailFactory.CreateAssessmentDirectByManagerEmail(
+        Email email = emailFactory.CreateAssessmentDirectByManagerEmail(
             employee.Email!,
             $"{employee.FirstNameEn} {employee.LastNameEn}");
 

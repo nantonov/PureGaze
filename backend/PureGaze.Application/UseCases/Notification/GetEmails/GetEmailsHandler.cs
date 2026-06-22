@@ -1,15 +1,16 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Notification.GetEmails;
 
 public class GetEmailsHandler(IEmailRepository emailRepository)
-    : IRequestHandler<GetEmailsQuery, GetEmailsResponse>
+    : IRequestHandler<GetEmailsQuery, GetEmailsResult>
 {
-    public async Task<GetEmailsResponse> Handle(GetEmailsQuery query, CancellationToken ct)
+    public async Task<GetEmailsResult> Handle(GetEmailsQuery query, CancellationToken ct)
     {
-        var emails = await emailRepository.GetEmailsAsync(query.Page, query.PageSize, query.Status, ct);
+        IReadOnlyList<Email> emails = await emailRepository.GetEmailsAsync(query.Page, query.PageSize, query.Status, ct);
 
-        return new GetEmailsResponse([.. emails.Select(EmailDto.ToDto)]);
+        return new GetEmailsResult([.. emails.Select(EmailDto.ToDto)]);
     }
 }

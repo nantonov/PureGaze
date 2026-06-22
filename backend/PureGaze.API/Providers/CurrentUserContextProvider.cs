@@ -8,16 +8,16 @@ internal sealed class CurrentUserContextProvider(IHttpContextAccessor httpContex
 {
     public string GetUserEmail()
     {
-        var request = httpContextAccessor.HttpContext?.Request;
+        HttpRequest? request = httpContextAccessor.HttpContext?.Request;
 
-        var authHeader = request?.Headers["Authorization"].FirstOrDefault();
+        string? authHeader = request?.Headers["Authorization"].FirstOrDefault();
 
         if (string.IsNullOrWhiteSpace(authHeader))
             return string.Empty;
 
-        var token = authHeader["Bearer ".Length..];
+        string token = authHeader["Bearer ".Length..];
 
-        var handler = new JwtSecurityTokenHandler();
+        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 
         return handler.ReadJwtToken(token).Claims.FirstOrDefault(x => x.Type == "email")?.Value ?? string.Empty;
     }

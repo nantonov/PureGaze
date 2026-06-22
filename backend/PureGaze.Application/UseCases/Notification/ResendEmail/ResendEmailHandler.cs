@@ -1,5 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Notification.ResendEmail;
@@ -11,7 +12,7 @@ public class ResendEmailHandler(
 {
     public async Task Handle(ResendEmailCommand command, CancellationToken ct)
     {
-        var email = await emailRepository.GetByIdAsync(command.Id, ct)
+        Email email = await emailRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Email with id {command.Id} not found");
 
         try

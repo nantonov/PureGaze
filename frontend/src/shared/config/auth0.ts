@@ -1,4 +1,4 @@
-import type { Auth0Config } from "@/entities/Auth0Config.ts";
+import type { Auth0Config } from "@/features/auth/model/Auth0Config.ts";
 
 export const auth0Config: Auth0Config = {
   domain: import.meta.env.VITE_AUTH0_DOMAIN,

@@ -15,15 +15,15 @@ public sealed class EmailWorker(
 {
     protected override async Task DoWorkAsync(CancellationToken ct)
     {
-        using var scope = scopeFactory.CreateScope();
-        var repository = scope.ServiceProvider.GetRequiredService<IEmailRepository>();
-        var sender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
+        using IServiceScope scope = scopeFactory.CreateScope();
+        IEmailRepository repository = scope.ServiceProvider.GetRequiredService<IEmailRepository>();
+        IEmailSender sender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
 
-        var emails = await AcquireEmailsAsync(repository, ct);
+        IReadOnlyList<Email> emails = await AcquireEmailsAsync(repository, ct);
 
         if (emails.Count == 0) return;
 
-        foreach (var email in emails)
+        foreach (Email email in emails)
         {
             ct.ThrowIfCancellationRequested();
             try
@@ -35,7 +35,7 @@ public sealed class EmailWorker(
             }
             catch (Exception ex)
             {
-                var maxRetryCount = options.Value.MaxRetryCount;
+                int maxRetryCount = options.Value.MaxRetryCount;
 
                 email.RetryCount++;
                 email.Status = email.RetryCount >= maxRetryCount
@@ -54,14 +54,14 @@ public sealed class EmailWorker(
         await repository.SaveChangesAsync(ct);
     }
 
-    private async Task<IList<Email>> AcquireEmailsAsync(
+    private async Task<IReadOnlyList<Email>> AcquireEmailsAsync(
         IEmailRepository repository,
         CancellationToken ct)
     {
-        var emails =
+        IReadOnlyList<Email> emails =
             await repository.GetPendingEmailsAsync(ct);
 
-        foreach (var email in emails)
+        foreach (Email email in emails)
             email.Status = EmailStatus.Sending;
 
         await repository.SaveChangesAsync(ct);

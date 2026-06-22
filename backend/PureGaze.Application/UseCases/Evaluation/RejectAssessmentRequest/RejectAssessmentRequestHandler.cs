@@ -1,5 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 using PureGaze.Domain.Enums;
 
 namespace PureGaze.Application.UseCases.Evaluation.RejectAssessmentRequest;
@@ -15,13 +16,13 @@ public class RejectAssessmentRequestHandler(
         if (string.IsNullOrWhiteSpace(command.Reason))
             throw new ArgumentException("Rejection reason cannot be empty.");
 
-        var request = await assessmentRequestRepository.GetByIdWithEmployeeAsync(command.Id, ct)
+        AssessmentRequest request = await assessmentRequestRepository.GetByIdWithEmployeeAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Assessment request with Id {command.Id} not found.");
 
         request.Status = AssessmentRequestStatus.Rejected;
         request.RejectionReason = command.Reason;
 
-        var email = emailFactory.CreateAssessmentRejectedEmail(
+        Email email = emailFactory.CreateAssessmentRejectedEmail(
             request.Employee?.Email!, $"{request.Employee?.FirstNameEn} {request.Employee?.LastNameEn}", command.Reason);
 
         await emailRepository.AddAsync(email, ct);

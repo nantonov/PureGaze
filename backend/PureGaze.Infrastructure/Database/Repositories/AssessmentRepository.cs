@@ -34,7 +34,7 @@ public class AssessmentRepository(AppDbContext context) : IAssessmentRepository
     public async Task<(IReadOnlyList<Assessment> Items, int Total)> GetHistoryAssessmentsAsync(
         string? search, int page, int pageSize, CancellationToken ct = default)
     {
-        var q = ApplySearch(context.Assessments
+        IQueryable<Assessment> q = ApplySearch(context.Assessments
             .Include(a => a.Employee)
             .Include(a => a.Code!).ThenInclude(c => c.Grade)
             .Include(a => a.Code!).ThenInclude(c => c.ToGrade)

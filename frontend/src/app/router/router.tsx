@@ -1,15 +1,15 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "@/widgets/layouts/main/MainLayout.tsx";
-import Dashboard from "@/pages/dashboard/Dashboard";
-import AssessmentRequest from "@/pages/assessmentRequest/AssessmentRequest";
-import Assessment from "@/pages/assessment/Assessment";
-import Employee from "@/pages/employee/Employee";
-import Login from "@/pages/login/Login";
+import Dashboard from "@/features/dashboard/page/Dashboard";
+import AssessmentRequest from "@/features/assessment-request/page/AssessmentRequest";
+import Assessment from "@/features/assessment/page/Assessment";
+import Employee from "@/features/employee/page/Employee";
+import Login from "@/features/auth/page/Login";
 import { ROUTES } from "@/shared/constants";
 import RoleProtectedRoute from "@/app/router/RoleProtectdRoute";
-import CodesPage from "@/pages/codes/CodesPage";
-import AssessmentTemplatesPage from "@/pages/assessmentTemplates/AssessmentTemplatesPage";
+import CodesPage from "@/features/code/page/CodesPage";
+import AssessmentTemplatesPage from "@/features/assessment-template/page/AssessmentTemplatesPage";
 
 export const router = createBrowserRouter([
   {

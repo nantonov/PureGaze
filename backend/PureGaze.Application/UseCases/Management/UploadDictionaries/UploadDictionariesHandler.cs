@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Contracts.Integrations.Hrm;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
 
@@ -20,10 +19,10 @@ public class UploadDictionariesHandler(
         if (dictionaries == null)
             return;
 
-        var managerialLevels =
+        Task managerialLevels =
             ProcessDictionaryAsync<ManagerialLevel>(dictionaries.ManagerialLevels, scopeFactory, ct);
 
-        var professionalLevels =
+        Task professionalLevels =
             ProcessDictionaryAsync<ProfessionalLevel>(dictionaries.ProfessionalLevels, scopeFactory, ct);
 
         await Task.WhenAll(managerialLevels, professionalLevels);
@@ -38,7 +37,7 @@ public class UploadDictionariesHandler(
         if (!hrmDictionary.Any())
             return;
 
-        await using var scope = scopeFactory.CreateAsyncScope();
+        await using AsyncServiceScope scope = scopeFactory.CreateAsyncScope();
         IDictionaryRepository<T> dictionaryRepository =
             scope.ServiceProvider.GetRequiredService<IDictionaryRepository<T>>();
 
@@ -46,13 +45,13 @@ public class UploadDictionariesHandler(
 
         IDictionary<Guid, T> existingDictionary = await dictionaryRepository.GetByIdsAsync(hrmIds, ct);
 
-        foreach (var item in hrmDictionary)
+        foreach (BaseDictionaryDto item in hrmDictionary)
         {
-            if (existingDictionary.TryGetValue(item.Id, out var existing))
-                existing.Update(item);
+            if (existingDictionary.TryGetValue(item.Id, out T? existing))
+                UploadDictionariesCommand.Update(existing, item);
 
             else
-                await dictionaryRepository.AddAsync(item.ToEntity<T>(), ct);
+                await dictionaryRepository.AddAsync(UploadDictionariesCommand.ToEntity<T>(item), ct);
         }
 
         await dictionaryRepository.SaveChangesAsync(ct);

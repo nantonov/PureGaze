@@ -1,6 +1,5 @@
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
 
 namespace PureGaze.Application.UseCases.Admin.Answers.GetAnswersByQuestion;
 
-public record GetAnswersByQuestionQuery(int QuestionId) : IRequest<AnswerDto?>;
+public record GetAnswersByQuestionQuery(int QuestionId) : IRequest<GetAnswersByQuestionResult?>;

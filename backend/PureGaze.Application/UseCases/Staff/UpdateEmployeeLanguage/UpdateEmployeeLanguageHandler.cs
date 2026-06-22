@@ -12,8 +12,8 @@ public class UpdateEmployeeLanguageHandler(
 {
     public async Task Handle(UpdateEmployeeLanguageCommand request, CancellationToken ct)
     {
-        var email = currentUserContextProvider.GetUserEmail();
-        var employee = await employeeRepository.GetByEmailAsync(email, ct)
+        string email = currentUserContextProvider.GetUserEmail();
+        Employee employee = await employeeRepository.GetByEmailAsync(email, ct)
             ?? throw new KeyNotFoundException($"Employee with Email {email} not found.");
 
         employee.EmployeeSettings ??= new EmployeeSettings { EmployeeId = employee.Id };

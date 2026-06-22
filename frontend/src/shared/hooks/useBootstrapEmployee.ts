@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { loadCurrentEmployee } from "@/shared/api/authBootstrap.ts";
+import { loadCurrentEmployee } from "@/features/employee/api/authBootstrap.ts";
 import { useEmployee } from "@/app/providers/employee/EmployeeProvider.tsx";
 
 export function useBootstrapEmployee() {
@@ -11,7 +11,6 @@ export function useBootstrapEmployee() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-
     if (isLoading) return;
 
     if (!isAuthenticated) {
@@ -23,7 +22,7 @@ export function useBootstrapEmployee() {
       setLoading(false);
       return;
     }
-    
+
     setLoading(true);
 
     loadCurrentEmployee()

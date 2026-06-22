@@ -1,6 +1,7 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 using PureGaze.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +14,7 @@ public class CompleteAssessmentStageHandler(
 {
     public async Task Handle(CompleteAssessmentStageCommand request, CancellationToken ct)
     {
-        var assessmentStage = await assessmentStageRepository.GetByIdWithScoresAndTopicAsync(request.AssessmentStageId, ct)
+        AssessmentStage assessmentStage = await assessmentStageRepository.GetByIdWithScoresAndTopicAsync(request.AssessmentStageId, ct)
             ?? throw new KeyNotFoundException($"Assessment Stage with Id {request.AssessmentStageId} was not found.");
 
         if (assessmentStage.Assessor?.Email != currentUserContextProvider.GetUserEmail())

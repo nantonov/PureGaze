@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
 
@@ -13,12 +12,12 @@ public class UpdateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
     {
         ValidateInput(command);
 
-        var subtopic = await subtopicRepository.GetByIdAsync(command.Id, ct)
+        Subtopic subtopic = await subtopicRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Subtopic with Id {command.Id} not found.");
 
         await ValidateUniquenessAsync(subtopic, command.Translates, ct);
 
-        subtopic.Update(command.Translates);
+        UpdateSubtopicCommand.Apply(subtopic, command);
 
         await subtopicRepository.SaveChangesAsync(ct);
     }
@@ -31,17 +30,14 @@ public class UpdateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
             throw new ArgumentException("At least one subtopic translate is required.");
     }
 
-    private async Task ValidateUniquenessAsync(Subtopic subtopic, IList<UpdateSubtopicTranslateDto> translates, CancellationToken ct)
+    private async Task ValidateUniquenessAsync(Subtopic subtopic, IReadOnlyList<UpdateSubtopicTranslateDto> translates, CancellationToken ct)
     {
-        var newNames = translates
+        IReadOnlyList<string> newNames = [.. translates
             .Where(tDto => !subtopic.SubtopicTranslates.Any(st => st.Language == tDto.Language && st.Name == tDto.Name))
             .Select(tDto => tDto.Name)
-            .Distinct();
+            .Distinct()];
 
-        if (newNames.Count() > 0)
-        {
-            if (await subtopicRepository.IsNameExistingAsync(subtopic.TopicId, newNames, subtopic.Id, ct))
-                throw new ValidationException($"Subtopic with name already exists in topic '{subtopic.TopicId}'.");
-        }
+        if (newNames.Any() && await subtopicRepository.IsNameExistingAsync(subtopic.TopicId, newNames, subtopic.Id, ct))
+            throw new ValidationException($"Subtopic with name already exists in topic '{subtopic.TopicId}'.");
     }
 }

@@ -44,7 +44,7 @@ public class EmailSender : IEmailSender, IDisposable
             return;
         }
 
-        var mailMessage = new MailMessage
+        MailMessage mailMessage = new MailMessage
         {
             From = this.email,
             Subject = email.Subject,

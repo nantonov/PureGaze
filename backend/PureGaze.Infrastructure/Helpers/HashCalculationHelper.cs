@@ -10,7 +10,7 @@ public static class HashCalculationHelper
 {
     public static ulong CalculateHash(HrmEmployeeDto e)
     {
-        var buffer = ArrayPool<byte>.Shared.Rent(4096);
+        byte[] buffer = ArrayPool<byte>.Shared.Rent(4096);
         try
         {
             int pos = 0;
@@ -19,7 +19,7 @@ public static class HashCalculationHelper
             {
                 if (!string.IsNullOrEmpty(s))
                 {
-                    var written = Encoding.UTF8.GetBytes(s, buffer.AsSpan(pos));
+                    int written = Encoding.UTF8.GetBytes(s, buffer.AsSpan(pos));
                     pos += written;
                 }
                 buffer[pos++] = (byte)'|';
@@ -29,7 +29,7 @@ public static class HashCalculationHelper
             {
                 if (n.HasValue)
                 {
-                    if (!Utf8Formatter.TryFormat(n.Value, buffer.AsSpan(pos), out var written))
+                    if (!Utf8Formatter.TryFormat(n.Value, buffer.AsSpan(pos), out int written))
                         return;
                     pos += written;
                 }
@@ -40,7 +40,7 @@ public static class HashCalculationHelper
             {
                 if (g.HasValue)
                 {
-                    if (!g.Value.TryFormat(buffer.AsSpan(pos), out var written))
+                    if (!g.Value.TryFormat(buffer.AsSpan(pos), out int written))
                         return;
                     pos += written;
                 }

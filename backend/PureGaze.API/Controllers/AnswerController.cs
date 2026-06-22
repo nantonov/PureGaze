@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Answers.GetAnswerDetails;
 using PureGaze.Application.UseCases.Admin.Answers.UpdateAnswer;
@@ -14,17 +13,18 @@ public class AnswerController(IRequestDispatcher dispatcher) : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] int id, CancellationToken ct = default)
     {
-        var result =
-            await dispatcher.SendAsync<GetAnswerDetailsQuery, AnswerDetailsDto>(new GetAnswerDetailsQuery(id), ct);
+        GetAnswerDetailsResult response =
+            await dispatcher.SendAsync<GetAnswerDetailsQuery, GetAnswerDetailsResult>(new GetAnswerDetailsQuery(id), ct);
 
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpGet("question/{questionId}")]
     public async Task<IActionResult> GetByQuestion([FromRoute] int questionId, CancellationToken ct = default)
     {
-        var result =
-            await dispatcher.SendAsync<GetAnswersByQuestionQuery, AnswerDto?>(new GetAnswersByQuestionQuery(questionId), ct);
+        GetAnswersByQuestionResult? result =
+            await dispatcher.SendAsync<GetAnswersByQuestionQuery, GetAnswersByQuestionResult?>(
+                new GetAnswersByQuestionQuery(questionId), ct);
 
         return Ok(result);
     }

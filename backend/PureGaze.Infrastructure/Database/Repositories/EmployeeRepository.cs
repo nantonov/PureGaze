@@ -9,7 +9,7 @@ public class EmployeeRepository(AppDbContext dbContext)
 {
     public async Task<IReadOnlyList<Employee>> GetEmployeesAsync(string search, int page, int pageSize, CancellationToken ct = default)
     {
-        var query = dbContext.Employees.AsQueryable();
+        IQueryable<Employee> query = dbContext.Employees.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(search))
         {

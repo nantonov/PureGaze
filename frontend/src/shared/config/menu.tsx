@@ -1,4 +1,4 @@
-import type { MenuItem } from "@/entities/MenuItem";
+import type { MenuItem } from "@/shared/model/MenuItem";
 import { ROUTES } from "@/shared/constants";
 import { LuLayoutDashboard, LuNotebookPen, LuCode, LuUsers, LuFileText } from "react-icons/lu";
 import { PiVideoConference } from "react-icons/pi";

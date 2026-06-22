@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { menuItems } from "@/shared/config/menu.tsx";
-import type { MenuItem } from "@/entities/MenuItem";
+import type { MenuItem } from "@/shared/model/MenuItem";
 import { useEmployee } from "@/app/providers/employee/EmployeeProvider.tsx";
 import SideBarLink from "./SideBarLink";
 import SideBarSection from "./SideBarSection";
@@ -19,7 +19,7 @@ export default function SideBar() {
 
   const visibleItems = useMemo(
     () => menuItems.filter((item) => isVisible(item, employee?.managerLevel)),
-    [employee?.managerLevel]
+    [employee?.managerLevel],
   );
 
   return (
@@ -34,7 +34,7 @@ export default function SideBar() {
             <SideBarSection key={item.namespace} item={item} collapsed={collapsed} />
           ) : (
             <SideBarLink key={item.path} item={item} collapsed={collapsed} />
-          )
+          ),
         )}
       </nav>
     </aside>

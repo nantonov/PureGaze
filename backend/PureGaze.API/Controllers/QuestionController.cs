@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Questions.CreateQuestionWithAnswer;
 using PureGaze.Application.UseCases.Admin.Questions.DeleteQuestion;
@@ -16,17 +15,18 @@ public class QuestionController(IRequestDispatcher dispatcher) : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] int id, CancellationToken ct = default)
     {
-        var result =
-            await dispatcher.SendAsync<GetQuestionDetailsQuery, QuestionDetailsDto>(new GetQuestionDetailsQuery(id), ct);
+        GetQuestionDetailsResult response =
+            await dispatcher.SendAsync<GetQuestionDetailsQuery, GetQuestionDetailsResult>(new GetQuestionDetailsQuery(id), ct);
 
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpGet("subtopic/{subTopicId}")]
     public async Task<IActionResult> GetBySubtopic([FromRoute] int subTopicId, CancellationToken ct = default)
     {
-        var result =
-            await dispatcher.SendAsync<GetQuestionsBySubtopicQuery, List<QuestionDto>>(new GetQuestionsBySubtopicQuery(subTopicId), ct);
+        IReadOnlyList<GetQuestionsBySubtopicResult> result =
+            await dispatcher.SendAsync<GetQuestionsBySubtopicQuery, List<GetQuestionsBySubtopicResult>>(
+                new GetQuestionsBySubtopicQuery(subTopicId), ct);
 
         return Ok(result);
     }
@@ -34,7 +34,7 @@ public class QuestionController(IRequestDispatcher dispatcher) : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateQuestionWithAnswerCommand command, CancellationToken ct = default)
     {
-        var result =
+        int result =
             await dispatcher.SendAsync<CreateQuestionWithAnswerCommand, int>(command, ct);
 
         return CreatedAtAction(nameof(Get), new { id = result }, new { Id = result });

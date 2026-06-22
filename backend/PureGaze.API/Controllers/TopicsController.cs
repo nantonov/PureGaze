@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Subtopics.GetSubtopicsByTopic;
 using PureGaze.Application.UseCases.Admin.Topics.CreateTopic;
@@ -17,7 +16,7 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
     public async Task<IActionResult> CreateTopic([FromBody] CreateTopicCommand request,
         CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<CreateTopicCommand, CreateTopicResult>(request, ct);
+        CreateTopicResult result = await dispatcher.SendAsync<CreateTopicCommand, CreateTopicResult>(request, ct);
 
         return Ok(result);
     }
@@ -43,17 +42,18 @@ public class TopicsController(IRequestDispatcher dispatcher) : Controller
     [HttpGet("{topicId}")]
     public async Task<IActionResult> GetTopicDetails([FromRoute] int topicId, CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetTopicDetailsQuery, TopicDetailsDto>(
+        GetTopicDetailsResult response = await dispatcher.SendAsync<GetTopicDetailsQuery, GetTopicDetailsResult>(
             new GetTopicDetailsQuery(topicId), ct);
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpGet("{topicId}/subtopics")]
     public async Task<IActionResult> GetSubtopics([FromRoute] int topicId,
         CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetSubtopicsByTopicQuery, List<SubtopicListItemDto>>(
-            new GetSubtopicsByTopicQuery(topicId), ct);
+        IReadOnlyList<GetSubtopicsByTopicResult> result =
+            await dispatcher.SendAsync<GetSubtopicsByTopicQuery, List<GetSubtopicsByTopicResult>>(
+                new GetSubtopicsByTopicQuery(topicId), ct);
 
         return Ok(result);
     }

@@ -1,17 +1,16 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Contracts.Application;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Answers.GetAnswersByQuestion;
 
 public class GetAnswersByQuestionHandler(IAnswerRepository answerRepository)
-    : IRequestHandler<GetAnswersByQuestionQuery, AnswerDto?>
+    : IRequestHandler<GetAnswersByQuestionQuery, GetAnswersByQuestionResult?>
 {
-    public async Task<AnswerDto?> Handle(GetAnswersByQuestionQuery query, CancellationToken ct = default)
+    public async Task<GetAnswersByQuestionResult?> Handle(GetAnswersByQuestionQuery query, CancellationToken ct = default)
     {
-        var answer = await answerRepository.GetByQuestionIdAsync(query.QuestionId, ct);
+        Answer? answer = await answerRepository.GetByQuestionIdAsync(query.QuestionId, ct);
 
-        return answer?.ToDto();
+        return answer is null ? null : GetAnswersByQuestionResult.ToResult(answer);
     }
 }

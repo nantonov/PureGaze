@@ -15,16 +15,16 @@ public class ScoreSubtopicHandler(
 {
     public async Task Handle(ScoreSubtopicCommand request, CancellationToken ct)
     {
-        var assessmentStage = await assessmentStageRepository.GetByIdAsync(request.StageId, ct)
+        AssessmentStage assessmentStage = await assessmentStageRepository.GetByIdAsync(request.StageId, ct)
             ?? throw new KeyNotFoundException($"Assessment Stage with Id {request.StageId} was not found.");
 
-        var subtopic = await subtopicRepository.GetByIdAsync(request.SubtopicId, ct)
+        Subtopic subtopic = await subtopicRepository.GetByIdAsync(request.SubtopicId, ct)
             ?? throw new KeyNotFoundException($"Subtopic with Id {request.SubtopicId} was not found.");
 
         if (assessmentStage.Assessor?.Email != currentUserContextProvider.GetUserEmail())
             throw new ValidationException($"Only assessor can set subtopic score");
 
-        var subtopicScore = await subtopicScoreRepository.GetBySubtopicAndStageIdAsync(request.SubtopicId, request.StageId, ct);
+        SubtopicScore? subtopicScore = await subtopicScoreRepository.GetBySubtopicAndStageIdAsync(request.SubtopicId, request.StageId, ct);
 
         subtopicScore ??= new SubtopicScore
         {

@@ -22,8 +22,8 @@ public class AssessmentController(IRequestDispatcher dispatcher) : Controller
     [HttpGet("new")]
     public async Task<IActionResult> GetNew(CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetNewAssessmentsQuery, GetNewAssessmentsResult>(new GetNewAssessmentsQuery(), ct);
-        return Ok(result);
+        GetNewAssessmentsResult response = await dispatcher.SendAsync<GetNewAssessmentsQuery, GetNewAssessmentsResult>(new GetNewAssessmentsQuery(), ct);
+        return Ok(response);
     }
 
     [HttpPost("complete")]
@@ -36,7 +36,7 @@ public class AssessmentController(IRequestDispatcher dispatcher) : Controller
     [HttpPost("history")]
     public async Task<IActionResult> GetHistory([FromBody] GetAssessmentHistoryQuery query, CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetAssessmentHistoryQuery, GetAssessmentHistoryResult>(query, ct);
-        return Ok(result);
+        GetAssessmentHistoryResult response = await dispatcher.SendAsync<GetAssessmentHistoryQuery, GetAssessmentHistoryResult>(query, ct);
+        return Ok(response);
     }
 }

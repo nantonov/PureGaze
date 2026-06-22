@@ -156,3 +156,6 @@ override.tf.json
 terraform.rc
 backend.conf
 .terraform.lock.hcl
+
+# Codex Markdown
+AGENTS.md

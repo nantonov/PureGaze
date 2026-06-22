@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
-using PureGaze.Application.Extensions;
+using PureGaze.Application.Contracts.Integrations.Hrm;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
 
@@ -18,7 +18,7 @@ public class UploadEmployeeHandler(
             new ParallelOptions { MaxDegreeOfParallelism = 3 },
             async (hrmEmployees, cancellation) =>
             {
-                await using var scope = scopeFactory.CreateAsyncScope();
+                await using AsyncServiceScope scope = scopeFactory.CreateAsyncScope();
                 IEmployeeRepository employeeRepo = scope.ServiceProvider.GetRequiredService<IEmployeeRepository>();
 
                 IReadOnlyList<int> hrmIds = [.. hrmEmployees.Select(x => x.Id)];
@@ -26,13 +26,13 @@ public class UploadEmployeeHandler(
                 IDictionary<int, Employee> existingEmployees =
                     await employeeRepo.GetByIdsAsync(hrmIds, cancellation);
 
-                foreach (var hrmEmployee in hrmEmployees)
+                foreach (HrmEmployeeDto? hrmEmployee in hrmEmployees)
                 {
-                    if (!existingEmployees.TryGetValue(hrmEmployee.Id, out var existing))
-                        await employeeRepo.AddAsync(hrmEmployee.ToEntity(), cancellation);
+                    if (!existingEmployees.TryGetValue(hrmEmployee.Id, out Employee? existing))
+                        await employeeRepo.AddAsync(UploadEmployeeCommand.ToEntity(hrmEmployee), cancellation);
 
                     else if (existing.Hash != hrmEmployee.Hash)
-                        existing.Update(hrmEmployee);
+                        UploadEmployeeCommand.Update(existing, hrmEmployee);
                 }
 
                 await employeeRepo.SaveChangesAsync(cancellation);

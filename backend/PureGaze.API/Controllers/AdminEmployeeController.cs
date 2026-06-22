@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Employees.GetEmployees;
@@ -14,10 +14,10 @@ public class AdminEmployeeController(IRequestDispatcher dispatcher) : Controller
     [HttpPost]
     public async Task<IActionResult> GetEmployees([FromBody] GetEmployeesQuery query, CancellationToken ct)
     {
-        var result =
+        GetEmployeesResult response =
             await dispatcher.SendAsync<GetEmployeesQuery, GetEmployeesResult>(query, ct);
 
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpPost("sync")]

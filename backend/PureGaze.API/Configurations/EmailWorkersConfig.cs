@@ -17,14 +17,14 @@ public static class EmailWorkersConfig
 
         builder.Services.AddHostedService(conf =>
         {
-            var scopeFactory =
+            IServiceScopeFactory scopeFactory =
                 conf.GetRequiredService<IServiceScopeFactory>();
 
-            var logger =
+            ILogger<EmailWorker> logger =
                 conf.GetRequiredService<ILoggerFactory>()
                     .CreateLogger<EmailWorker>();
 
-            var options = conf.GetRequiredService<IOptions<RetryPolicyOptions>>();
+            IOptions<RetryPolicyOptions> options = conf.GetRequiredService<IOptions<RetryPolicyOptions>>();
 
             return new EmailWorker(scopeFactory, options, logger);
         });

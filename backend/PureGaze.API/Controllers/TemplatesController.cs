@@ -15,18 +15,18 @@ public class TemplatesController(IRequestDispatcher dispatcher) : Controller
     public async Task<IActionResult> GetTemplates([FromQuery] GetTemplatesQuery request,
         CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetTemplatesQuery, GetTemplatesQueryResult>(request, ct);
+        GetTemplatesQueryResult response = await dispatcher.SendAsync<GetTemplatesQuery, GetTemplatesQueryResult>(request, ct);
 
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateCommand request,
         CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<CreateTemplateCommand, CreateTemplateResult>(request, ct);
+        CreateTemplateResult response = await dispatcher.SendAsync<CreateTemplateCommand, CreateTemplateResult>(request, ct);
 
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpGet("{templateId}/topics")]
@@ -36,10 +36,10 @@ public class TemplatesController(IRequestDispatcher dispatcher) : Controller
         [FromQuery] int pageSize,
         CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetTopicsForTemplateQuery, GetTopicsForTemplateResult>(
+        GetTopicsForTemplateResult response = await dispatcher.SendAsync<GetTopicsForTemplateQuery, GetTopicsForTemplateResult>(
             new GetTopicsForTemplateQuery(templateId, page, pageSize), ct);
 
-        return Ok(result);
+        return Ok(response);
     }
 
     [HttpDelete("{templateId}")]

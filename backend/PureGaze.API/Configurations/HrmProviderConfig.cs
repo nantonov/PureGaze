@@ -9,7 +9,7 @@ public static class HrmProviderConfig
     {
         builder.Services.Configure<HrmOptions>(builder.Configuration.GetSection(key: HrmOptions.SectionName));
 
-        var options = builder.Configuration.GetSection(HrmOptions.SectionName).Get<HrmOptions>();
+        HrmOptions? options = builder.Configuration.GetSection(HrmOptions.SectionName).Get<HrmOptions>();
 
         builder.Services.AddScoped<IHrmDataProvider, HrmDataProvider>();
 

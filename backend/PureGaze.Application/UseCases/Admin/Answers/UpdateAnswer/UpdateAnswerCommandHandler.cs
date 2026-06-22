@@ -1,6 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Answers.UpdateAnswer;
 
@@ -11,10 +11,10 @@ public class UpdateAnswerCommandHandler(IAnswerRepository answerRepository)
     {
         ValidateInput(command);
 
-        var answer = await answerRepository.GetByIdAsync(command.Id, ct)
+        Answer answer = await answerRepository.GetByIdAsync(command.Id, ct)
             ?? throw new KeyNotFoundException($"Answer with Id {command.Id} not found.");
 
-        answer.Update(command.Translates);
+        UpdateAnswerCommand.Apply(answer, command);
 
         await answerRepository.SaveChangesAsync(ct);
     }

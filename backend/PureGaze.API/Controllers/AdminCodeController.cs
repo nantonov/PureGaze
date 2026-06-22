@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Codes.CreateCode;
 using PureGaze.Application.UseCases.Admin.Codes.DeleteCode;
@@ -19,15 +18,16 @@ public class AdminCodeController(IRequestDispatcher dispatcher) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllCodes(CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetAllCodesQuery, IReadOnlyList<CodeDto>>(new GetAllCodesQuery(), ct);
+        IReadOnlyList<GetAllCodesResult> result =
+            await dispatcher.SendAsync<GetAllCodesQuery, IReadOnlyList<GetAllCodesResult>>(new GetAllCodesQuery(), ct);
         return Ok(result);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdCodes([FromRoute] int id, CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetCodesQuery, GetCodeResult>(new GetCodesQuery(id), ct);
-        return Ok(result);
+        GetCodeResult response = await dispatcher.SendAsync<GetCodesQuery, GetCodeResult>(new GetCodesQuery(id), ct);
+        return Ok(response);
     }
 
     [HttpPost]
@@ -54,8 +54,9 @@ public class AdminCodeController(IRequestDispatcher dispatcher) : ControllerBase
     [HttpGet("/professional-levels")]
     public async Task<IActionResult> GetProfessionalLevels(CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetProfessionalLevelsQuery, IReadOnlyList<ProfessionalLevelDto>>(
-            new GetProfessionalLevelsQuery(), ct);
+        IReadOnlyList<GetProfessionalLevelsResult> result =
+            await dispatcher.SendAsync<GetProfessionalLevelsQuery, IReadOnlyList<GetProfessionalLevelsResult>>(
+                new GetProfessionalLevelsQuery(), ct);
         return Ok(result);
     }
 }
