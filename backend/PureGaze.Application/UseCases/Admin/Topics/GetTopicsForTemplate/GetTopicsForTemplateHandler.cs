@@ -1,6 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.GetTopicsForTemplate;
 
@@ -14,11 +14,10 @@ public class GetTopicsForTemplateHandler(
         if (await templateRepository.GetByIdAsync(request.TemplateId, ct) == null)
             throw new KeyNotFoundException($"Template with Id `{request.TemplateId}` was not found");
 
-        var topics =
+        IReadOnlyList<Topic> topics =
             await topicsRepository.GetTopicsByTemplateIdAsync(request.TemplateId, request.Page, request.PageSize, ct);
 
         return
-            new GetTopicsForTemplateResult(
-                [.. topics.Select(topic => new TopicDto { Id = topic.Id, Name = topic.TopicTranslates.FirstOrDefault()?.Name })]);
+            new GetTopicsForTemplateResult([.. topics.Select(GetTopicsForTemplateDto.ToDto)]);
     }
 }

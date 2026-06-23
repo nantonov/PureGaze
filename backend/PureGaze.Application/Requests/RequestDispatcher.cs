@@ -8,7 +8,7 @@ public class RequestDispatcher(IServiceProvider serviceProvider)
     public Task SendAsync<TRequest>(TRequest request, CancellationToken ct = default)
         where TRequest : IRequest
     {
-        var handler = serviceProvider.GetRequiredService<IRequestHandler<TRequest>>();
+        IRequestHandler<TRequest> handler = serviceProvider.GetRequiredService<IRequestHandler<TRequest>>();
 
         return handler.Handle(request, ct);
     }
@@ -16,7 +16,7 @@ public class RequestDispatcher(IServiceProvider serviceProvider)
     public Task<TResult> SendAsync<TRequest, TResult>(TRequest request, CancellationToken ct = default)
         where TRequest : IRequest<TResult>
     {
-        var handler = serviceProvider.GetRequiredService<IRequestHandler<TRequest, TResult>>();
+        IRequestHandler<TRequest, TResult> handler = serviceProvider.GetRequiredService<IRequestHandler<TRequest, TResult>>();
 
         return handler.Handle(request, ct);
     }

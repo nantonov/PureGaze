@@ -18,12 +18,12 @@ public class CreateAssessmentRequestHandler(
 {
     public async Task Handle(CreateAssessmentRequestCommand assessmentRequestCommand, CancellationToken ct = default)
     {
-        var email = currentUserContextProvider.GetUserEmail();
+        string email = currentUserContextProvider.GetUserEmail();
 
-        var employee = await employeeRepository.GetByEmailAsync(email, ct)
+        Employee employee = await employeeRepository.GetByEmailAsync(email, ct)
             ?? throw new KeyNotFoundException($"Employee with email {email} not found.");
 
-        var manager =
+        Employee manager =
             employee.M1
             ?? employee.M3
             ?? throw new KeyNotFoundException($"Manager for email {email} not found.");
@@ -31,10 +31,10 @@ public class CreateAssessmentRequestHandler(
         if (employee.ProfessionalLevelId == null)
             throw new ValidationException($"Current Professional Level for Employee with email {email} is not set.");
 
-        var code = await codeRepository.GetByProfessionalLevelIdAsync(employee.ProfessionalLevelId.Value, ct)
+        Code code = await codeRepository.GetByProfessionalLevelIdAsync(employee.ProfessionalLevelId.Value, ct)
             ?? throw new KeyNotFoundException($"Code for Employee with email {email} not found.");
 
-        var assessmentRequest = await assessmentRequestRepository.GetEmployeeActiveAssessmentRequest(employee.Id, ct);
+        AssessmentRequest? assessmentRequest = await assessmentRequestRepository.GetEmployeeActiveAssessmentRequest(employee.Id, ct);
         if (assessmentRequest != null)
             throw new Exception("You already have active assessment request.");
 
@@ -48,7 +48,7 @@ public class CreateAssessmentRequestHandler(
 
         await assessmentRequestRepository.SaveChangesAsync(ct);
 
-        var notification = emailFactory.CreateAssessmentRequestEmail(
+        Email notification = emailFactory.CreateAssessmentRequestEmail(
             manager.Email!,
             $"{employee.FirstNameEn} {employee.LastNameEn}");
 

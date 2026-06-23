@@ -1,3 +1,4 @@
 {
-    "title": "Assessment Requests"
+    "title": "My Requests",
+    "tabs": { "requestsToMe": "To Me", "myRequests": "From Me" }
 }

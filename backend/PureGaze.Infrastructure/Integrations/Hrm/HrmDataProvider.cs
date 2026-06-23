@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Web;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Infrastructure.Integrations.Hrm.Requests;
+using System.Collections.Specialized;
 
 namespace PureGaze.Infrastructure.Integrations.Hrm;
 
@@ -20,14 +21,14 @@ public class HrmDataProvider(
 
     public async IAsyncEnumerable<IReadOnlyList<HrmEmployeeDto>> GetEmployeesAsync([EnumeratorCancellation] CancellationToken ct)
     {
-        var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
+        HttpClient client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
 
-        var tokenResponse = await GetAccessTokenAsync(ct);
+        GetAccessTokenResponse? tokenResponse = await GetAccessTokenAsync(ct);
 
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
 
-        var request = new GetEmployeesRequest
+        GetEmployeesRequest request = new GetEmployeesRequest
         {
             JobTitleId = new JobTitleId
             {
@@ -40,19 +41,19 @@ public class HrmDataProvider(
             }
         };
 
-        var stringContent = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+        StringContent stringContent = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
 
         int pageNumber = 0;
 
         while (true)
         {
-            var response =
+            HttpResponseMessage response =
                 await client.PostAsync(
                     $"{_options.EmployeeApiUrl}/api/employee-management/api/v2/employees/search?page={pageNumber}&size={_options.PageSize}", stringContent, ct);
 
-            var content = await response.Content.ReadAsStringAsync(ct);
+            string content = await response.Content.ReadAsStringAsync(ct);
 
-            var result = JsonSerializer.Deserialize<GetEmployeesResponse>(content);
+            GetEmployeesResult? result = JsonSerializer.Deserialize<GetEmployeesResult>(content);
 
             if (result?.Eemployees != null)
                 yield return [.. result.Eemployees.Select(HrmEemployee.ToDto)];
@@ -66,12 +67,12 @@ public class HrmDataProvider(
 
     public async Task<HrmDictionariesDto?> GetDictionariesAsync(CancellationToken ct)
     {
-        var client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
+        HttpClient client = httpClientFactory.CreateClient(HrmOptions.EmployeeClientName);
 
-        var tokenResponse = await GetAccessTokenAsync(ct);
+        GetAccessTokenResponse? tokenResponse = await GetAccessTokenAsync(ct);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse?.Token);
 
-        var query = HttpUtility.ParseQueryString(string.Empty);
+        NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
         query["defaultLanguageOnly"] = "true";
         query["filter"] = JsonSerializer.Serialize(new
         {
@@ -83,12 +84,12 @@ public class HrmDataProvider(
             }
         });
 
-        var response =
+        HttpResponseMessage response =
             await client.GetAsync($"{_options.EmployeeApiUrl}/api/dictionaries/api/v2/dictionary-translations/filter?{query}", ct);
 
-        var content = await response.Content.ReadAsStringAsync(ct);
+        string content = await response.Content.ReadAsStringAsync(ct);
 
-        var result = JsonSerializer.Deserialize<GetDictionariesResponse>(content);
+        GetDictionariesResponse? result = JsonSerializer.Deserialize<GetDictionariesResponse>(content);
 
         return new HrmDictionariesDto
         {
@@ -100,9 +101,9 @@ public class HrmDataProvider(
 
     private async Task<GetAccessTokenResponse?> GetAccessTokenAsync(CancellationToken ct)
     {
-        var client = httpClientFactory.CreateClient(HrmOptions.KeycloakClientName);
+        HttpClient client = httpClientFactory.CreateClient(HrmOptions.KeycloakClientName);
 
-        var form = new FormUrlEncodedContent(
+        FormUrlEncodedContent form = new FormUrlEncodedContent(
             new Dictionary<string, string>
             {
                 { "grant_type",  "password" },
@@ -111,11 +112,11 @@ public class HrmDataProvider(
                 { "password",  _options?.Password ?? "" }
             });
 
-        var response =
+        HttpResponseMessage response =
             await client.PostAsync(
                 $"{_options?.KeycloakUrl}/auth/realms/innowise-group/protocol/openid-connect/token", form, ct);
 
-        var content = await response.Content.ReadAsStringAsync(ct);
+        string content = await response.Content.ReadAsStringAsync(ct);
 
         return JsonSerializer.Deserialize<GetAccessTokenResponse>(content);
     }

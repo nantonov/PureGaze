@@ -3,6 +3,7 @@ using PureGaze.Application.Requests;
 using System.ComponentModel.DataAnnotations;
 using PureGaze.Domain.Enums;
 using PureGaze.Application.Abstractions.Providers;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Evaluation.AssignAssessmentStage;
 
@@ -17,27 +18,27 @@ public sealed class AssignAssessmentStageHandler(
 {
     public async Task Handle(AssignAssessmentStageCommand request, CancellationToken ct)
     {
-        var assessmentStage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId, ct)
+        AssessmentStage assessmentStage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId, ct)
             ?? throw new KeyNotFoundException($"Assessment stage with Id {request.AssessmentStageId} not found.");
         if (assessmentStage.AssessorId != null)
             throw new ValidationException($"Assessment stage with Id {request.AssessmentStageId} already has an assessor assigned.");
 
-        var managerEmail = currentUserContextProvider.GetUserEmail();
-        var manager = await employeeRepository.GetByEmailAsync(managerEmail, ct)
+        string managerEmail = currentUserContextProvider.GetUserEmail();
+        Employee manager = await employeeRepository.GetByEmailAsync(managerEmail, ct)
             ?? throw new KeyNotFoundException($"Manager with email {managerEmail} was not found.");
         if (manager.ProfessionalLevel == null)
             throw new ValidationException($"Current Professional Level for Manager with Id {manager.Id} is not set.");
 
-        var targetGradeOrder = assessmentStage.Assessment?.Code?.ToGrade?.OrderValue
+        int targetGradeOrder = assessmentStage.Assessment?.Code?.ToGrade?.OrderValue
             ?? throw new ValidationException("Assessment target grade is not set.");
 
         if (manager.ProfessionalLevel.OrderValue <= targetGradeOrder)
             throw new ValidationException("Professional Level for Manager in not enough for this assigment.");
 
-        var employee = await employeeRepository.GetByIdAsync(assessmentStage.Assessment!.EmployeeId, ct)
+        Employee employee = await employeeRepository.GetByIdAsync(assessmentStage.Assessment!.EmployeeId, ct)
             ?? throw new KeyNotFoundException($"Employee with Id {assessmentStage.Assessment.EmployeeId} not found.");
 
-        var alreadyAssigned = await assessmentStageRepository
+        bool alreadyAssigned = await assessmentStageRepository
             .HasAssessorInAssessmentAsync(assessmentStage.AssessmentId, manager.Id, ct);
         if (alreadyAssigned)
             throw new ValidationException("You are already assigned to a topic in this assessment.");
@@ -45,16 +46,16 @@ public sealed class AssignAssessmentStageHandler(
         assessmentStage.AssessorId = manager.Id;
         await assessmentStageRepository.SaveChangesAsync(ct);
 
-        var assessment = await assessmentRepository.GetByIdAsync(assessmentStage.AssessmentId, ct);
+        Assessment? assessment = await assessmentRepository.GetByIdAsync(assessmentStage.AssessmentId, ct);
         if (assessment!.Stages.All(s => s.AssessorId != null))
         {
             assessment.Status = AssessmentStatus.InProgress;
             await assessmentRepository.SaveChangesAsync(ct);
         }
 
-        var topicName = assessmentStage.Topic?.TopicTranslates
+        string? topicName = assessmentStage.Topic?.TopicTranslates
             .FirstOrDefault(x => x.Language == Language.En)?.Name;
-        var email = emailFactory.CreateAssessmentStageAssignEmail(
+        Email email = emailFactory.CreateAssessmentStageAssignEmail(
             employee?.Email ?? "",
             $"{manager.FirstNameEn} {manager.LastNameEn}",
             topicName ?? "");

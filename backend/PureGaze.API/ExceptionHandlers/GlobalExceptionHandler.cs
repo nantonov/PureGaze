@@ -10,7 +10,7 @@ public class GlobalExceptionHandler : IExceptionHandler
         Exception exception,
         CancellationToken ct)
     {
-        var problemDetails = new ProblemDetails
+        ProblemDetails problemDetails = new ProblemDetails
         {
             Title = "Internal Server Error",
             Status = StatusCodes.Status500InternalServerError,

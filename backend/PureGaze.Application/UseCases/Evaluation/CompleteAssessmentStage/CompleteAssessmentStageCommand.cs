@@ -4,4 +4,5 @@ namespace PureGaze.Application.UseCases.Evaluation.CompleteAssessmentStage;
 
 public sealed record CompleteAssessmentStageCommand(
     int AssessmentStageId,
-    bool IsRecommended) : IRequest;
+    bool IsRecommended,
+    string? Summary = null) : IRequest;

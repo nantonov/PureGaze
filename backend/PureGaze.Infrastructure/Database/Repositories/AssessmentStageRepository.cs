@@ -26,6 +26,20 @@ public class AssessmentStageRepository(AppDbContext context)
     public async Task<bool> HasAssessorInAssessmentAsync(int assessmentId, int assessorId, CancellationToken ct = default)
         => await context.AssessmentStages.AnyAsync(s => s.AssessmentId == assessmentId && s.AssessorId == assessorId, ct);
 
+    public async Task<IReadOnlyList<AssessmentStage>> GetAssignedToAsync(string assessorEmail, CancellationToken ct = default)
+        => await context.AssessmentStages
+            .AsNoTracking()
+            .Where(x => x.Assessor != null && x.Assessor.Email == assessorEmail && x.Status != Domain.Enums.StageStatus.Completed)
+            .Include(x => x.Assessment!).ThenInclude(x => x.Employee)
+            .Include(x => x.Topic!).ThenInclude(x => x.TopicTranslates)
+            .Include(x => x.Topic!).ThenInclude(x => x.Subtopics).ThenInclude(x => x.SubtopicTranslates)
+            .Include(x => x.Topic!).ThenInclude(x => x.Subtopics).ThenInclude(x => x.Questions).ThenInclude(x => x.QuestionTranslates)
+            .Include(x => x.Topic!).ThenInclude(x => x.Subtopics).ThenInclude(x => x.Questions).ThenInclude(x => x.Answer!).ThenInclude(x => x.AnswerTranslates)
+            .Include(x => x.Scores)
+            .AsSplitQuery()
+            .OrderBy(x => x.Id)
+            .ToListAsync(ct);
+
     public async Task SaveChangesAsync(CancellationToken ct = default)
         => await context.SaveChangesAsync(ct);
 }

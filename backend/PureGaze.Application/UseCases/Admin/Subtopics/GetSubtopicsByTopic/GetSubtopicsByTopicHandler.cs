@@ -1,20 +1,20 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Subtopics.GetSubtopicsByTopic;
 
 public class GetSubtopicsByTopicHandler(ISubtopicRepository subtopicRepository)
-    : IRequestHandler<GetSubtopicsByTopicQuery, List<SubtopicListItemDto>>
+    : IRequestHandler<GetSubtopicsByTopicQuery, List<GetSubtopicsByTopicResult>>
 {
-    public async Task<List<SubtopicListItemDto>> Handle(GetSubtopicsByTopicQuery query, CancellationToken ct = default)
+    public async Task<List<GetSubtopicsByTopicResult>> Handle(GetSubtopicsByTopicQuery query, CancellationToken ct = default)
     {
-        var subtopics = await subtopicRepository.GetByTopicIdAsync(query.TopicId, ct);
+        IReadOnlyList<Subtopic> subtopics = await subtopicRepository.GetByTopicIdAsync(query.TopicId, ct);
 
-        return subtopics.Select(s => new SubtopicListItemDto
+        return [.. subtopics.Select(s => new GetSubtopicsByTopicResult
         {
             Id = s.Id,
             Name = s.SubtopicTranslates.FirstOrDefault()?.Name
-        }).ToList();
+        })];
     }
 }

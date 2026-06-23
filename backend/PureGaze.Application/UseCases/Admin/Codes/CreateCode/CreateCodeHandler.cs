@@ -9,7 +9,7 @@ public class CreateCodeHandler(ICodeRepository codeRepository)
 {
     public async Task Handle(CreateCodeCommand command, CancellationToken ct = default)
     {
-        var code = new Code
+        Code code = new Code
         {
             GradeId = command.GradeId,
             ToGradeId = command.ToGradeId,

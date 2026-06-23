@@ -1,6 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.EditTopic;
 
@@ -13,10 +13,10 @@ public sealed class EditTopicHandler(ITopicsRepository topicsRepository) : IRequ
         if (request.Translates.Count == 0)
             throw new ArgumentException("At least one topic translate is required.");
 
-        var topic = await topicsRepository.GetByIdAsync(request.TopicId, ct)
+        Topic topic = await topicsRepository.GetByIdAsync(request.TopicId, ct)
             ?? throw new KeyNotFoundException($"Topic with id `{request.TopicId}` was not found");
 
-        topic.Update(request.Translates);
+        EditTopicCommand.Update(topic, request);
 
         await topicsRepository.SaveChangesAsync(ct);
     }

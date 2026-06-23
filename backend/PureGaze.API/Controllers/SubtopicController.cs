@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using PureGaze.Application.Contracts.Application;
 using PureGaze.Application.Requests;
 using PureGaze.Application.UseCases.Admin.Subtopics.CreateSubtopic;
 using PureGaze.Application.UseCases.Admin.Subtopics.DeleteSubtopic;
@@ -15,15 +14,17 @@ public class SubtopicController(IRequestDispatcher dispatcher) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateSubtopicCommand command, CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<CreateSubtopicCommand, CreateSubtopicResult>(command, ct);
+        CreateSubtopicResult result = await dispatcher.SendAsync<CreateSubtopicCommand, CreateSubtopicResult>(command, ct);
         return Ok(result);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] int id, CancellationToken ct = default)
     {
-        var result = await dispatcher.SendAsync<GetSubtopicDetailsQuery, SubtopicDetailsDto>(new GetSubtopicDetailsQuery(id), ct);
-        return Ok(result);
+        GetSubtopicDetailsResult response =
+            await dispatcher.SendAsync<GetSubtopicDetailsQuery, GetSubtopicDetailsResult>(
+                new GetSubtopicDetailsQuery(id), ct);
+        return Ok(response);
     }
 
     [HttpPut]

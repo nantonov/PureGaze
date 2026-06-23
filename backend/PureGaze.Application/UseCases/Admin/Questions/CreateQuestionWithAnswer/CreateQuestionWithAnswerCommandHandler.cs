@@ -1,5 +1,4 @@
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
 using PureGaze.Domain.Entities;
 
@@ -17,7 +16,7 @@ public class CreateQuestionWithAnswerCommandHandler(
         _ = await subtopicRepository.GetByIdAsync(command.SubTopicId, ct)
             ?? throw new KeyNotFoundException($"Subtopic with Id {command.SubTopicId} not found.");
 
-        var question = command.ToEntity();
+        Question question = CreateQuestionWithAnswerCommand.ToEntity(command);
 
         await questionRepository.AddAsync(question, ct);
         await questionRepository.SaveChangesAsync(ct);
@@ -31,7 +30,10 @@ public class CreateQuestionWithAnswerCommandHandler(
         ArgumentNullException.ThrowIfNull(command.Answer);
         ArgumentNullException.ThrowIfNull(command.Answer.Translates);
 
-        if (command.Translates.Count == 0) throw new ArgumentException("At least one question translate is required.");
-        if (command.Answer.Translates.Count == 0) throw new ArgumentException("At least one answer translate is required.");
+        if (command.Translates.Count == 0)
+            throw new ArgumentException("At least one question translate is required.");
+        
+        if (command.Answer.Translates.Count == 0)
+            throw new ArgumentException("At least one answer translate is required.");
     }
 }

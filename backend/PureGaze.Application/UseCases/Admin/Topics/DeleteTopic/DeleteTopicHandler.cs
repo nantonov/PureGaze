@@ -1,5 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Topics.DeleteTopic;
 
@@ -9,7 +10,7 @@ public sealed class DeleteTopicHandler(
 {
     public async Task Handle(DeleteTopicCommand request, CancellationToken ct)
     {
-        var topic = await topicsRepository.GetByIdAsync(request.Id, ct);
+        Topic? topic = await topicsRepository.GetByIdAsync(request.Id, ct);
         if (topic == null)
             throw new KeyNotFoundException($"Topic with id `{request.Id}` was not found");
 

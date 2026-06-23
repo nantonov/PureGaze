@@ -4,6 +4,7 @@ using PureGaze.Application.UseCases.Evaluation.AssignAssessmentStage;
 using PureGaze.Application.UseCases.Evaluation.CompleteAssessmentStage;
 using PureGaze.Application.UseCases.Evaluation.StartAssessmentStage;
 using PureGaze.Application.UseCases.Evaluation.UnassignAssessmentStage;
+using PureGaze.Application.UseCases.Evaluation.GetAssignedAssessmentStages;
 
 namespace PureGaze.API.Controllers;
 
@@ -11,6 +12,14 @@ namespace PureGaze.API.Controllers;
 [Route("assessment-stages")]
 public class AssessmentStagesController(IRequestDispatcher dispatcher) : Controller
 {
+    [HttpGet("assigned-to-me")]
+    public async Task<IActionResult> GetAssignedToMe(CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync<GetAssignedAssessmentStagesQuery, GetAssignedAssessmentStagesResult>(
+            new GetAssignedAssessmentStagesQuery(), ct);
+        return Ok(result);
+    }
+
     [HttpPost("assign-me")]
     public async Task<IActionResult> AssignMe([FromBody] AssignAssessmentStageCommand assignAssessmentStageCommand,
         CancellationToken ct = default)

@@ -2,7 +2,7 @@ using PureGaze.API;
 using PureGaze.API.Configurations;
 using PureGaze.Infrastructure.Cors;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 IHostEnvironment env = builder.Environment;
 
@@ -23,7 +23,7 @@ builder.BackgroundWorkersBuild();
 builder.ExceptionsBuild();
 builder.ProvidersBuild();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 await app.CheckDatabase();
 
@@ -32,8 +32,6 @@ app.UseHttpsRedirection();
 app.UseCors(CorsOptions.PolicyName);
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllers();
 

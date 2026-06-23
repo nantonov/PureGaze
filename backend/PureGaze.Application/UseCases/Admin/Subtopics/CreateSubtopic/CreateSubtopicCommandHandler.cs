@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using PureGaze.Application.Abstractions.Infrastructure;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Subtopics.CreateSubtopic;
 
@@ -13,7 +13,7 @@ public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
         ValidateInput(command);
         await ValidateUniquenessAsync(command, ct);
 
-        var entity = command.ToEntity();
+        Subtopic entity = CreateSubtopicCommand.ToEntity(command);
         await subtopicRepository.AddAsync(entity, ct);
         await subtopicRepository.SaveChangesAsync(ct);
 
@@ -30,7 +30,7 @@ public class CreateSubtopicCommandHandler(ISubtopicRepository subtopicRepository
 
     private async Task ValidateUniquenessAsync(CreateSubtopicCommand command, CancellationToken ct)
     {
-        var names = command.Translates.Select(t => t.Name);
+        IEnumerable<string> names = command.Translates.Select(t => t.Name);
 
         if (await subtopicRepository.IsNameExistingAsync(command.TopicId, names, null, ct))
             throw new ValidationException($"Subtopic with one of names already exists in topic '{command.TopicId}'.");

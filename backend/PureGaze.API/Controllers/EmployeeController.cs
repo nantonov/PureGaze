@@ -14,9 +14,9 @@ public class EmployeeController(IRequestDispatcher dispatcher) : Controller
     [HttpGet("me")]
     public async Task<IActionResult> Me(CancellationToken ct)
     {
-        GetCurrentEmployeeResponse response =
+        GetCurrentEmployeeResult response =
             await dispatcher
-                .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResponse>(new GetCurrentEmployeeQuery(), ct);
+                .SendAsync<GetCurrentEmployeeQuery, GetCurrentEmployeeResult>(new GetCurrentEmployeeQuery(), ct);
 
         return Ok(response);
     }

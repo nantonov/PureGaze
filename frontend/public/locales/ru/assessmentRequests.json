@@ -1,3 +1,4 @@
 {
-    "title": "Запросы на оценку"
+    "title": "Мои запросы",
+    "tabs": { "requestsToMe": "Мне", "myRequests": "От меня" }
 }

@@ -1,7 +1,7 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
-using PureGaze.Application.Extensions;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Evaluation.GetMyAssessmentRequests;
 
@@ -12,14 +12,15 @@ public class GetMyAssessmentRequestsHandler(
 {
     public async Task<GetMyAssessmentRequestsResult> Handle(GetMyAssessmentRequestsQuery query, CancellationToken ct)
     {
-        var email = currentUserContextProvider.GetUserEmail();
+        string email = currentUserContextProvider.GetUserEmail();
 
-        var assessmentRequests =
+        IReadOnlyList<AssessmentRequest> assessmentRequests =
             await assessmentRequestRepository.GetByEmployeeEmailAsync(
                 email, query.Page, query.PageSize, ct);
 
-        var count = await assessmentRequestRepository.GetCountByEmployeeEmailAsync(email, ct);
+        int count = await assessmentRequestRepository.GetCountByEmployeeEmailAsync(email, ct);
 
-        return new GetMyAssessmentRequestsResult(count, [.. assessmentRequests.Select(x => x.ToDto())]);
+        return new GetMyAssessmentRequestsResult(count,
+            [.. assessmentRequests.Select(GetMyAssessmentRequestDto.ToDto)]);
     }
 }

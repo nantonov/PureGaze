@@ -12,8 +12,8 @@ public class EmailController(IRequestDispatcher dispatcher) : Controller
     [HttpPost]
     public async Task<IActionResult> GetEmails([FromBody] GetEmailsQuery request, CancellationToken ct)
     {
-        var result =
-            await dispatcher.SendAsync<GetEmailsQuery, GetEmailsResponse>(request, ct);
+        GetEmailsResult result =
+            await dispatcher.SendAsync<GetEmailsQuery, GetEmailsResult>(request, ct);
 
         return Ok(result);
     }

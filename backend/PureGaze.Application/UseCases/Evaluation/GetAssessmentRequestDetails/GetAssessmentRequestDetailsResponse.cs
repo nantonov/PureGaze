@@ -1,5 +1,0 @@
-using PureGaze.Application.Contracts.Application;
-
-namespace PureGaze.Application.UseCases.Evaluation.GetAssessmentRequestDetails;
-
-public sealed record GetAssessmentRequestDetailsResponse(AssessmentRequestDetailsDto Details);

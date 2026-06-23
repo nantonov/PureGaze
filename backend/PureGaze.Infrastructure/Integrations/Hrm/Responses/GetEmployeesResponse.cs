@@ -4,7 +4,7 @@ using PureGaze.Infrastructure.Helpers;
 
 namespace PureGaze.Infrastructure.Integrations.Hrm.Responses;
 
-public class GetEmployeesResponse
+public class GetEmployeesResult
 {
     [JsonPropertyName("content")]
     public IList<HrmEemployee>? Eemployees { get; set; } = [];
@@ -65,7 +65,7 @@ public class HrmEemployee
 
     public static HrmEmployeeDto ToDto(HrmEemployee employee)
     {
-        var dto = new HrmEmployeeDto
+        HrmEmployeeDto dto = new HrmEmployeeDto
         {
             Id = employee.Id,
             FirstNameEn = employee.FirstNameEn,

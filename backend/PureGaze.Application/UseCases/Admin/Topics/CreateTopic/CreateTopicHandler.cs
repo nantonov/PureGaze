@@ -19,9 +19,9 @@ public sealed class CreateTopicHandler(
         if (await templateRepository.GetByIdAsync(request.TemplateId, ct) == null)
             throw new KeyNotFoundException($"Template with Id `{request.TemplateId}` was not found");
 
-        var topic = new Topic { TemplateId = request.TemplateId };
+        Topic topic = new Topic { TemplateId = request.TemplateId };
 
-        foreach (var t in request.Translates)
+        foreach (TopicTranslateDto t in request.Translates)
             topic.TopicTranslates.Add(new TopicTranslate { Language = t.Language, Name = t.Name });
 
         await topicsRepository.AddAsync(topic, ct);

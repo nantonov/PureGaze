@@ -14,7 +14,7 @@ public static class DatabaseConfig
 
         builder.Services.AddDbContextFactory<AppDbContext>(options =>
         {
-            var dbOptions =
+            AppDbOptions? dbOptions =
                 builder.Configuration.GetSection(AppDbOptions.SectionName)
                     .Get<AppDbOptions>();
 

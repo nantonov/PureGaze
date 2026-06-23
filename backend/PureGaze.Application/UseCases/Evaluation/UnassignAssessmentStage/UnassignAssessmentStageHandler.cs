@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Abstractions.Providers;
 using PureGaze.Application.Requests;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Evaluation.UnassignAssessmentStage;
 
@@ -13,11 +14,11 @@ public sealed class UnassignAssessmentStageHandler(
 {
     public async Task Handle(UnassignAssessmentStageCommand request, CancellationToken ct)
     {
-        var stage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId, ct)
+        AssessmentStage stage = await assessmentStageRepository.GetByIdAsync(request.AssessmentStageId, ct)
             ?? throw new KeyNotFoundException($"Assessment stage with Id {request.AssessmentStageId} not found.");
 
-        var email = currentUserContextProvider.GetUserEmail();
-        var currentUser = await employeeRepository.GetByEmailAsync(email, ct)
+        string email = currentUserContextProvider.GetUserEmail();
+        Employee currentUser = await employeeRepository.GetByEmailAsync(email, ct)
             ?? throw new KeyNotFoundException($"Employee with email {email} not found.");
 
         if (stage.AssessorId != currentUser.Id)

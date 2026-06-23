@@ -1,6 +1,6 @@
 using PureGaze.Application.Abstractions.Infrastructure;
 using PureGaze.Application.Requests;
-using PureGaze.Application.Contracts.Application;
+using PureGaze.Domain.Entities;
 
 namespace PureGaze.Application.UseCases.Admin.Templates.GetTemplates;
 
@@ -9,16 +9,11 @@ public class GetTemplatesHandler(ITemplateRepository templateRepository)
 {
     public async Task<GetTemplatesQueryResult> Handle(GetTemplatesQuery request, CancellationToken ct)
     {
-        var templates =
+        IReadOnlyList<Template> templates =
             await templateRepository.GetTemplates(request.Page, request.PageSize, ct);
 
         return
             new GetTemplatesQueryResult(
-                [.. templates.Select(template => new TemplateDto
-                {
-                    Id = template.Id,
-                    CodeName = template.Code?.Name,
-                    CodeDisplay = $"{template.Code?.Grade?.Translation} -> {template.Code?.ToGrade?.Translation}"
-                })]);
+                [.. templates.Select(GetTemplateDto.ToDto)]);
     }
 }
